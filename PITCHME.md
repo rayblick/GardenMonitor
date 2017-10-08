@@ -7,7 +7,12 @@
 
 ---
 
-## References
+## References and Documentation
+
+* [Github Documentation](https://github.com/rayblick/GardenMonitor)
+* [Building Wireless Sensor Networks Using Arduino (Community Experience Distilled)](https://www.amazon.com.au/d/Building-Wireless-Community-Experience-Distilled-ebook/B012O8S296/ref=sr_1_1?ie=UTF8&qid=1507496006&sr=8-1&keywords=building+wireless+network)
+* [Arduino Cheatsheet](http://makitpro.com/index.php/2016/04/14/arduino-cheat-sheet/)
+* [Arduino Wireless Shield documentation](https://www.arduino.cc/en/Guide/ArduinoWirelessShield)
 
 
 ---
@@ -27,6 +32,8 @@
 
 ## Software
 
+* [Arduino IDE](https://www.arduino.cc/en/Main/Software)
+* [Digi XBee software XTCU](https://www.digi.com/products/xbee-rf-solutions/xctu-software/xctu)
 
 ---
 
