@@ -1,6 +1,6 @@
 # My Garden Monitor
 
-----
+---
 
 # Gear
 
@@ -12,3 +12,5 @@
 * [Dragino](https://core-electronics.com.au/dragino-v2-iot-sensor-node-seeed-studio.html)
 * [Grove Temp & Humidity sensors](https://www.pakronics.com.au/products/grove-temp-humi-barometer-sensor-bme280-ss101020193)
 * Waterproof enclosure
+
+---
