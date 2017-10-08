@@ -2,7 +2,17 @@
 
 ---
 
-# Gear
+## Concept
+
+
+---
+
+## References
+
+
+---
+
+## Gear
 
 * [Arduino Uno](https://store.arduino.cc/usa/arduino-uno-rev3) ([Arduino docs](https://www.arduino.cc/))
 * [XBee Explorer USB](https://www.sparkfun.com/products/11812)
@@ -12,5 +22,20 @@
 * [Dragino](https://core-electronics.com.au/dragino-v2-iot-sensor-node-seeed-studio.html)
 * [Grove Temp & Humidity sensors](https://www.pakronics.com.au/products/grove-temp-humi-barometer-sensor-bme280-ss101020193)
 * Waterproof enclosure
+
+---
+
+## Software
+
+
+---
+
+## XBee setup
+
+
+---
+
+## Solar kit
+
 
 ---
