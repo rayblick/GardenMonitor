@@ -47,7 +47,17 @@
 
 ---
 
+## XBee Modules
+
+
++++
+
 ## XBee setup
+
+
++++
+
+## Test run sending messages
 
 
 ---
@@ -55,9 +65,22 @@
 ## Solar kit
 
 
+
+
 ---
 
 ## Grove Temp and Humidity sensor
+
+
++++
+
+## Setup (Includes solar kit)
+
+
++++
+
+
+## Test run sending data
 
 
 ---
