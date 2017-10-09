@@ -2,8 +2,17 @@
 
 ---
 
-## Concept
+## The Garden
 
+
++++
+
+## Floor plan
+
+
++++
+
+## Seed propagator
 
 ---
 
@@ -11,6 +20,7 @@
 
 * [Github Documentation](https://github.com/rayblick/GardenMonitor)
 * [Building Wireless Sensor Networks Using Arduino (Community Experience Distilled)](https://www.amazon.com.au/d/Building-Wireless-Community-Experience-Distilled-ebook/B012O8S296/ref=sr_1_1?ie=UTF8&qid=1507496006&sr=8-1&keywords=building+wireless+network)
+* [Arduino docs](https://www.arduino.cc/)
 * [Arduino Cheatsheet](http://makitpro.com/index.php/2016/04/14/arduino-cheat-sheet/)
 * [Arduino Wireless Shield documentation](https://www.arduino.cc/en/Guide/ArduinoWirelessShield)
 
@@ -19,7 +29,7 @@
 
 ## Gear
 
-* [Arduino Uno](https://store.arduino.cc/usa/arduino-uno-rev3) ([Arduino docs](https://www.arduino.cc/))
+* [Arduino Uno](https://store.arduino.cc/usa/arduino-uno-rev3)
 * [XBee Explorer USB](https://www.sparkfun.com/products/11812)
 * 2 [XBee Modules](https://core-electronics.com.au/xbee-module-zb-series-2-2mw-with-wire-antenna-xb24-z7wit-004.html)
 * [Solar kit](https://core-electronics.com.au/wireless-sensor-node-solar-kit-seeed-studio.html)
@@ -46,3 +56,10 @@
 
 
 ---
+
+## Grove Temp and Humidity sensor
+
+
+---
+
+##
