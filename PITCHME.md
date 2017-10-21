@@ -84,11 +84,10 @@ pi@home~$ sudo -u postgres psql postgres
 
 ```psql
 # change password for user "postgres"
-postgres=# \password postgres
-postgres=# ******
+\password postgres
 
 # quit
-postgres=# \q
+\q
 ```
 
 ```bash
