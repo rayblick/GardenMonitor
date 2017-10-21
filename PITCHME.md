@@ -77,11 +77,8 @@
 ## Installation and Initial Config
 
 ```shell
-# install postgres
+# install and open Postgresql
 pi@home~$ sudo apt-get install postgresql-9.4
-
-
-# open postgres
 pi@home~$ sudo -u postgres psql postgres
 ```
 
@@ -90,7 +87,6 @@ pi@home~$ sudo -u postgres psql postgres
 postgres=# \password postgres
 postgres=# ******
 
-
 # quit
 postgres=# \q
 ```
@@ -98,9 +94,6 @@ postgres=# \q
 ```bash
 # modify the following file to allow local connections
 pi@home~$ nano /etc/postgresql/9.4/main/pg_hba.conf
-
-
-# restart postgres
 pi@home~$ sudo service postgresql restart 
 ```
 
