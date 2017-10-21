@@ -83,10 +83,10 @@ pi@home~$ sudo -u postgres psql postgres
 ```
 
 ```psql
-# change password for user "postgres"
+-- change password for user "postgres"
 postgres=# \password postgres
 
-# quit
+-- quit
 postgres=# \q
 ```
 
@@ -101,13 +101,13 @@ pi@home~$ sudo service postgresql restart
 ## Create Database 
 
 ```psql
-# list all dbs
+-- list all dbs
 postgres=# \l+
 
-# create database
+-- create database
 postgres=# CREATE DATABASE homesensors;
 
-# switch to database
+-- switch to database
 postgres=# \c homesensors
 homesensors=# \c postgres
 ```
@@ -117,19 +117,19 @@ homesensors=# \c postgres
 ## Add User and Privileges
 
 ```psql
-# create user
+-- create user
 postgres=# CREATE USER ray WITH PASSWORD 'password' CREATEDB CREATEUSER;
 
-# list users
+-- list users
 postgres=# \dg+
 
-# upgrade user to add roles
+-- upgrade user to add roles
 postgres=# ALTER USER ray WITH CREATEROLE;
 
-# add user 'ray' to database 'homesensors'
+-- add user 'ray' to database 'homesensors'
 postgres=# GRANT ALL PRIVILEGES ON homesensors To ray;
  
-# quit
+-- quit
 postgres=# \q
 ```
 
@@ -166,7 +166,7 @@ pi@home~$ psql homesensors ray
 ```psql
 homesensors=# \dt
 
-# drop table (if required)
+-- drop table (if required)
 homesensors=# DROP TABLE sensor_data; 
 ``` 
 
