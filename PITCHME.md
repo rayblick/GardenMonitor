@@ -180,9 +180,12 @@ homesensors=# DROP TABLE sensor_data;
 ## Setup 
 
 ```bash
+# install virtualenv
 sudo apt-get install virtualenv
+
+
+# create project directory 
 mkdir repos/homesensors
-cd repos/homesensors
 ```
 
 +++
@@ -193,9 +196,10 @@ cd repos/homesensors
 # base install
 sudo apt-get install virtualenv python-psycopg2 libpq-dev
 
-# location: repos/homesensors
-# create virtual environment
+
+# location: repos/homesensors - create virtual environment
 virtualenv -p python3 flask
+
 
 # activate and install python packages
 cd flask/bin && source activate
@@ -209,6 +213,7 @@ pip install flask flask_sqlalchemy psycopg2
 ```shell
 # create file
 nano app.py
+
 
 # make executable
 chmod a+x app.py
