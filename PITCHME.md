@@ -84,10 +84,10 @@ pi@home~$ sudo -u postgres psql postgres
 
 ```psql
 # change password for user "postgres"
-\password postgres
+postgres=# \password postgres
 
 # quit
-\q
+postgres=# \q
 ```
 
 ```bash
@@ -158,7 +158,7 @@ pi@home~$ Password for user ray: password
 
 ## Other operations
 
-```shell
+```bash
 # Sign in and show tables (if exist)
 pi@home~$ psql homesensors ray
 ```
