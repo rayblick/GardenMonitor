@@ -233,11 +233,11 @@ import json
 app = Flask(__name__)
 
 POSTGRES = {
-    'user': 'ray',
-    'pw': 'password',
-    'db': 'homesensors',
-    'host': 'localhost',
-    'port': '5432'
+  'user': 'ray',
+  'pw': 'password',
+  'db': 'homesensors',
+  'host': 'localhost',
+  'port': '5432'
 }
 
 app.config['SQLALCHEMY_DATABASE_URI']='postgresql://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
@@ -246,47 +246,45 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 db = SQLAlchemy(app)
 
 class HomeSensorData(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
-    location = db.Column(db.String(50))
-    category = db.Column(db.String(50))
-    measurementType = db.Column(db.String(50))
-    value = db.Column(db.Integer)
-    dsCollected = db.Column(db.String(13))
+  id = db.Column(db.Integer, primary_key=True)
+  name = db.Column(db.String(50))
+  location = db.Column(db.String(50))
+  category = db.Column(db.String(50))
+  measurementType = db.Column(db.String(50))
+  value = db.Column(db.Integer)
+  dsCollected = db.Column(db.String(13))
 
 db.create_all()
 
 @app.route('/homesensors/api/v1.0/sensor_data', methods=['POST'])
 def add_sensor_data():
-    if not request.json or not 'value' in request.json:
-        abort(400)
+  if not request.json or not 'value' in request.json:
+    abort(400)
 
-    #handle data obj
-    sendat = HomeSensorData(
-        name = request.json['name'],
-        location = request.json['location'],
-        category = request.json['category'],
-        measurementType = request.json['measurementType'],
-        value = request.json['value'],
-        dsCollected = request.json['dsCollected']
-    )
-    db.session.add(sendat)
-    db.session.commit()
-
+  #handle data obj
+  sendat = HomeSensorData(
+    name = request.json['name'],
+    location = request.json['location'],
+    category = request.json['category'],
+    measurementType = request.json['measurementType'],
+    value = request.json['value'],
+    dsCollected = request.json['dsCollected']
+  )
+  db.session.add(sendat)
+  db.session.commit()
 
 @app.route('/homesensors/api/v1.0/sensor_data', methods=['GET'])
 def get_sensor_data():
-    sendat = HomeSensorData.query.all()
-    mylist = []
-    for u in sendat:
-        mydict = {}
-        for key, value in u.__dict__.items():
-             if key != "_sa_instance_state":
-               mydict[key] = value
-        mylist.append(mydict)
-    data = json.dumps(mylist)
-    return data, 201
-
+  sendat = HomeSensorData.query.all()
+  mylist = []
+  for u in sendat:
+    mydict = {}
+    for key, value in u.__dict__.items():
+      if key != "_sa_instance_state":
+        mydict[key] = value
+    mylist.append(mydict)
+  data = json.dumps(mylist)
+  return data, 201
 
 if __name__ == '__main__':
     app.run(debug=True)
@@ -300,7 +298,8 @@ if __name__ == '__main__':
 ## GET data
 
 ```shell
-curl -i  http://localhost:5000/homesensors/api/v1.0/sensor_data
+curl -i  
+http://localhost:5000/homesensors/api/v1.0/sensor_data
 ```
 
 +++
@@ -309,8 +308,11 @@ curl -i  http://localhost:5000/homesensors/api/v1.0/sensor_data
 ## POST data
 
 ```shell
-curl -i -H "Content-Type: application/json" -X post -d '{"name": "dummyA", "location":"garden", "category":"dummyA", "measurementType":"temp", "value": 1500, "dsCollected": "20171018T1000"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
-
+curl -i -H "Content-Type: application/json" -X 
+post -d '{"name": "dummyA", "location":"garden", 
+"category":"dummyA", "measurementType":"temp", 
+"value": 1500, "dsCollected": "20171018T1000"}' 
+http://localhost:5000/homesensors/api/v1.0/sensor_data
 ```
 
 ---
