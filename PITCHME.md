@@ -83,8 +83,9 @@ pi@home~$ sudo apt-get install postgresql-9.4
 
 # open postgres
 pi@home~$ sudo -u postgres psql postgres
+```
 
-
+```psql
 # change password for user "postgres"
 postgres=# \password postgres
 postgres=# ******
@@ -92,14 +93,15 @@ postgres=# ******
 
 # quit
 postgres=# \q
+```
 
-
+```bash
 # modify the following file to allow local connections
 pi@home~$ nano /etc/postgresql/9.4/main/pg_hba.conf
 
 
 # restart postgres
-sudo service postgresql restart 
+pi@home~$ sudo service postgresql restart 
 ```
 
 +++
@@ -109,8 +111,9 @@ sudo service postgresql restart
 ```shell
 # list all dbs
 postgres=# \l+
+```
 
-
+```psql
 # create database
 postgres=# CREATE DATABASE homesensors;
 
@@ -124,7 +127,7 @@ homesensors=# \c postgres
 
 ## Add User and Privileges
 
-```shell
+```psql
 # create user
 postgres=# CREATE USER ray WITH PASSWORD 'password' CREATEDB CREATEUSER;
 
@@ -133,16 +136,19 @@ postgres=# CREATE USER ray WITH PASSWORD 'password' CREATEDB CREATEUSER;
 postgres=# \dg+
 
 
-# Upgrade user to add roles
+# upgrade user to add roles
 postgres=# ALTER USER ray WITH CREATEROLE;
 
 
-# Add user 'ray' to database 'homesensors'
+# add user 'ray' to database 'homesensors'
 postgres=# GRANT ALL PRIVILEGES ON homesensors To ray;
+ 
 
-
-# sign in with new user
+# quit
 postgres=# \q
+```
+
+```shell
 pi@home~$ psql homesensors ray
 pi@home~$ Password for user ray: password
 ```
@@ -151,7 +157,7 @@ pi@home~$ Password for user ray: password
 
 ## Data example
 
-```python
+```json
 {
   "name": "Seed propagator",
   "location": "Garden",
@@ -167,13 +173,16 @@ pi@home~$ Password for user ray: password
 
 ## Other operations
 
-```bash
+```shell
 # Sign in and show tables (if exist)
 pi@home~$ psql homesensors ray
+```
+
+```psql
 homesensors=# \dt
 
 # drop table (if required)
-DROP TABLE sensor_data; 
+homesensors=# DROP TABLE sensor_data; 
 ``` 
 
 ---
