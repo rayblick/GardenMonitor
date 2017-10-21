@@ -246,13 +246,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 db = SQLAlchemy(app)
 
 class HomeSensorData(db.Model):
-\tid = db.Column(db.Integer, primary_key=True)
-  name = db.Column(db.String(50))
-  location = db.Column(db.String(50))
-  category = db.Column(db.String(50))
-  measurementType = db.Column(db.String(50))
-  value = db.Column(db.Integer)
-  dsCollected = db.Column(db.String(13))
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    location = db.Column(db.String(50))
+    category = db.Column(db.String(50))
+    measurementType = db.Column(db.String(50))
+    value = db.Column(db.Integer)
+    dsCollected = db.Column(db.String(13))
 
 db.create_all()
 
