@@ -80,18 +80,23 @@
 # install postgres
 pi@home~$ sudo apt-get install postgresql-9.4
 
+
 # open postgres
 pi@home~$ sudo -u postgres psql postgres
+
 
 # change password for user "postgres"
 postgres=# \password postgres
 postgres=# ******
 
+
 # quit
 postgres=# \q
 
+
 # modify the following file to allow local connections
 pi@home~$ nano /etc/postgresql/9.4/main/pg_hba.conf
+
 
 # restart postgres
 sudo service postgresql restart 
@@ -101,12 +106,14 @@ sudo service postgresql restart
 
 ## Create Database 
 
-```sh
+```shell
 # list all dbs
 postgres=# \l+
 
+
 # create database
 postgres=# CREATE DATABASE homesensors;
+
 
 # switch to database
 postgres=# \c homesensors
@@ -117,18 +124,22 @@ homesensors=# \c postgres
 
 ## Add User and Privileges
 
-```zsh
+```shell
 # create user
 postgres=# CREATE USER ray WITH PASSWORD 'password' CREATEDB CREATEUSER;
+
 
 # list users
 postgres=# \dg+
 
+
 # Upgrade user to add roles
 postgres=# ALTER USER ray WITH CREATEROLE;
 
+
 # Add user 'ray' to database 'homesensors'
 postgres=# GRANT ALL PRIVILEGES ON homesensors To ray;
+
 
 # sign in with new user
 postgres=# \q
