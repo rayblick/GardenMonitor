@@ -246,7 +246,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 db = SQLAlchemy(app)
 
 class HomeSensorData(db.Model):
-  id = db.Column(db.Integer, primary_key=True)
+\tid = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(50))
   location = db.Column(db.String(50))
   category = db.Column(db.String(50))
