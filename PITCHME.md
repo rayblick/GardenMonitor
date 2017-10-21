@@ -191,9 +191,7 @@ cd repos/homesensors
 
 ```shell
 # base install
-sudo apt-get install virtualenv
-sudo apt-get install python-psycopg2
-sudo apt-get install libpq-dev
+sudo apt-get install virtualenv python-psycopg2 libpq-dev
 
 # location: repos/homesensors
 # create virtual environment
@@ -201,9 +199,7 @@ virtualenv -p python3 flask
 
 # activate and install python packages
 cd flask/bin && source activate
-pip install flask
-pip install flask_sqlalchemy
-pip install psycopg2
+pip install flask flask_sqlalchemy psycopg2
 ```
 
 +++
