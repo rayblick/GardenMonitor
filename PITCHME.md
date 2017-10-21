@@ -71,13 +71,12 @@
 
 
 ## Database 
-#### (Scroll down) 
 
 +++ 
 
 ## Installation and Initial Config
 
-```bash
+```shell
 # install postgres
 pi@home~$ sudo apt-get install postgresql-9.4
 
@@ -102,7 +101,7 @@ sudo service postgresql restart
 
 ## Create Database 
 
-```bash
+```sh
 # list all dbs
 postgres=# \l+
 
@@ -118,7 +117,7 @@ homesensors=# \c postgres
 
 ## Add User and Privileges
 
-```bash
+```zsh
 # create user
 postgres=# CREATE USER ray WITH PASSWORD 'password' CREATEDB CREATEUSER;
 
@@ -164,7 +163,7 @@ homesensors=# \dt
 
 # drop table (if required)
 DROP TABLE sensor_data; 
- 
+``` 
 
 ---
 
