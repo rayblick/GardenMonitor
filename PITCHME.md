@@ -74,7 +74,7 @@
 
 +++ 
 
-## Installation and Initial Config
+## Setup
 
 ```shell
 # install and open Postgresql
@@ -101,15 +101,12 @@ pi@home~$ sudo service postgresql restart
 
 ## Create Database 
 
-```shell
+```psql
 # list all dbs
 postgres=# \l+
-```
 
-```psql
 # create database
 postgres=# CREATE DATABASE homesensors;
-
 
 # switch to database
 postgres=# \c homesensors
@@ -124,19 +121,15 @@ homesensors=# \c postgres
 # create user
 postgres=# CREATE USER ray WITH PASSWORD 'password' CREATEDB CREATEUSER;
 
-
 # list users
 postgres=# \dg+
-
 
 # upgrade user to add roles
 postgres=# ALTER USER ray WITH CREATEROLE;
 
-
 # add user 'ray' to database 'homesensors'
 postgres=# GRANT ALL PRIVILEGES ON homesensors To ray;
  
-
 # quit
 postgres=# \q
 ```
