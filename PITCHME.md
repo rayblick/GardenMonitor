@@ -331,4 +331,39 @@ http://localhost:5000/homesensors/api/v1.0/sensor_data
 
 ---
 
-## Sending data
+## Webserver & Viz
+
+
++++
+
+## Environment setup
+
+
++++
+
+## Run webserver
+
+
++++ 
+
+## UI
+
+
++++
+
+## Data
+
+
++++
+
+## Filters
+
+
++++
+
+
+## Figures
+
+
+----
+
