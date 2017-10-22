@@ -293,11 +293,14 @@ http://localhost:5000/homesensors/api/v1.0/sensor_data
 ## POST data
 
 ```shell
-curl -i -H "Content-Type: application/json" -X 
-post -d '{"name": "dummyA", "location":"garden", 
-"category":"dummyA", "measurementType":"temp", 
-"value": 1500, "dsCollected": "20171018T1000"}' 
-http://localhost:5000/homesensors/api/v1.0/sensor_data
+curl -i -H "Content-Type: application/json" 
+-X post -d '{
+  "name": "dummyA", 
+  "location":"garden", 
+  "category":"dummyA", 
+  "measurementType":"temp", 
+  "value": 1500, 
+  "dsCollected": "20171018T1000"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
 ```
 
 ---
