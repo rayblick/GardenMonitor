@@ -248,28 +248,28 @@ def add_sensor_data():
 
 	#handle data obj
     	sendat = HomeSensorData(
-        	name = request.json['name'],
-        	location = request.json['location'],
-        	category = request.json['category'],
-        	measurementType = request.json['measurementType'],
-        	value = request.json['value'],
-        	dsCollected = request.json['dsCollected']
+		name = request.json['name'],
+		location = request.json['location'],
+		category = request.json['category'],
+		measurementType = request.json['measurementType'],
+		value = request.json['value'],
+		dsCollected = request.json['dsCollected']
 	)
-    	db.session.add(sendat)
-  	db.session.commit()
+	db.session.add(sendat)
+	db.session.commit()
 
 @app.route('/homesensors/api/v1.0/sensor_data', methods=['GET'])
 def get_sensor_data():
-    	sendat = HomeSensorData.query.all()
-    	mylist = []
-    	for u in sendat:
-        	mydict = {}
-        	for key, value in u.__dict__.items():
-            		if key != "_sa_instance_state":
-                		mydict[key] = value
-        	mylist.append(mydict)
-    	data = json.dumps(mylist)
-    	return data, 201
+	sendat = HomeSensorData.query.all()
+	mylist = []
+	for u in sendat:
+		mydict = {}
+		for key, value in u.__dict__.items():
+		if key != "_sa_instance_state":
+			mydict[key] = value
+		mylist.append(mydict)
+	data = json.dumps(mylist)
+	return data, 201
 
 if __name__ == '__main__':
 	app.run(debug=True)
