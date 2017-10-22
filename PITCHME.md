@@ -243,8 +243,8 @@ db.create_all()
 
 @app.route('/homesensors/api/v1.0/sensor_data', methods=['POST'])
 def add_sensor_data():
-    if not request.json or not 'value' in request.json:
-      abort(400)
+	if not request.json or not 'value' in request.json:
+		abort(400)
 
     #handle data obj
     sendat = HomeSensorData(
