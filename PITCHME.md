@@ -13,7 +13,7 @@
 ---
 
 
-## References and Documentation
+## References
 
 * [Github Documentation](https://github.com/rayblick/GardenMonitor)
 * [Building Wireless Sensor Networks Using Arduino (Community Experience Distilled)](https://www.amazon.com.au/d/Building-Wireless-Community-Experience-Distilled-ebook/B012O8S296/ref=sr_1_1?ie=UTF8&qid=1507496006&sr=8-1&keywords=building+wireless+network)
@@ -24,6 +24,11 @@
 
 ---
 
+## Components
+
+
++++
+
 
 ## Hardware
 
@@ -33,12 +38,11 @@
 * [XBee Modules](https://core-electronics.com.au/xbee-module-zb-series-2-2mw-with-wire-antenna-xb24-z7wit-004.html)
 * [Solar kit](https://core-electronics.com.au/wireless-sensor-node-solar-kit-seeed-studio.html)
 * [Arduino XBee shield](https://www.pakronics.com.au/products/xbee-shield-v2-0-ss103030004)
-* [Dragino](https://core-electronics.com.au/dragino-v2-iot-sensor-node-seeed-studio.html)
 * [Grove Temp & Humidity sensors](https://www.pakronics.com.au/products/grove-temp-humi-barometer-sensor-bme280-ss101020193)
 * Waterproof enclosure
 
 
----
++++
 
 
 ## Software
@@ -46,25 +50,6 @@
 * [Arduino IDE](https://www.arduino.cc/en/Main/Software)
 * [Digi XBee software XTCU](https://www.digi.com/products/xbee-rf-solutions/xctu-software/xctu)
 * [Postgresql](https://www.postgresql.org/)
-
-
----
-
-
-## Raspberry Pi Configuration
-
-* Raspberry Pi(ARMv7 Processor rev 4 (v7l))
-* Debian Jessie OS
-* Python 3.4
-
-
-+++ 
-
-## Raspberry Pi OS install
-
-+++ 
-
-## RPi Wifi Connection 
 
 
 ---
@@ -224,7 +209,7 @@ chmod a+x app.py
 
 ## Flask app (app.py)
 
-```python
+```
 #!python
 from flask import Flask, jsonify, request, abort
 from flask_sqlalchemy import SQLAlchemy
@@ -246,45 +231,45 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 db = SQLAlchemy(app)
 
 class HomeSensorData(db.Model):
-     id = db.Column(db.Integer, primary_key=True)
-     name = db.Column(db.String(50))
-     location = db.Column(db.String(50))
-     category = db.Column(db.String(50))
-     measurementType = db.Column(db.String(50))
-     value = db.Column(db.Integer)
-     dsCollected = db.Column(db.String(13))
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    location = db.Column(db.String(50))
+    category = db.Column(db.String(50))
+    measurementType = db.Column(db.String(50))
+    value = db.Column(db.Integer)
+    dsCollected = db.Column(db.String(13))
 
 db.create_all()
 
 @app.route('/homesensors/api/v1.0/sensor_data', methods=['POST'])
 def add_sensor_data():
-  if not request.json or not 'value' in request.json:
-    abort(400)
+    if not request.json or not 'value' in request.json:
+      abort(400)
 
-  #handle data obj
-  sendat = HomeSensorData(
-    name = request.json['name'],
-    location = request.json['location'],
-    category = request.json['category'],
-    measurementType = request.json['measurementType'],
-    value = request.json['value'],
-    dsCollected = request.json['dsCollected']
-  )
-  db.session.add(sendat)
+    #handle data obj
+    sendat = HomeSensorData(
+        name = request.json['name'],
+        location = request.json['location'],
+        category = request.json['category'],
+        measurementType = request.json['measurementType'],
+        value = request.json['value'],
+        dsCollected = request.json['dsCollected']
+    )
+    db.session.add(sendat)
   db.session.commit()
 
 @app.route('/homesensors/api/v1.0/sensor_data', methods=['GET'])
 def get_sensor_data():
-  sendat = HomeSensorData.query.all()
-  mylist = []
-  for u in sendat:
-    mydict = {}
-    for key, value in u.__dict__.items():
-      if key != "_sa_instance_state":
-        mydict[key] = value
-    mylist.append(mydict)
-  data = json.dumps(mylist)
-  return data, 201
+    sendat = HomeSensorData.query.all()
+    mylist = []
+    for u in sendat:
+        mydict = {}
+        for key, value in u.__dict__.items():
+            if key != "_sa_instance_state":
+                mydict[key] = value
+        mylist.append(mydict)
+    data = json.dumps(mylist)
+    return data, 201
 
 if __name__ == '__main__':
     app.run(debug=True)
