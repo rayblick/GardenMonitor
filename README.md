@@ -10,5 +10,5 @@ One coordinator (head) node will consume data from router (slave) nodes position
 
 ### More information
 
-**DOCS:** TBA  
+**DOCS:** https://rayblick.github.io/GardenMonitor/ 
 **PITCH:** https://gitpitch.com/rayblick/GardenMonitor/master
