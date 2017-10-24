@@ -1,0 +1,1 @@
+Search.setIndex({docnames:["index","pages/summary"],envversion:53,filenames:["index.rst","pages/summary.rst"],objects:{},objnames:{},objtypes:{},terms:{content:0,index:0,modul:0,page:0,search:0,summari:0},titles:["Welcome to Garden Monitor\u2019s documentation!","Summary"],titleterms:{document:0,garden:0,indic:0,monitor:0,summari:1,tabl:0,welcom:0}})
