@@ -6,15 +6,22 @@
 Welcome to Garden Monitor's documentation!
 ==========================================
 
+.. image:: img/rpi.jpg
+   :width: 600
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
    /pages/summary
+   /pages/setup
+   /pages/docs
+   /pages/database
+   /pages/api
+   /pages/webserver
+   /pages/connection
+   /pages/xbee
 
-Indices and tables
-==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+
+

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Garden Monitor &mdash; Garden Monitor 0.1 documentation</title>
+  <title>Database &mdash; Garden Monitor 0.1 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="Garden Monitor 0.1 documentation" href="../index.html"/>
-        <link rel="next" title="Setup" href="setup.html"/>
-        <link rel="prev" title="Welcome to Garden Monitor’s documentation!" href="../index.html"/> 
+        <link rel="next" title="API" href="api.html"/>
+        <link rel="prev" title="Docs" href="docs.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -92,18 +92,17 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Garden Monitor</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#background">Background</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#aim">Aim</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#scope">Scope</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#out-of-scope">Out of scope</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#follow-along">Follow along</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="summary.html">Summary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="docs.html">Docs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Database</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-and-open">Install and open</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-database">Create database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-user">Create user</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#signing-in">Signing in</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="xbee.html">Sensors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="webserver.html">Data viz</a></li>
@@ -151,13 +150,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Garden Monitor</li>
+      <li>Database</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/pages/summary.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/pages/database.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -170,57 +169,72 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="garden-monitor">
-<h1>Garden Monitor<a class="headerlink" href="#garden-monitor" title="Permalink to this headline">¶</a></h1>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Authors:</th><td class="field-body">Ray Blick</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Version:</th><td class="field-body">0.1</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Last update:</th><td class="field-body">2017/10/25</td>
-</tr>
-</tbody>
-</table>
-<div class="section" id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p>Arduino compatible boards with grove sensors (nodes) communicate on a zigbee mesh network. Each node measures data every 10 minutes and sends the packet of information to the head node (arduino uno). The head node makes a post request to the flask api which adds these data into a postgresql database which can be used to display data using react and d3.</p>
+  <div class="section" id="database">
+<h1>Database<a class="headerlink" href="#database" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>Setup data storage location. By the end of this page you should have a postgres database running on your local network.</p>
 </div>
-<div class="section" id="background">
-<h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
-<p>This project was initially developed while trying to propagate seeds in a mini greenhouse (think 40cm plastic box with a few air vents). I primarily wanted to know when temperatures were high enough to sow seeds. Specifically, cucumber, beans and tomatoes. Time has marched on, I have moved, my seeds germinated and I have no idea what temperature did the trick… perhaps next year I will know.</p>
+<div class="section" id="install-and-open">
+<h2>Install and open<a class="headerlink" href="#install-and-open" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo apt-get install postgresql-9.4
+sudo -u postgres psql postgres
+</pre></div>
 </div>
-<div class="section" id="aim">
-<h2>Aim<a class="headerlink" href="#aim" title="Permalink to this headline">¶</a></h2>
-<p>Record temperature and humidity data from multiple locations in my garden/home and display these data in a “fancy” dashboard.</p>
+<p>Change password for user called “postgres”</p>
+<div class="highlight-psql"><div class="highlight"><pre><span></span><span class="kp">\password</span> <span class="ss">postgres</span>
+<span class="go">\q</span>
+</pre></div>
 </div>
-<div class="section" id="scope">
-<h2>Scope<a class="headerlink" href="#scope" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Everything on the local network</li>
-<li>Raspberry Pi</li>
-<li>Raspbian OS</li>
-<li>Arduino Uno</li>
-<li>XBee modules</li>
-<li>Grove sensors</li>
-<li>Zigbee mesh network</li>
-<li>Python 3</li>
-<li>Flask (API)</li>
-<li>React</li>
-<li>D3</li>
-</ul>
+<p>Modify pg_hba.conf to allow local connections</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>nano /etc/postgresql/9.4/main/pg_hba.conf
+</pre></div>
 </div>
-<div class="section" id="out-of-scope">
-<h2>Out of scope<a class="headerlink" href="#out-of-scope" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>The cloud.</li>
-</ul>
+<p>Restart postgres</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo service postgresql restart
+</pre></div>
 </div>
-<div class="section" id="follow-along">
-<h2>Follow along<a class="headerlink" href="#follow-along" title="Permalink to this headline">¶</a></h2>
-<p>You can skip the pages titled setup and docs. This project was developed using a raspberry pi with Debian Jesse OS and python 3.4.</p>
+</div>
+<div class="section" id="create-database">
+<h2>Create database<a class="headerlink" href="#create-database" title="Permalink to this headline">¶</a></h2>
+<p>Start database using user “postgres” (first code block above)</p>
+<div class="highlight-psql"><div class="highlight"><pre><span></span><span class="c1">-- list databases</span>
+<span class="kp">\l+</span>
+
+<span class="c1">-- create db</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">homesensors</span>
+
+
+<span class="c1">-- connect</span>
+<span class="kp">\c</span> <span class="ss">homesensors</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-user">
+<h2>Create user<a class="headerlink" href="#create-user" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-psql"><div class="highlight"><pre><span></span><span class="c1">-- create</span>
+<span class="k">CREATE</span> <span class="k">USER</span> <span class="n">ray</span> <span class="k">WITH</span> <span class="k">PASSWORD</span> <span class="s1">&#39;password&#39;</span> <span class="n">CREATEDB</span> <span class="n">CREATEUSER</span>
+
+<span class="c1">-- list users</span>
+<span class="kp">\dg+</span>
+
+<span class="c1">-- add roles</span>
+<span class="k">ALTER</span> <span class="k">USER</span> <span class="n">ray</span> <span class="k">WITH</span> <span class="n">CREATEROLE</span>
+
+<span class="c1">-- add privileges</span>
+<span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="n">homesensors</span> <span class="k">To</span> <span class="n">ray</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="signing-in">
+<h2>Signing in<a class="headerlink" href="#signing-in" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># sign in with new user</span>
+psql homesensors ray
+
+<span class="c1">#Password for user ray:</span>
+password
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -234,10 +248,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="setup.html" class="btn btn-neutral float-right" title="Setup" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="api.html" class="btn btn-neutral float-right" title="API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../index.html" class="btn btn-neutral" title="Welcome to Garden Monitor’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="docs.html" class="btn btn-neutral" title="Docs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

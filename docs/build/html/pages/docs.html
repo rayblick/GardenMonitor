@@ -1,0 +1,349 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Docs &mdash; Garden Monitor 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Garden Monitor 0.1 documentation" href="../index.html"/>
+        <link rel="next" title="Database" href="database.html"/>
+        <link rel="prev" title="Setup" href="setup.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Garden Monitor
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="summary.html">Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Setup</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install">Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#core-framework">Core framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#restructured-text">Restructured Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#git">Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gh-pages">gh-pages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xbee.html">Sensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webserver.html">Data viz</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Garden Monitor</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Docs</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/pages/docs.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="docs">
+<h1>Docs<a class="headerlink" href="#docs" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>This section was added as a reminder to myself how the documentation was built. Feel free to skip this step.</p>
+</div>
+<div class="section" id="install">
+<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo pip3 install sphinx
+sudo pip3 install sphinx_rtd_theme
+sphinx-build -h
+</pre></div>
+</div>
+</div>
+<div class="section" id="core-framework">
+<h2>Core framework<a class="headerlink" href="#core-framework" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># /repos/GardenMonitor</span>
+mkdir docs
+<span class="nb">cd</span> docs
+</pre></div>
+</div>
+<p>Build documentation</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># /repos/GardenMonitor/docs</span>
+sphinx-quickstart
+<span class="c1"># Follow the prompts</span>
+<span class="c1"># I choose all default options except to have build and source in separate folders</span>
+</pre></div>
+</div>
+<p>Update theme by editing conf.py (in /repos/GardenMonitor/docs/source/conf.py)</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">html_theme</span> <span class="o">=</span> <span class="s2">&quot;sphinx_rtd_theme&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="restructured-text">
+<h2>Restructured Text<a class="headerlink" href="#restructured-text" title="Permalink to this headline">¶</a></h2>
+<p>Update index.rst (/repos/GardenMonitor/docs/source)</p>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">toctree</span><span class="p">::</span>
+        <span class="nc">:maxdepth:</span> <span class="nf">2</span>
+        <span class="nc">:caption:</span> <span class="nf">Contents:</span>
+
+        /pages/summary
+        /pages/setup
+        /pages/docs
+        /pages/database
+        /pages/api
+        /pages/xbee
+        /pages/webserver
+</pre></div>
+</div>
+<p>Add pages</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># /repos/GardenMonitor/docs/source</span>
+mkdir pages
+touch  summary.rst setup.rst docs.rst database.rst api.rst xbee.rst webserver.rst
+</pre></div>
+</div>
+<p>Add titles to pages</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Chapter <span class="m">1</span> <span class="nv">Title</span>
+<span class="o">================</span>
+</pre></div>
+</div>
+<p>Add images if needed (e.g. index.rst)</p>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">image</span><span class="p">::</span> img/rpi.jpg
+        <span class="nc">:width:</span> <span class="nf">600</span>
+</pre></div>
+</div>
+<p>Make documentation</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1">#/repos/GardenMonitor/docs</span>
+make html
+</pre></div>
+</div>
+</div>
+<div class="section" id="git">
+<h2>Git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h2>
+<p>Add changes to github (assumes repo has been created)</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git add .
+git commit -m <span class="s2">&quot;added docs&quot;</span>
+git push origin master
+</pre></div>
+</div>
+<p>If gh-pages already exists then remove it and start again (mainly because I stuffed it up the first time)</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># remove from remote</span>
+git push origin --delete gh-pages
+
+<span class="c1"># remove from local</span>
+git branch -D gh-pages
+</pre></div>
+</div>
+</div>
+<div class="section" id="gh-pages">
+<h2>gh-pages<a class="headerlink" href="#gh-pages" title="Permalink to this headline">¶</a></h2>
+<p>Host pages on github (you have to do this on every update to the docs)</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git checkout -b gh-pages
+touch .nojekyll
+git checkout master docs/build/html
+mv ./docs/build/html/* ./
+rm -rf ./docs
+git add --all
+git commit -m <span class="s2">&quot;publishing docs&quot;</span>
+git push origin gh-pages
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="database.html" class="btn btn-neutral float-right" title="Database" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="setup.html" class="btn btn-neutral" title="Setup" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Ray Blick.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -36,7 +36,7 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Garden Monitor 0.1 documentation" href="#"/>
-        <link rel="next" title="Summary" href="pages/summary.html"/> 
+        <link rel="next" title="Garden Monitor" href="pages/summary.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -91,7 +91,14 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="pages/summary.html">Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/summary.html">Garden Monitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/setup.html">Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/docs.html">Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/database.html">Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/webserver.html">Creating a web app</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/connection.html">Connecting web app with DB and API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/xbee.html">Sensors</a></li>
 </ul>
 
             
@@ -157,20 +164,80 @@
             
   <div class="section" id="welcome-to-garden-monitor-s-documentation">
 <h1>Welcome to Garden Monitor’s documentation!<a class="headerlink" href="#welcome-to-garden-monitor-s-documentation" title="Permalink to this headline">¶</a></h1>
+<a class="reference internal image-reference" href="_images/rpi.jpg"><img alt="_images/rpi.jpg" src="_images/rpi.jpg" style="width: 600px;" /></a>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="pages/summary.html">Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/summary.html">Garden Monitor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pages/summary.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/summary.html#background">Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/summary.html#aim">Aim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/summary.html#scope">Scope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/summary.html#out-of-scope">Out of scope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/summary.html#follow-along">Follow along</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pages/setup.html">Setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pages/setup.html#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/setup.html#update-and-upgrade">Update and upgrade</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/setup.html#set-timezone">Set timezone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/setup.html#install">Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/setup.html#folder">Folder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/setup.html#git">Git</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pages/docs.html">Docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pages/docs.html#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/docs.html#install">Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/docs.html#core-framework">Core framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/docs.html#restructured-text">Restructured Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/docs.html#git">Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/docs.html#gh-pages">gh-pages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pages/database.html">Database</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pages/database.html#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/database.html#install-and-open">Install and open</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/database.html#create-database">Create database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/database.html#create-user">Create user</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/database.html#signing-in">Signing in</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pages/api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pages/api.html#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/api.html#base-install">Base install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/api.html#folder-structure">Folder structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/api.html#pip-install">Pip install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/api.html#app-py">app.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/api.html#example-app">Example app</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/api.html#run-app-py">Run app.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/api.html#api-code-listing">API code listing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/api.html#get-request">GET request</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/api.html#post-request">POST request</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pages/webserver.html">Creating a web app</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pages/webserver.html#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/webserver.html#uninstall-node">Uninstall node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/webserver.html#install-node-and-npm">Install node and npm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/webserver.html#install-create-react-app">Install create-react-app</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/webserver.html#build-app-and-run">Build app and run</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pages/connection.html">Connecting web app with DB and API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pages/connection.html#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/connection.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/connection.html#note-on-datetime-stamps">Note on datetime stamps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/connection.html#drop-existing-data">Drop existing data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/connection.html#add-test-data">Add test data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/connection.html#add-a-proxy-to-webserver">Add a proxy to webserver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/connection.html#edit-app-py-react-webapp">Edit app.py (react webapp)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/connection.html#test">Test</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pages/xbee.html">Sensors</a></li>
 </ul>
 </div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
-</ul>
 </div>
 
 
@@ -183,7 +250,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="pages/summary.html" class="btn btn-neutral float-right" title="Summary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="pages/summary.html" class="btn btn-neutral float-right" title="Garden Monitor" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>

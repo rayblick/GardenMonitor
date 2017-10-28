@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Garden Monitor &mdash; Garden Monitor 0.1 documentation</title>
+  <title>Setup &mdash; Garden Monitor 0.1 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="Garden Monitor 0.1 documentation" href="../index.html"/>
-        <link rel="next" title="Setup" href="setup.html"/>
-        <link rel="prev" title="Welcome to Garden Monitor’s documentation!" href="../index.html"/> 
+        <link rel="next" title="Docs" href="docs.html"/>
+        <link rel="prev" title="Garden Monitor" href="summary.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -92,21 +92,22 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Garden Monitor</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#background">Background</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#aim">Aim</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#scope">Scope</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#out-of-scope">Out of scope</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#follow-along">Follow along</a></li>
+<li class="toctree-l1"><a class="reference internal" href="summary.html">Garden Monitor</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#update-and-upgrade">Update and upgrade</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#set-timezone">Set timezone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install">Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#folder">Folder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#git">Git</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="docs.html">Docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webserver.html">Creating a web app</a></li>
+<li class="toctree-l1"><a class="reference internal" href="connection.html">Connecting web app with DB and API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="xbee.html">Sensors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="webserver.html">Data viz</a></li>
 </ul>
 
             
@@ -151,13 +152,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Garden Monitor</li>
+      <li>Setup</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/pages/summary.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/pages/setup.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -170,57 +171,48 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="garden-monitor">
-<h1>Garden Monitor<a class="headerlink" href="#garden-monitor" title="Permalink to this headline">¶</a></h1>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Authors:</th><td class="field-body">Ray Blick</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Version:</th><td class="field-body">0.1</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Last update:</th><td class="field-body">2017/10/25</td>
-</tr>
-</tbody>
-</table>
-<div class="section" id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p>Arduino compatible boards with grove sensors (nodes) communicate on a zigbee mesh network. Each node measures data every 10 minutes and sends the packet of information to the head node (arduino uno). The head node makes a post request to the flask api which adds these data into a postgresql database which can be used to display data using react and d3.</p>
+  <div class="section" id="setup">
+<h1>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>Setup the project. This is mostly a reminder to myself, if you are following along you can skip this page. Just make sure python 3 is installed.</p>
 </div>
-<div class="section" id="background">
-<h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
-<p>This project was initially developed while trying to propagate seeds in a mini greenhouse (think 40cm plastic box with a few air vents). I primarily wanted to know when temperatures were high enough to sow seeds. Specifically, cucumber, beans and tomatoes. Time has marched on, I have moved, my seeds germinated and I have no idea what temperature did the trick… perhaps next year I will know.</p>
+<div class="section" id="update-and-upgrade">
+<h2>Update and upgrade<a class="headerlink" href="#update-and-upgrade" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo apt-get update
+sudo apt-get upgrade
+</pre></div>
 </div>
-<div class="section" id="aim">
-<h2>Aim<a class="headerlink" href="#aim" title="Permalink to this headline">¶</a></h2>
-<p>Record temperature and humidity data from multiple locations in my garden/home and display these data in a “fancy” dashboard.</p>
 </div>
-<div class="section" id="scope">
-<h2>Scope<a class="headerlink" href="#scope" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Everything on the local network</li>
-<li>Raspberry Pi</li>
-<li>Raspbian OS</li>
-<li>Arduino Uno</li>
-<li>XBee modules</li>
-<li>Grove sensors</li>
-<li>Zigbee mesh network</li>
-<li>Python 3</li>
-<li>Flask (API)</li>
-<li>React</li>
-<li>D3</li>
-</ul>
+<div class="section" id="set-timezone">
+<h2>Set timezone<a class="headerlink" href="#set-timezone" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo dpkg-reconfigure tzdata
+</pre></div>
 </div>
-<div class="section" id="out-of-scope">
-<h2>Out of scope<a class="headerlink" href="#out-of-scope" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>The cloud.</li>
-</ul>
 </div>
-<div class="section" id="follow-along">
-<h2>Follow along<a class="headerlink" href="#follow-along" title="Permalink to this headline">¶</a></h2>
-<p>You can skip the pages titled setup and docs. This project was developed using a raspberry pi with Debian Jesse OS and python 3.4.</p>
+<div class="section" id="install">
+<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo apt-get install python3
+</pre></div>
+</div>
+</div>
+<div class="section" id="folder">
+<h2>Folder<a class="headerlink" href="#folder" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># repos/</span>
+mkdir GardenMonitor
+<span class="nb">cd</span> GardenMonitor
+</pre></div>
+</div>
+</div>
+<div class="section" id="git">
+<h2>Git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># repos/GardenMonitor</span>
+git init
+
+<span class="c1"># setup github repo, then...</span>
+git remote add origin https://github.com/rayblick/GardenMonitor.git
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -234,10 +226,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="setup.html" class="btn btn-neutral float-right" title="Setup" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="docs.html" class="btn btn-neutral float-right" title="Docs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../index.html" class="btn btn-neutral" title="Welcome to Garden Monitor’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="summary.html" class="btn btn-neutral" title="Garden Monitor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
