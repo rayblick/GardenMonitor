@@ -29,26 +29,26 @@ Code listing
 
 .. code-block:: psql
 
-	import React, { Component } from 'react';
-	import './App.css';
-	import {Button, ButtonToolbar, DropdownButton, MenuItem} from 'react-bootstrap/lib';
-	import 'bootstrap/dist/css/bootstrap.css';
-	import 'bootstrap/dist/css/bootstrap-theme.css';
+	import React, { Component } from 'react'
+	import './App.css'
+	import {Button, ButtonToolbar, DropdownButton, MenuItem} from 'react-bootstrap/lib'
+	import 'bootstrap/dist/css/bootstrap.css'
+	import 'bootstrap/dist/css/bootstrap-theme.css'
 	import { 
 	  Charts, 
 	  ChartContainer, 
 	  ChartRow, 
 	  YAxis, 
-	  LineChart } from 'react-timeseries-charts';
-	import { TimeSeries, TimeRange } from 'pondjs';
+	  LineChart } from 'react-timeseries-charts'
+	import { TimeSeries, TimeRange } from 'pondjs'
 	
 	
 	class App extends Component {
 	  constructor(props){
-	    super(props);
+	    super(props)
 	    
-	    this.measurementsFilter.bind(this);
-	    this.dropdownSelectionHandle.bind(this);
+	    this.measurementsFilter.bind(this)
+	    this.dropdownSelectionHandle.bind(this)
 	
 	    this.state={
 	      data: [],
@@ -72,12 +72,12 @@ Code listing
 	    this.setState({
 	      pageLoadDate: new Date()
 	    })
-	  };
+	  }
 	
 	
 	  componentWillMount() {
 	    this.getDataFromApi() 
-	  };
+	  }
 	
 	
 	  getDataFromApi() { 
@@ -89,14 +89,14 @@ Code listing
 	        }, () =>  this.measurementsFilter(this.state.data, this.state.days))
 	      }) 
 	     .catch((error) => { 
-	        console.error(error); 
-	    }); 
+	        console.error(error)
+	    })
 	  }
 	
 	
 	  measurementsFilter(arrObjects, days) {
 	    // copy
-	    var data = arrObjects.slice();
+	    var data = arrObjects.slice()
 	
 	    // convert date
 	    for (var j=0; j<data.length; j++){
@@ -109,7 +109,7 @@ Code listing
 	    // filter time interval
 	    var filteredArray = data.filter(el=> {
 	      return el.dsCollected >= d 
-	    });
+	    })
 	
 	    // get sensor attributes (this provides user selections)
 	    var names = this.sensorAttrList(filteredArray, "name")
@@ -119,7 +119,7 @@ Code listing
 	    // filter temp data (hardcode for now)
 	    var tempArray = filteredArray.filter(el=> {
 	      return el.measurementType === "temp"
-	    });
+	    })
 	
 	    // focus data on user selections
 	    var fName = this.focusSensorName(tempArray, this.state.focusName, names)
@@ -176,7 +176,7 @@ Code listing
 	
 	
 	  sensorAttrList(fArray, key) {
-	    var sensorAttributes = [];
+	    var sensorAttributes = []
 	    for (var i=0; i<fArray.length; i++){
 	      if (sensorAttributes.includes(fArray[i][key])){
 	        continue
@@ -193,7 +193,7 @@ Code listing
 	    // then, take the most recent record (last record)
 	    var fValue = fArray.filter(el=> {
 	      return el.name === sensorName 
-	    });
+	    })
 	    var res = []
 	    var dateNow = new Date()
 	    
@@ -282,9 +282,9 @@ Code listing
 	  }
 	
 	  render() {
-	    let button7col = this.state.button7;
-	    let button28col = this.state.button28;
-	    let button365col = this.state.button365;
+	    let button7col = this.state.button7
+	    let button28col = this.state.button28
+	    let button365col = this.state.button365
 	    let sn = this.state.sensorNames
 	
 	    let menuItems = []
@@ -325,7 +325,7 @@ Code listing
 	
 	      </ButtonToolbar>
 	     </div>
-	    );
+	    )
 	
 	    if (this.state.timeSeries){
 	     console.log(this.state.timeRange.toString())
@@ -373,7 +373,7 @@ Code listing
 	        {chart}
 	
 	      </div>
-	    );
+	    )
 	  }
 	}
 	

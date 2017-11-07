@@ -189,7 +189,7 @@
 </table>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p>I have a Raspberry Pi that hosts 1) a postgres database, 2) a flask API and 3) a basic react web application. Date is collected by Arduino compatible carrier boards with grove sensors (nodes) which send data to the postgres database using an API POST request. The flask API then commits these data to a postgres database. The react web application uses an API GET request to access these data and generate a D3 timeseries chart. Several buttons allow the user to filter these data.</p>
+<p>A Raspberry Pi hosts 1) a postgres database, 2) a flask API and 3) a basic react web application. The measurements are taken using grove sensors attached to Arduino compatible carrier boards. These data are sent to the postgres database using an API POST request. The flask API is responsible for commiting data to the database. The react web application uses an API GET request to access these data and generate a D3 timeseries chart. Several buttons allow the user to filter these data.</p>
 </div>
 <div class="section" id="aim">
 <h2>Aim<a class="headerlink" href="#aim" title="Permalink to this headline">¶</a></h2>
@@ -197,7 +197,7 @@
 </div>
 <div class="section" id="background">
 <h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
-<p>I have been thinking about garden monitors for a while now. The original project (called “Tweepy Pond”) started in Brisbane 2015 which was a motion activated raspberry pi enabled camera mixed with a temperature monitor to observe creatures in a home made pond.</p>
+<p>I have been thinking about garden monitors for a while now. The original project was called “Tweepy Pond” which started in Brisbane 2015. This was a motion activated raspberry pi enabled camera mixed with a temperature monitor to observe creatures in a home-made pond.</p>
 <p>When I moved to Sydney this project turned into a balcony temperature monitor for the occasional pot plant. Now, still in Sydney and a new place to call home I have become interested in propagating vegetables. Subsequently I have reimagined tweepy pond to incorporate a variety of sensors that could communicate on the local area network.</p>
 </div>
 <div class="section" id="scope">
