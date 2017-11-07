@@ -5,25 +5,26 @@ Garden Monitor
 :Authors:
     Ray Blick
 :Version: 0.1
-:Last update: 2017/10/25
+:Last update: 2017/11/02
 
 
 Overview
 ----------
-
-Arduino compatible boards with grove sensors (nodes) communicate on a zigbee mesh network. Each node measures data every 10 minutes and sends the packet of information to the head node (arduino uno). The head node makes a post request to the flask api which adds these data into a postgresql database which can be used to display data using react and d3.
-
-
-Background
-------------
-
-This project was initially developed while trying to propagate seeds in a mini greenhouse (think 40cm plastic box with a few air vents). I primarily wanted to know when temperatures were high enough to sow seeds. Specifically, cucumber, beans and tomatoes. Time has marched on, I have moved, my seeds germinated and I have no idea what temperature did the trick... perhaps next year I will know.  
+A Raspberry Pi hosts 1) a postgres database, 2) a flask API and 3) a basic react web application. The measurements are taken using grove sensors attached to Arduino compatible carrier boards. These data are sent to the postgres database using an API POST request. The flask API is responsible for commiting data to the database. The react web application uses an API GET request to access these data and generate a D3 timeseries chart. Several buttons allow the user to filter these data.  
 
 
 Aim
 ----
 
-Record temperature and humidity data from multiple locations in my garden/home and display these data in a "fancy" dashboard. 
+Record temperature from multiple locations in my garden/home and display these data in a dashboard. 
+
+
+Background
+------------
+I have been thinking about garden monitors for a while now. The original project was called "Tweepy Pond" which started in Brisbane 2015. This was a motion activated raspberry pi enabled camera mixed with a temperature monitor to observe creatures in a home-made pond. 
+
+When I moved to Sydney this project turned into a balcony temperature monitor for the occasional pot plant. Now, still in Sydney and a new place to call home I have become interested in propagating vegetables. Subsequently I have reimagined tweepy pond to incorporate a variety of sensors that could communicate on the local area network.  
+
 
 Scope
 ------
@@ -43,6 +44,7 @@ Scope
 Out of scope
 -------------
 - The cloud.
+
 
 Follow along
 --------------

@@ -1,0 +1,497 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>React App: bootstrap styles &mdash; Garden Monitor 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Garden Monitor 0.1 documentation" href="../index.html"/>
+        <link rel="next" title="React App: Functionality" href="reactappfunctional.html"/>
+        <link rel="prev" title="React App: Connecting web app with DB and API" href="reactappconnection.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Garden Monitor
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="summary.html">Garden Monitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs.html">Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reactappwebserver.html">React App: Building blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reactappconnection.html">React App: Connecting web app with DB and API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">React App: bootstrap styles</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#code-listing">Code listing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reactappfunctional.html">React App: Functionality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xbee.html">Sensors</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Garden Monitor</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>React App: bootstrap styles</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/pages/reactappstyles.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="react-app-bootstrap-styles">
+<h1>React App: bootstrap styles<a class="headerlink" href="#react-app-bootstrap-styles" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>Add styles to the reactapp. Add several buttons to filter data and show the most recent temperature. Note I have focussed on temperature only.</p>
+</div>
+<div class="section" id="code-listing">
+<h2>Code listing<a class="headerlink" href="#code-listing" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-psql"><div class="highlight"><pre><span></span><span class="n">import</span> <span class="n">React</span><span class="p">,</span> <span class="p">{</span> <span class="n">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">&#39;react&#39;</span>
+<span class="n">import</span> <span class="s1">&#39;./App.css&#39;</span>
+<span class="n">import</span> <span class="p">{</span><span class="n">Button</span><span class="p">,</span> <span class="n">ButtonToolbar</span><span class="p">,</span> <span class="n">DropdownButton</span><span class="p">,</span> <span class="n">MenuItem</span><span class="p">}</span> <span class="k">from</span> <span class="s1">&#39;react-bootstrap/lib&#39;</span>
+<span class="n">import</span> <span class="s1">&#39;bootstrap/dist/css/bootstrap.css&#39;</span>
+<span class="n">import</span> <span class="s1">&#39;bootstrap/dist/css/bootstrap-theme.css&#39;</span>
+
+
+<span class="k">class</span> <span class="n">App</span> <span class="n">extends</span> <span class="n">Component</span> <span class="p">{</span>
+    <span class="n">constructor</span><span class="p">(</span><span class="n">props</span><span class="p">){</span>
+    <span class="n">super</span><span class="p">(</span><span class="n">props</span><span class="p">)</span>
+
+    <span class="n">this</span><span class="mf">.</span><span class="n">measurementsFilter</span><span class="mf">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
+    <span class="n">this</span><span class="mf">.</span><span class="n">dropdownSelectionHandle</span><span class="mf">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
+
+    <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="o">=</span><span class="p">{</span>
+        <span class="k">data</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="n">pageLoadDate</span><span class="p">:</span> <span class="s s-Name">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">sensorNames</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="n">sensorLocations</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="n">sensorMeasurementType</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="n">temperature</span><span class="p">:</span> <span class="s s-Name">&quot;loading&quot;</span><span class="p">,</span>
+        <span class="n">days</span><span class="p">:</span> <span class="mf">28</span><span class="p">,</span>
+        <span class="n">button7</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
+        <span class="n">button28</span><span class="p">:</span> <span class="s s-Name">&quot;success&quot;</span><span class="p">,</span>
+        <span class="n">button365</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
+        <span class="n">focusName</span><span class="p">:</span> <span class="s s-Name">&quot;&quot;</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="n">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
+        <span class="n">pageLoadDate</span><span class="p">:</span> <span class="n">new</span> <span class="nb">Date</span><span class="p">()</span>
+    <span class="p">})</span>
+<span class="p">}</span>
+
+<span class="n">componentWillMount</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">this</span><span class="mf">.</span><span class="n">getDataFromApi</span><span class="p">()</span>
+<span class="p">}</span>
+
+
+<span class="n">getDataFromApi</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">return</span> <span class="k">fetch</span><span class="p">(</span><span class="s1">&#39;/homesensors/api/v1.0/sensor_data&#39;</span><span class="p">,</span> <span class="p">{</span><span class="n">credentials</span><span class="p">:</span> <span class="s1">&#39;same-origin&#39;</span><span class="p">})</span>
+        <span class="mf">.</span><span class="k">then</span><span class="p">((</span><span class="n">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">response</span><span class="mf">.</span><span class="nb">json</span><span class="p">())</span>
+        <span class="mf">.</span><span class="k">then</span><span class="p">((</span><span class="n">responseJson</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
+                <span class="k">data</span><span class="p">:</span> <span class="n">responseJson</span><span class="mf">.</span><span class="k">data</span>
+        <span class="p">},</span> <span class="p">()</span> <span class="o">=&gt;</span>  <span class="n">this</span><span class="mf">.</span><span class="n">measurementsFilter</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="k">data</span><span class="p">,</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">days</span><span class="p">))</span>
+        <span class="p">})</span>
+        <span class="mf">.</span><span class="n">catch</span><span class="p">((</span><span class="n">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+             <span class="n">console</span><span class="mf">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+    <span class="p">})</span>
+<span class="p">}</span>
+
+
+<span class="n">measurementsFilter</span><span class="p">(</span><span class="n">arrObjects</span><span class="p">,</span> <span class="n">days</span><span class="p">)</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="k">copy</span>
+    <span class="n">var</span> <span class="k">data</span> <span class="o">=</span> <span class="n">arrObjects</span><span class="mf">.</span><span class="n">slice</span><span class="p">()</span>
+
+    <span class="o">//</span> <span class="n">convert</span> <span class="nb">date</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">j</span><span class="o">=</span><span class="mf">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="k">data</span><span class="mf">.</span><span class="n">length</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
+        <span class="k">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="mf">.</span><span class="n">dsCollected</span> <span class="o">=</span> <span class="n">new</span> <span class="nb">Date</span><span class="p">(</span><span class="k">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="mf">.</span><span class="n">dsCollected</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="o">//</span> <span class="k">set</span> <span class="n">n</span> <span class="n">days</span> <span class="k">to</span> <span class="k">filter</span>
+    <span class="n">var</span> <span class="n">d</span> <span class="o">=</span> <span class="n">new</span> <span class="nb">Date</span><span class="p">(</span><span class="n">new</span> <span class="nb">Date</span><span class="p">()</span><span class="mf">.</span><span class="n">setDate</span><span class="p">(</span><span class="n">new</span> <span class="nb">Date</span><span class="p">()</span><span class="mf">.</span><span class="n">getDate</span><span class="p">()</span><span class="o">-</span><span class="n">days</span><span class="p">))</span>
+
+    <span class="o">//</span> <span class="k">filter</span> <span class="nb">time</span> <span class="nb">interval</span>
+    <span class="n">var</span> <span class="n">filteredArray</span> <span class="o">=</span> <span class="k">data</span><span class="mf">.</span><span class="k">filter</span><span class="p">(</span><span class="n">el</span><span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="n">return</span> <span class="n">el</span><span class="mf">.</span><span class="n">dsCollected</span> <span class="o">&gt;=</span> <span class="n">d</span>
+    <span class="p">})</span>
+
+    <span class="o">//</span> <span class="n">get</span> <span class="n">sensor</span> <span class="n">attributes</span>
+    <span class="n">var</span> <span class="k">names</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">sensorAttrList</span><span class="p">(</span><span class="n">filteredArray</span><span class="p">,</span> <span class="s s-Name">&quot;name&quot;</span><span class="p">)</span>
+    <span class="n">var</span> <span class="n">locs</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">sensorAttrList</span><span class="p">(</span><span class="n">filteredArray</span><span class="p">,</span> <span class="s s-Name">&quot;location&quot;</span><span class="p">)</span>
+    <span class="n">var</span> <span class="n">mtype</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">sensorAttrList</span><span class="p">(</span><span class="n">filteredArray</span><span class="p">,</span> <span class="s s-Name">&quot;measurementType&quot;</span><span class="p">)</span>
+
+    <span class="o">//</span> <span class="k">filter</span> <span class="k">temp</span> <span class="k">data</span>
+    <span class="n">var</span> <span class="n">tempArray</span> <span class="o">=</span> <span class="n">filteredArray</span><span class="mf">.</span><span class="k">filter</span><span class="p">(</span><span class="n">el</span><span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="n">return</span> <span class="n">el</span><span class="mf">.</span><span class="n">measurementType</span> <span class="o">===</span> <span class="s s-Name">&quot;temp&quot;</span>
+    <span class="p">})</span>
+
+    <span class="n">var</span> <span class="n">fName</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">focusSensorName</span><span class="p">(</span><span class="n">tempArray</span><span class="p">,</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">focusName</span><span class="p">,</span> <span class="k">names</span><span class="p">)</span>
+    <span class="n">var</span> <span class="n">fValue</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">focusSensorValue</span><span class="p">(</span><span class="n">tempArray</span><span class="p">,</span> <span class="n">fName</span><span class="p">)</span>
+
+
+    <span class="o">//</span> <span class="n">save</span> <span class="n">state</span>
+    <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
+        <span class="n">sensorNames</span><span class="p">:</span> <span class="k">names</span><span class="p">,</span>
+        <span class="n">sensorLocations</span><span class="p">:</span> <span class="n">locs</span><span class="p">,</span>
+        <span class="n">sensorMeasurementType</span><span class="p">:</span> <span class="n">mtype</span><span class="p">,</span>
+        <span class="n">focusName</span><span class="p">:</span> <span class="n">fName</span><span class="p">,</span>
+        <span class="n">focusValue</span><span class="p">:</span> <span class="n">fValue</span><span class="p">,</span>
+        <span class="n">temperature</span><span class="p">:</span> <span class="n">tempArray</span><span class="p">,</span>
+        <span class="n">days</span><span class="p">:</span> <span class="n">days</span>
+   <span class="p">})</span>
+
+<span class="p">}</span>
+
+
+<span class="n">sensorAttrList</span><span class="p">(</span><span class="n">fArray</span><span class="p">,</span> <span class="k">key</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">var</span> <span class="n">sensorAttributes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">i</span><span class="o">=</span><span class="mf">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">fArray</span><span class="mf">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">sensorAttributes</span><span class="mf">.</span><span class="n">includes</span><span class="p">(</span><span class="n">fArray</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">key</span><span class="p">])){</span>
+            <span class="k">continue</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">sensorAttributes</span><span class="mf">.</span><span class="n">push</span><span class="p">(</span><span class="n">fArray</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">key</span><span class="p">])</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">return</span> <span class="n">sensorAttributes</span>
+<span class="p">}</span>
+
+
+<span class="n">focusSensorValue</span><span class="p">(</span><span class="n">fArray</span><span class="p">,</span> <span class="n">sensorName</span><span class="p">)</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="k">filter</span> <span class="k">data</span> <span class="k">by</span> <span class="n">sensor</span> <span class="k">name</span>
+    <span class="o">//</span> <span class="k">then</span><span class="p">,</span> <span class="n">take</span> <span class="n">the</span> <span class="n">most</span> <span class="n">recent</span> <span class="nb">record</span> <span class="p">(</span><span class="k">last</span> <span class="nb">record</span><span class="p">)</span>
+    <span class="n">var</span> <span class="n">fValue</span> <span class="o">=</span> <span class="n">fArray</span><span class="mf">.</span><span class="k">filter</span><span class="p">(</span><span class="n">el</span><span class="o">=&gt;</span> <span class="p">{</span>
+         <span class="n">return</span> <span class="n">el</span><span class="mf">.</span><span class="k">name</span> <span class="o">===</span> <span class="n">sensorName</span>
+    <span class="p">})</span>
+
+    <span class="o">//</span> <span class="k">treat</span> <span class="n">undefined</span> <span class="n">variable</span> <span class="p">(</span><span class="n">occurs</span> <span class="k">when</span> <span class="k">filter</span> <span class="k">returns</span> <span class="k">no</span> <span class="k">data</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">fValue</span><span class="mf">.</span><span class="n">slice</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">)[</span><span class="mf">0</span><span class="p">]</span> <span class="o">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">fValue</span> <span class="o">=</span> <span class="s s-Name">&quot;No data&quot;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">fValue</span> <span class="o">=</span> <span class="n">fValue</span><span class="mf">.</span><span class="n">slice</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">)[</span><span class="mf">0</span><span class="p">][</span><span class="s s-Name">&quot;value&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s s-Name">&quot;°C&quot;</span>
+    <span class="p">}</span>
+    <span class="n">return</span> <span class="n">fValue</span>
+<span class="p">}</span>
+
+
+<span class="n">focusSensorName</span><span class="p">(</span><span class="n">fArray</span><span class="p">,</span> <span class="n">sensorName</span><span class="p">,</span> <span class="n">namesList</span><span class="p">)</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="k">name</span> <span class="k">of</span> <span class="n">sensor</span> <span class="k">with</span> <span class="n">most</span> <span class="n">recent</span> <span class="nb">record</span>
+    <span class="n">var</span> <span class="n">startName</span> <span class="o">=</span> <span class="n">fArray</span><span class="mf">.</span><span class="n">slice</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">)[</span><span class="mf">0</span><span class="p">][</span><span class="s s-Name">&quot;name&quot;</span><span class="p">]</span>
+
+   <span class="o">//</span> <span class="k">set</span> <span class="n">sensor</span> <span class="k">name</span> <span class="k">to</span> <span class="n">focus</span> <span class="k">on</span>
+   <span class="n">var</span> <span class="n">fName</span> <span class="o">=</span> <span class="p">(</span><span class="n">sensorName</span> <span class="o">===</span> <span class="s s-Name">&quot;&quot;</span> <span class="o">&amp;</span> <span class="n">namesList</span><span class="mf">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mf">1</span><span class="p">)</span>
+       <span class="o">?</span> <span class="n">startName</span>
+       <span class="p">:</span> <span class="n">sensorName</span>
+
+   <span class="o">//</span> <span class="k">treat</span> <span class="n">undefined</span> <span class="n">variable</span> <span class="p">(</span><span class="n">occurs</span> <span class="k">when</span> <span class="k">filter</span> <span class="k">returns</span> <span class="k">no</span> <span class="k">data</span><span class="p">)</span>
+   <span class="k">if</span> <span class="p">(</span><span class="n">fName</span> <span class="o">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+       <span class="n">fName</span> <span class="o">=</span> <span class="s s-Name">&quot;Select&quot;</span>
+   <span class="p">}</span>
+
+   <span class="n">return</span> <span class="n">fName</span>
+<span class="p">}</span>
+
+
+<span class="n">sevenDayHandle</span><span class="p">(){</span>
+    <span class="n">this</span><span class="mf">.</span><span class="n">measurementsFilter</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="k">data</span><span class="p">,</span> <span class="mf">7</span><span class="p">)</span>
+    <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
+        <span class="n">button7</span><span class="p">:</span> <span class="s s-Name">&quot;success&quot;</span><span class="p">,</span> <span class="o">//</span><span class="n">change</span> <span class="n">color</span> <span class="k">of</span> <span class="n">button7</span> <span class="k">to</span> <span class="n">green</span>
+        <span class="n">button28</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
+        <span class="n">button365</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span>
+    <span class="p">})</span>
+<span class="p">}</span>
+
+<span class="n">twentyEightDayHandle</span><span class="p">(){</span>
+    <span class="n">this</span><span class="mf">.</span><span class="n">measurementsFilter</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="k">data</span><span class="p">,</span> <span class="mf">28</span><span class="p">)</span>
+    <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
+        <span class="n">button7</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
+        <span class="n">button28</span><span class="p">:</span> <span class="s s-Name">&quot;success&quot;</span><span class="p">,</span> <span class="o">//</span><span class="n">change</span> <span class="n">color</span> <span class="k">of</span> <span class="n">button28</span> <span class="k">to</span> <span class="n">green</span>
+        <span class="n">button365</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span>
+   <span class="p">})</span>
+<span class="p">}</span>
+
+<span class="n">oneYearHandle</span><span class="p">(){</span>
+    <span class="n">this</span><span class="mf">.</span><span class="n">measurementsFilter</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="k">data</span><span class="p">,</span> <span class="mf">365</span><span class="p">)</span>
+    <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
+         <span class="n">button7</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
+         <span class="n">button28</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
+         <span class="n">button365</span><span class="p">:</span> <span class="s s-Name">&quot;success&quot;</span> <span class="o">//</span><span class="n">change</span> <span class="n">color</span> <span class="k">of</span> <span class="n">button365</span> <span class="k">to</span> <span class="n">green</span>
+    <span class="p">})</span>
+<span class="p">}</span>
+
+<span class="n">dropdownSelectionHandle</span><span class="p">(</span><span class="n">sn</span><span class="p">,</span> <span class="n">n</span><span class="p">){</span>
+    <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
+        <span class="n">focusName</span><span class="p">:</span> <span class="n">sn</span><span class="p">[</span><span class="n">n</span><span class="p">],</span>
+        <span class="n">focusValue</span><span class="p">:</span> <span class="n">this</span><span class="mf">.</span><span class="n">focusSensorValue</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">temperature</span><span class="p">,</span> <span class="n">sn</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+    <span class="p">})</span>
+<span class="p">}</span>
+
+<span class="n">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">let</span> <span class="n">button7col</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">button7</span>
+    <span class="n">let</span> <span class="n">button28col</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">button28</span>
+    <span class="n">let</span> <span class="n">button365col</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">button365</span>
+    <span class="n">let</span> <span class="n">sn</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">sensorNames</span>
+
+    <span class="n">let</span> <span class="n">menuItems</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">i</span><span class="o">=</span><span class="mf">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">sensorNames</span><span class="mf">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="n">var</span> <span class="k">key</span> <span class="o">=</span> <span class="n">i</span><span class="mf">.</span><span class="n">toString</span><span class="p">()</span>
+            <span class="n">menuItems</span><span class="mf">.</span><span class="n">push</span><span class="p">(</span><span class="o">&lt;</span><span class="n">MenuItem</span> <span class="k">key</span><span class="o">=</span><span class="p">{</span><span class="k">key</span><span class="p">}</span> <span class="n">eventKey</span><span class="o">=</span><span class="p">{</span><span class="k">key</span><span class="p">}</span><span class="o">&gt;</span>
+                <span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">sensorNames</span><span class="p">[</span><span class="n">i</span><span class="p">]}</span>
+            <span class="o">&lt;/</span><span class="n">MenuItem</span><span class="o">&gt;</span><span class="p">)</span>
+        <span class="p">}</span>
+
+
+    <span class="n">const</span> <span class="n">buttonsInstance</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="o">&lt;</span><span class="n">div</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;wrapper&quot;</span><span class="o">&gt;</span>
+             <span class="o">&lt;</span><span class="n">ButtonToolbar</span><span class="o">&gt;</span>
+                 <span class="o">&lt;</span><span class="n">DropdownButton</span> <span class="n">bsStyle</span><span class="o">=</span><span class="s s-Name">&quot;info&quot;</span> <span class="n">id</span><span class="o">=</span><span class="s s-Name">&quot;1&quot;</span> <span class="n">title</span><span class="o">=</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">focusName</span><span class="p">}</span>
+                     <span class="n">onSelect</span> <span class="o">=</span> <span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">dropdownSelectionHandle</span><span class="mf">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">sn</span><span class="p">)}</span>
+                 <span class="o">&gt;</span>
+                      <span class="p">{</span><span class="n">menuItems</span><span class="p">}</span>
+                 <span class="o">&lt;/</span><span class="n">DropdownButton</span><span class="o">&gt;</span>
+                 <span class="o">&lt;</span><span class="n">Button</span> <span class="n">bsStyle</span><span class="o">=</span><span class="p">{</span><span class="n">button7col</span><span class="p">}</span>
+                     <span class="n">onClick</span><span class="o">=</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">sevenDayHandle</span><span class="mf">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">)}</span><span class="o">&gt;</span>
+                          <span class="mf">7</span> <span class="n">days</span>
+                 <span class="o">&lt;/</span><span class="n">Button</span><span class="o">&gt;</span>
+                 <span class="o">&lt;</span><span class="n">Button</span> <span class="n">bsStyle</span><span class="o">=</span><span class="p">{</span><span class="n">button28col</span><span class="p">}</span>
+                     <span class="n">onClick</span><span class="o">=</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">twentyEightDayHandle</span><span class="mf">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">)}</span><span class="o">&gt;</span>
+                          <span class="mf">28</span> <span class="n">days</span>
+                 <span class="o">&lt;/</span><span class="n">Button</span><span class="o">&gt;</span>
+                 <span class="o">&lt;</span><span class="n">Button</span> <span class="n">bsStyle</span><span class="o">=</span><span class="p">{</span><span class="n">button365col</span><span class="p">}</span>
+                     <span class="n">onClick</span><span class="o">=</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">oneYearHandle</span><span class="mf">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">)}</span><span class="o">&gt;</span>
+                          <span class="mf">1</span> <span class="k">year</span>
+                 <span class="o">&lt;/</span><span class="n">Button</span><span class="o">&gt;</span>
+             <span class="o">&lt;/</span><span class="n">ButtonToolbar</span><span class="o">&gt;</span>
+        <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+    <span class="p">)</span>
+
+        <span class="n">return</span> <span class="p">(</span>
+            <span class="o">&lt;</span><span class="n">div</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;App&quot;</span><span class="o">&gt;</span>
+
+                <span class="o">&lt;</span><span class="k">header</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;App-header&quot;</span><span class="o">&gt;</span>
+                    <span class="o">&lt;</span><span class="n">h1</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;App-title&quot;</span><span class="o">&gt;</span><span class="n">Garden</span> <span class="n">Monitor</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+                    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span> <span class="p">{</span><span class="n">String</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">pageLoadDate</span><span class="p">)}</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+                <span class="o">&lt;/</span><span class="k">header</span><span class="o">&gt;</span>
+
+                <span class="p">{</span><span class="n">buttonsInstance</span><span class="p">}</span>
+
+                <span class="o">&lt;</span><span class="n">div</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;TempContainer&quot;</span><span class="o">&gt;</span>
+                    <span class="o">&lt;</span><span class="n">h3</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;TempValue&quot;</span><span class="o">&gt;</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">focusValue</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">h3</span><span class="o">&gt;</span>
+                <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+            <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+        <span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">export</span> <span class="k">default</span> <span class="n">App</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="reactappfunctional.html" class="btn btn-neutral float-right" title="React App: Functionality" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="reactappconnection.html" class="btn btn-neutral" title="React App: Connecting web app with DB and API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Ray Blick.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

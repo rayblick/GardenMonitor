@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Setup &mdash; Garden Monitor 0.1 documentation</title>
+  <title>React App: Building blocks &mdash; Garden Monitor 0.1 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="Garden Monitor 0.1 documentation" href="../index.html"/>
-        <link rel="next" title="Docs" href="docs.html"/>
-        <link rel="prev" title="Garden Monitor" href="summary.html"/> 
+        <link rel="next" title="React App: Connecting web app with DB and API" href="reactappconnection.html"/>
+        <link rel="prev" title="API" href="api.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -93,23 +93,20 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="summary.html">Garden Monitor</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Setup</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#aim">Aim</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#update-and-upgrade">Update and upgrade</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#set-timezone">Set timezone</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#install">Install</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#folder">Folder</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#git">Git</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="docs.html">Docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reactappBuildingBlocks.html">React App: Building blocks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reactappConnection.html">React App: Connection with API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reactappBootstrap.html">React App: Bootstrap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reactappChart.html">React App: Chart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">React App: Building blocks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#uninstall-node">Uninstall node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-node-and-npm">Install node and npm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-create-react-app">Install create-react-app</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#build-app-and-run">Build app and run</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reactappconnection.html">React App: Connecting web app with DB and API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reactappstyles.html">React App: bootstrap styles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="xbee.html">Sensors</a></li>
 </ul>
 
@@ -155,13 +152,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Setup</li>
+      <li>React App: Building blocks</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/pages/setup.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/pages/reactappwebserver.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -174,51 +171,71 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="setup">
-<h1>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="aim">
-<h2>Aim<a class="headerlink" href="#aim" title="Permalink to this headline">¶</a></h2>
-<p>Setup the project.</p>
-</div>
+  <div class="section" id="react-app-building-blocks">
+<h1>React App: Building blocks<a class="headerlink" href="#react-app-building-blocks" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="summary">
 <h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
-<p>This is mostly a reminder to myself, if you are following along you can skip this page. Just make sure python 3 is installed.</p>
-<a class="reference internal image-reference" href="../_images/rpi.jpg"><img alt="../_images/rpi.jpg" src="../_images/rpi.jpg" style="width: 600px;" /></a>
+<p>Setup data visualisation. By the end of this page you should have a method visualising your data available from an api request on your local network.</p>
 </div>
-<div class="section" id="update-and-upgrade">
-<h2>Update and upgrade<a class="headerlink" href="#update-and-upgrade" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo apt-get update
-sudo apt-get upgrade
-</pre></div>
-</div>
-</div>
-<div class="section" id="set-timezone">
-<h2>Set timezone<a class="headerlink" href="#set-timezone" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo dpkg-reconfigure tzdata
-</pre></div>
-</div>
-</div>
-<div class="section" id="install">
-<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo apt-get install python3
-</pre></div>
-</div>
-</div>
-<div class="section" id="folder">
-<h2>Folder<a class="headerlink" href="#folder" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># repos/</span>
-mkdir GardenMonitor
-<span class="nb">cd</span> GardenMonitor
-</pre></div>
-</div>
-</div>
-<div class="section" id="git">
-<h2>Git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># repos/GardenMonitor</span>
-git init
+<div class="section" id="uninstall-node">
+<h2>Uninstall node<a class="headerlink" href="#uninstall-node" title="Permalink to this headline">¶</a></h2>
+<p>This step is included here for my reference because I botched an install of node and npm that required sudo permissions.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># node</span>
+sudo apt-get remove node
 
-<span class="c1"># setup github repo, then...</span>
-git remote add origin https://github.com/rayblick/GardenMonitor.git
+<span class="c1"># Drop node and npm from the following locations</span>
+<span class="c1"># 1. /usr/local/lib/</span>
+<span class="c1"># 2. /usr/local/include/</span>
+<span class="c1"># 3. /opt/nodejs/lib/</span>
+<span class="c1"># 4. /usr/local/bin</span>
+
+<span class="c1"># update and upgrade</span>
+sudo apt-get update
+sudo apt-get upgrade
+sudo reboot
+</pre></div>
+</div>
+</div>
+<div class="section" id="install-node-and-npm">
+<h2>Install node and npm<a class="headerlink" href="#install-node-and-npm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># Node Version Manager (nvm)</span>
+git clone https://github.com/creationix/nvm.git ~/.nvm <span class="o">&amp;&amp;</span> <span class="nb">cd</span> ~/.nvm <span class="o">&amp;&amp;</span> git checkout v0.33.5
+
+<span class="c1"># edit files (add... source ~/.nvm/nvm.sh to the end of each file)</span>
+sudo nano ~/.bashrc
+sudo nano ~/.profile
+
+<span class="c1"># Check NVM version</span>
+nvm --version
+
+<span class="c1"># check pi cpu etc</span>
+lscpu
+
+<span class="c1"># find appropriate version of node from nodejs.org/dist</span>
+nvm install <span class="m">8</span>.0.0
+
+<span class="c1"># Another step from botched install of node</span>
+nvm use --delete-prefix v8.0.0
+
+<span class="c1"># update</span>
+npm update -g npm
+</pre></div>
+</div>
+</div>
+<div class="section" id="install-create-react-app">
+<h2>Install create-react-app<a class="headerlink" href="#install-create-react-app" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>npm install -g create-react-app
+</pre></div>
+</div>
+</div>
+<div class="section" id="build-app-and-run">
+<h2>Build app and run<a class="headerlink" href="#build-app-and-run" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># repos/homesensors</span>
+create-react-app reactapp
+
+<span class="c1"># Run</span>
+<span class="nb">cd</span> reactapp
+npm start
 </pre></div>
 </div>
 </div>
@@ -234,10 +251,10 @@ git remote add origin https://github.com/rayblick/GardenMonitor.git
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="docs.html" class="btn btn-neutral float-right" title="Docs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="reactappconnection.html" class="btn btn-neutral float-right" title="React App: Connecting web app with DB and API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="summary.html" class="btn btn-neutral" title="Garden Monitor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="api.html" class="btn btn-neutral" title="API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

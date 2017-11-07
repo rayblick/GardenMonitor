@@ -1,10 +1,15 @@
 API
 ====
 
+Aim
+----
+Setup data transmission. 
+
+
 Summary
 --------
 
-Setup data transmission. By the end of this page you should have a method of adding and receiving data from the postgres db.
+By the end of this page you should have a method of adding and receiving data from the postgres db.
 
 Base install 
 --------------

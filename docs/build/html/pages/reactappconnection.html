@@ -1,0 +1,448 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>React App: Connecting web app with DB and API &mdash; Garden Monitor 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Garden Monitor 0.1 documentation" href="../index.html"/>
+        <link rel="next" title="React App: bootstrap styles" href="reactappstyles.html"/>
+        <link rel="prev" title="React App: Building blocks" href="reactappwebserver.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Garden Monitor
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="summary.html">Garden Monitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs.html">Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reactappwebserver.html">React App: Building blocks</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">React App: Connecting web app with DB and API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#note-on-datetime-stamps">Note on datetime stamps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#drop-existing-data">Drop existing data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#add-test-data">Add test data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#add-a-proxy-to-webserver">Add a proxy to webserver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edit-app-py-react-webapp">Edit app.py (react webapp)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#test">Test</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reactappstyles.html">React App: bootstrap styles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xbee.html">Sensors</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Garden Monitor</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>React App: Connecting web app with DB and API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/pages/reactappconnection.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="react-app-connecting-web-app-with-db-and-api">
+<h1>React App: Connecting web app with DB and API<a class="headerlink" href="#react-app-connecting-web-app-with-db-and-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>Set up webserver to fetch data from the postgres db using the flask api. By the end of this page you should have a react web page running on your local network that fetches data. We wont be doing anything with the data once we have it, more on that next.</p>
+</div>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Flask api</li>
+<li>Postgres DB</li>
+<li>React app</li>
+</ul>
+</div>
+<div class="section" id="note-on-datetime-stamps">
+<h2>Note on datetime stamps<a class="headerlink" href="#note-on-datetime-stamps" title="Permalink to this headline">¶</a></h2>
+<p>All records have a datestamp which are used for processing and data visualisation. Postgres saves the datestamp as a string (dsCollected column) in ISO 8601 format along with timezone information. For example, “2017-10-18T10:30:00+10:00” is 10:30 am in Sydney on the 18th of October 2017. These strings get converted to a Date data type after they are collected by the react app.</p>
+</div>
+<div class="section" id="drop-existing-data">
+<h2>Drop existing data<a class="headerlink" href="#drop-existing-data" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>psql homesensors ray
+</pre></div>
+</div>
+<div class="highlight-psql"><div class="highlight"><pre><span></span><span class="k">drop</span> <span class="k">table</span> <span class="n">home_sensor_data</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="add-test-data">
+<h2>Add test data<a class="headerlink" href="#add-test-data" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1">#/repos/homesensors/flask/bin</span>
+<span class="nb">source</span> activate
+
+<span class="c1">#(flask)/repos/homesensors/flask/bin</span>
+app.py
+
+<span class="c1"># open another terminal</span>
+<span class="c1"># =&gt; ctrl-shft-t</span>
+
+<span class="c1"># add records</span>
+<span class="c1"># 1</span>
+curl -i -H <span class="s2">&quot;Content-Type: application/json&quot;</span>
+     -X post
+     -d <span class="s1">&#39;{&quot;name&quot;: &quot;dummyA&quot;,</span>
+<span class="s1">          &quot;location&quot;:&quot;garden&quot;,</span>
+<span class="s1">          &quot;category&quot;:&quot;dummyA&quot;,</span>
+<span class="s1">          &quot;measurementType&quot;:&quot;temp&quot;,</span>
+<span class="s1">          &quot;value&quot;: 1500,</span>
+<span class="s1">          &quot;dsCollected&quot;: &quot;2017-10-18T10:30:00+10:00</span>
+<span class="s1">         &quot;}&#39;</span>
+     http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+<span class="c1"># 2</span>
+curl -i -H <span class="s2">&quot;Content-Type: application/json&quot;</span>
+     -X post
+     -d <span class="s1">&#39;{&quot;name&quot;: &quot;dummyA&quot;,</span>
+<span class="s1">          &quot;location&quot;:&quot;garden&quot;,</span>
+<span class="s1">          &quot;category&quot;:&quot;dummyA&quot;,</span>
+<span class="s1">          &quot;measurementType&quot;:&quot;temp&quot;,</span>
+<span class="s1">          &quot;value&quot;: 1500,</span>
+<span class="s1">          &quot;dsCollected&quot;: &quot;2017-10-19T10:30:00+10:00</span>
+<span class="s1">         &quot;}&#39;</span>
+     http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+<span class="c1"># 3</span>
+curl -i -H <span class="s2">&quot;Content-Type: application/json&quot;</span>
+     -X post
+     -d <span class="s1">&#39;{&quot;name&quot;: &quot;dummyA&quot;,</span>
+<span class="s1">          &quot;location&quot;:&quot;garden&quot;,</span>
+<span class="s1">          &quot;category&quot;:&quot;dummyA&quot;,</span>
+<span class="s1">          &quot;measurementType&quot;:&quot;temp&quot;,</span>
+<span class="s1">          &quot;value&quot;: 1500,</span>
+<span class="s1">          &quot;dsCollected&quot;: &quot;2017-10-20T10:30:00+10:00</span>
+<span class="s1">         &quot;}&#39;</span>
+     http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+<span class="c1"># 4</span>
+curl -i -H <span class="s2">&quot;Content-Type: application/json&quot;</span>
+     -X post
+     -d <span class="s1">&#39;{&quot;name&quot;: &quot;dummyA&quot;,</span>
+<span class="s1">          &quot;location&quot;:&quot;garden&quot;,</span>
+<span class="s1">          &quot;category&quot;:&quot;dummyA&quot;,</span>
+<span class="s1">          &quot;measurementType&quot;:&quot;temp&quot;,</span>
+<span class="s1">          &quot;value&quot;: 1500,</span>
+<span class="s1">          &quot;dsCollected&quot;: &quot;2017-10-21T10:30:00+10:00</span>
+<span class="s1">         &quot;}&#39;</span>
+     http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+<span class="c1"># 5</span>
+curl -i -H <span class="s2">&quot;Content-Type: application/json&quot;</span>
+     -X post
+     -d <span class="s1">&#39;{&quot;name&quot;: &quot;dummyA&quot;,</span>
+<span class="s1">          &quot;location&quot;:&quot;garden&quot;,</span>
+<span class="s1">          &quot;category&quot;:&quot;dummyA&quot;,</span>
+<span class="s1">          &quot;measurementType&quot;:&quot;temp&quot;,</span>
+<span class="s1">          &quot;value&quot;: 1500,</span>
+<span class="s1">          &quot;dsCollected&quot;: &quot;2017-10-22T10:30:00+10:00</span>
+<span class="s1">         &quot;}&#39;</span>
+     http://localhost:5000/homesensors/api/v1.0/sensor_data
+</pre></div>
+</div>
+</div>
+<div class="section" id="add-a-proxy-to-webserver">
+<h2>Add a proxy to webserver<a class="headerlink" href="#add-a-proxy-to-webserver" title="Permalink to this headline">¶</a></h2>
+<p>Security restrictions block the transfer of data on localhost. To connect the react webserver (localhost port 3000) to the flask api (localhost post 5000) add a proxy setting to package.json.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>nano /repos/homesensors/reactapp/package.json
+</pre></div>
+</div>
+<div class="highlight-json"><div class="highlight"><pre><span></span>{
+  &quot;name&quot;: &quot;reactapp&quot;,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;private&quot;: true,
+
+  // add proxy setting here...
+  &quot;proxy&quot;: &quot;http://localhost:5000/&quot;,
+
+  &quot;dependencies&quot;: {
+    &quot;react&quot;: &quot;^16.0.0&quot;,
+    &quot;react-dom&quot;: &quot;^16.0.0&quot;,
+    &quot;react-http-request&quot;: &quot;^1.0.3&quot;,
+    &quot;react-scripts&quot;: &quot;1.0.14&quot;
+  },
+  &quot;scripts&quot;: {
+    &quot;start&quot;: &quot;react-scripts start&quot;,
+    &quot;build&quot;: &quot;react-scripts build&quot;,
+    &quot;test&quot;: &quot;react-scripts test --env=jsdom&quot;,
+    &quot;eject&quot;: &quot;react-scripts eject&quot;
+  }
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="edit-app-py-react-webapp">
+<h2>Edit app.py (react webapp)<a class="headerlink" href="#edit-app-py-react-webapp" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>nano /repos/homesensors/reactapp/src/app.py
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">React</span><span class="o">,</span> <span class="p">{</span> <span class="n">Component</span> <span class="p">}</span> <span class="kn">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="s1">&#39;./App.css&#39;</span><span class="p">;</span>
+
+
+<span class="k">class</span> <span class="nc">App</span> <span class="n">extends</span> <span class="n">Component</span> <span class="p">{</span>
+    <span class="n">constructor</span><span class="p">(</span><span class="n">props</span><span class="p">){</span>
+         <span class="nb">super</span><span class="p">(</span><span class="n">props</span><span class="p">);</span>
+
+    <span class="n">this</span><span class="o">.</span><span class="n">state</span><span class="o">=</span><span class="p">{</span>
+         <span class="n">data</span><span class="p">:</span> <span class="s2">&quot;Fetching data&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">componentWillMount</span><span class="p">()</span> <span class="p">{</span>
+     <span class="n">this</span><span class="o">.</span><span class="n">getDataFromApi</span><span class="p">()</span>
+<span class="p">};</span>
+
+<span class="n">getDataFromApi</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;/homesensors/api/v1.0/sensor_data&#39;</span><span class="p">,</span> <span class="p">{</span><span class="n">credentials</span><span class="p">:</span> <span class="s1">&#39;same-origin&#39;</span><span class="p">})</span>
+      <span class="o">.</span><span class="n">then</span><span class="p">((</span><span class="n">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+      <span class="o">.</span><span class="n">then</span><span class="p">((</span><span class="n">responseJson</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+          <span class="n">this</span><span class="o">.</span><span class="n">setState</span><span class="p">({</span>
+               <span class="n">data</span><span class="p">:</span> <span class="n">responseJson</span><span class="o">.</span><span class="n">data</span>
+          <span class="p">},</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Success&quot;</span><span class="p">)</span>
+      <span class="p">})</span>
+      <span class="o">.</span><span class="n">catch</span><span class="p">((</span><span class="n">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+          <span class="n">console</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">);</span>
+      <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="n">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="o">&lt;</span><span class="n">div</span> <span class="n">className</span><span class="o">=</span><span class="s2">&quot;App&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">header</span> <span class="n">className</span><span class="o">=</span><span class="s2">&quot;App-header&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">h1</span> <span class="n">className</span><span class="o">=</span><span class="s2">&quot;App-title&quot;</span><span class="o">&gt;</span><span class="n">Garden</span> <span class="n">Monitor</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+        <span class="o">&lt;/</span><span class="n">header</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span> <span class="p">{</span><span class="n">String</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">data</span><span class="p">)}</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+
+        <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+       <span class="p">);</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">export</span> <span class="n">default</span> <span class="n">App</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="test">
+<h2>Test<a class="headerlink" href="#test" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># Run flask api</span>
+<span class="nb">cd</span> /repos/homesensors/flask/bin
+<span class="nb">source</span> activate
+app.py
+
+
+<span class="c1"># Run react webapp</span>
+<span class="nb">cd</span> /repos/homesensors/reactapp
+npm start
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="reactappstyles.html" class="btn btn-neutral float-right" title="React App: bootstrap styles" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="reactappwebserver.html" class="btn btn-neutral" title="React App: Building blocks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Ray Blick.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

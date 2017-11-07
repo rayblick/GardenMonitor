@@ -1,14 +1,18 @@
-Creating a web app
-=======================
+React App: Building blocks
+===========================
+
+Aim
+----
+Create react app. 
+
 
 Summary
 --------
+By the end of this page you should have a bare bones react app ready for modification.
 
-Setup data visualisation. By the end of this page you should have a method visualising your data available from an api request on your local network.
 
 Uninstall node
 ---------------
-
 This step is included here for my reference because I botched an install of node and npm that required sudo permissions. 
 
 .. code-block:: bash

@@ -1,11 +1,15 @@
-Connecting web app with DB and API
-====================================
+React App: Connection with API
+===============================
+
+Aim
+----
+Set up webserver to fetch data from the postgres db using the flask api. 
 
 
 Summary
 --------
+By the end of this page you should have a react web page running on your local network that fetches data. We wont be doing anything with the data once we have it, more on that next.
 
-Set up webserver to fetch data from the postgres db using the flask api. By the end of this page you should have a react web page running on your local network that fetches data. We wont be doing anything with the data once we have it, more on that next.
 
 Requirements
 --------------
@@ -15,7 +19,7 @@ Requirements
 
 Note on datetime stamps
 -------------------------
-All records have a datestamp which are used for processing and data visualisation. Postgres saves the datestamp as a string (dsCollected column) in ISO 8601 format along with timezone information. For example, "2017-10-18T10:30:00+10:00" is 10:30 am in Sydney on the 18th of October 2017. These strings get converted to a date data type after they are collected by the react app.   
+All records have a datestamp which are used for processing and data visualisation. Postgres saves the datestamp as a string (dsCollected column) in ISO 8601 format along with timezone information. For example, "2017-10-18T10:30:00+10:00" is 10:30 am in Sydney on the 18th of October 2017. These strings get converted to a Date data type after they are collected by the react app.   
 
 
 Drop existing data

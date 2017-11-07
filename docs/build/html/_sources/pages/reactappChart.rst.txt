@@ -1,0 +1,14 @@
+React App: Chart
+=================
+
+Aim
+----
+Add chart to display data. 
+
+
+Summary
+--------
+
+
+.. image:: ../img/reactdraft.png
+   :width: 200

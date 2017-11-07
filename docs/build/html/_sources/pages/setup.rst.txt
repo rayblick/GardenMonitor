@@ -1,9 +1,17 @@
 Setup
 =====
 
+Aim
+----
+Setup the project.
+
+
 Summary
 --------
-Setup the project. This is mostly a reminder to myself, if you are following along you can skip this page. Just make sure python 3 is installed. 
+This is mostly a reminder to myself, if you are following along you can skip this page. Just make sure python 3 is installed. 
+
+.. image:: ../img/rpi.jpg
+   :width: 600
 
 
 Update and upgrade

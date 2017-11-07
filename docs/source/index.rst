@@ -3,11 +3,9 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Garden Monitor's documentation!
+Welcome to Garden Monitor's documentation
 ==========================================
 
-.. image:: img/rpi.jpg
-   :width: 600
 
 .. toctree::
    :maxdepth: 2
@@ -18,8 +16,10 @@ Welcome to Garden Monitor's documentation!
    /pages/docs
    /pages/database
    /pages/api
-   /pages/webserver
-   /pages/connection
+   /pages/reactappBuildingBlocks
+   /pages/reactappConnection
+   /pages/reactappBootstrap 
+   /pages/reactappChart
    /pages/xbee
 
 

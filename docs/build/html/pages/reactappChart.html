@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Setup &mdash; Garden Monitor 0.1 documentation</title>
+  <title>React App: Chart &mdash; Garden Monitor 0.1 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="Garden Monitor 0.1 documentation" href="../index.html"/>
-        <link rel="next" title="Docs" href="docs.html"/>
-        <link rel="prev" title="Garden Monitor" href="summary.html"/> 
+        <link rel="next" title="Sensors" href="xbee.html"/>
+        <link rel="prev" title="React App: Bootstrap" href="reactappBootstrap.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -93,23 +93,18 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="summary.html">Garden Monitor</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Setup</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#aim">Aim</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#update-and-upgrade">Update and upgrade</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#set-timezone">Set timezone</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#install">Install</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#folder">Folder</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#git">Git</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="docs.html">Docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reactappBuildingBlocks.html">React App: Building blocks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reactappConnection.html">React App: Connection with API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reactappBootstrap.html">React App: Bootstrap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reactappChart.html">React App: Chart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">React App: Chart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#aim">Aim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="xbee.html">Sensors</a></li>
 </ul>
 
@@ -155,13 +150,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Setup</li>
+      <li>React App: Chart</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/pages/setup.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/pages/reactappChart.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -174,53 +169,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="setup">
-<h1>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="react-app-chart">
+<h1>React App: Chart<a class="headerlink" href="#react-app-chart" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="aim">
 <h2>Aim<a class="headerlink" href="#aim" title="Permalink to this headline">¶</a></h2>
-<p>Setup the project.</p>
+<p>Add chart to display data.</p>
 </div>
 <div class="section" id="summary">
 <h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
-<p>This is mostly a reminder to myself, if you are following along you can skip this page. Just make sure python 3 is installed.</p>
-<a class="reference internal image-reference" href="../_images/rpi.jpg"><img alt="../_images/rpi.jpg" src="../_images/rpi.jpg" style="width: 600px;" /></a>
-</div>
-<div class="section" id="update-and-upgrade">
-<h2>Update and upgrade<a class="headerlink" href="#update-and-upgrade" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo apt-get update
-sudo apt-get upgrade
-</pre></div>
-</div>
-</div>
-<div class="section" id="set-timezone">
-<h2>Set timezone<a class="headerlink" href="#set-timezone" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo dpkg-reconfigure tzdata
-</pre></div>
-</div>
-</div>
-<div class="section" id="install">
-<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo apt-get install python3
-</pre></div>
-</div>
-</div>
-<div class="section" id="folder">
-<h2>Folder<a class="headerlink" href="#folder" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># repos/</span>
-mkdir GardenMonitor
-<span class="nb">cd</span> GardenMonitor
-</pre></div>
-</div>
-</div>
-<div class="section" id="git">
-<h2>Git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># repos/GardenMonitor</span>
-git init
-
-<span class="c1"># setup github repo, then...</span>
-git remote add origin https://github.com/rayblick/GardenMonitor.git
-</pre></div>
-</div>
+<a class="reference internal image-reference" href="../_images/reactdraft.png"><img alt="../_images/reactdraft.png" src="../_images/reactdraft.png" style="width: 200px;" /></a>
 </div>
 </div>
 
@@ -234,10 +191,10 @@ git remote add origin https://github.com/rayblick/GardenMonitor.git
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="docs.html" class="btn btn-neutral float-right" title="Docs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="xbee.html" class="btn btn-neutral float-right" title="Sensors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="summary.html" class="btn btn-neutral" title="Garden Monitor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="reactappBootstrap.html" class="btn btn-neutral" title="React App: Bootstrap" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

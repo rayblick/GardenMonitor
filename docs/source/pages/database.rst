@@ -1,11 +1,15 @@
 Database
 ========
 
+Aim
+----
+Setup data storage location.  
+
 
 Summary
 --------
 
-Setup data storage location. By the end of this page you should have a postgres database running on your local network.
+By the end of this page you should have a postgres database running on your local network.
 
 Install and open
 -------------------

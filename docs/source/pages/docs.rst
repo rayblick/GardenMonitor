@@ -1,6 +1,11 @@
 Docs
 ====
 
+Aim
+----
+Reminder for creating and editing documentation.
+
+
 Summary
 --------
 This section was added as a reminder to myself how the documentation was built. Feel free to skip this step.
