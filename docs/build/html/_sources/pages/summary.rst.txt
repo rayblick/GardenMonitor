@@ -5,12 +5,13 @@ Garden Monitor
 :Authors:
     Ray Blick
 :Version: 0.1
-:Last update: 2017/11/02
+:Last update: 2017/11/08
 
 
 Overview
 ----------
 A Raspberry Pi hosts 1) a postgres database, 2) a flask API and 3) a basic react web application. The measurements are taken using grove sensors attached to Arduino compatible carrier boards. These data are sent to the postgres database using an API POST request. The flask API is responsible for commiting data to the database. The react web application uses an API GET request to access these data and generate a D3 timeseries chart. Several buttons allow the user to filter these data.  
+
 
 
 Aim
@@ -48,4 +49,8 @@ Out of scope
 
 Follow along
 --------------
-You can skip the pages titled setup and docs. This project was developed using a raspberry pi with Debian Jesse OS and python 3.4. 
+You can skip the pages titled setup and docs. This project was developed using a raspberry pi with Debian Jesse OS and python 3.4.
+
+.. image:: ../img/visitor.JPG
+   :width: 600
+ 
