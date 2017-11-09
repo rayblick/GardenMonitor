@@ -153,8 +153,20 @@ Host pages on github (you have to do this on every update to the docs)
 
 .. code-block:: bash
 
+	# First time
 	git checkout -b gh-pages
 	touch .nojekyll
+	git checkout master docs/build/html
+	mv ./docs/build/html/* ./
+	rm -rf ./docs
+	git add --all
+	git commit -m "publishing docs"
+	git push origin gh-pages
+
+
+	# Updating
+	git checkout gh-pages
+	rm -rf *
 	git checkout master docs/build/html
 	mv ./docs/build/html/* ./
 	rm -rf ./docs

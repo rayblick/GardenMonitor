@@ -285,8 +285,20 @@ git branch -D gh-pages
 <div class="section" id="gh-pages">
 <h2>gh-pages<a class="headerlink" href="#gh-pages" title="Permalink to this headline">¶</a></h2>
 <p>Host pages on github (you have to do this on every update to the docs)</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>git checkout -b gh-pages
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># First time</span>
+git checkout -b gh-pages
 touch .nojekyll
+git checkout master docs/build/html
+mv ./docs/build/html/* ./
+rm -rf ./docs
+git add --all
+git commit -m <span class="s2">&quot;publishing docs&quot;</span>
+git push origin gh-pages
+
+
+<span class="c1"># Updating</span>
+git checkout gh-pages
+rm -rf *
 git checkout master docs/build/html
 mv ./docs/build/html/* ./
 rm -rf ./docs
