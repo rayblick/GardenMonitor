@@ -9,7 +9,7 @@ Setup data storage location.
 Summary
 --------
 
-By the end of this page you should have a postgres database running on your local network.
+Setup a postgres database running on your local network. Add a user and allow the new user to have full privileges.
 
 Install and open
 -------------------
@@ -32,6 +32,8 @@ Modify pg_hba.conf to allow local connections
 .. code-block:: bash
 
 	nano /etc/postgresql/9.4/main/pg_hba.conf
+
+.. note:: Todo - show the required changes here
 
 Restart postgres
 
