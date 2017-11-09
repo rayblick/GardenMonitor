@@ -10,7 +10,8 @@ Summary
 --------
 
 .. image:: ../img/reactdraft.png
-   :width: 200
+   :width: 300
+   :align: center
 
 
 Install packages 

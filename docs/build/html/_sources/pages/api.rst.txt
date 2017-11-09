@@ -170,6 +170,8 @@ API code listing
 		app.run(debug=True)
 
 
+.. note:: The following commands are executed in a terminal on the same computer. Further work is required to fetch data in the react app. 
+
 GET request
 ------------
 

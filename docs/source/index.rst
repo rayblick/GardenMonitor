@@ -8,9 +8,6 @@ Garden Monitor documentation
 
 This documentation covers the development process used to build my garden monitor. There are probably numerous projects like this already in existance and I would bet that they are more polished than this one. Even so, I like documenting my projects for fun so here it is. Enjoy. 
  
-  
-.. image:: ./img/strawberry.JPG
-   :width: 600
 
 .. toctree::
    :maxdepth: 2

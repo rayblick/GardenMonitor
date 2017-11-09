@@ -8,7 +8,7 @@ Reminder for creating and editing documentation.
 
 Summary
 --------
-This section was added as a reminder to myself how the documentation was built. Feel free to skip this step.
+Build documentation using Sphinx Documentation Generator. A little restructured text is shown as a reminder and the process of moving docs to gh-pages is detailed.
 
 
 Install
@@ -76,7 +76,7 @@ Add pages
         mkdir pages
         touch  summary.rst setup.rst docs.rst database.rst api.rst xbee.rst webserver.rst
 
-Add titles to pages
+Add titles 
 
 .. code-block:: bash
 		
@@ -84,12 +84,38 @@ Add titles to pages
 	================
 
 
-Add images if needed (e.g. index.rst)
+Add seealso box
+
+.. code-block:: rst
+
+	.. seealso:: seealso text
+
+Add note box
+
+.. code-block:: rst
+
+	.. note:: note text
+
+
+Add a warning box
+
+.. code-block:: rst
+
+	.. warning:: warning text
+
+
+Add images 
 
 .. code-block:: rst
 
 	.. image:: img/rpi.jpg
 		:width: 600
+		:align: center
+		:alt: alternate text
+
+		This is a caption
+
+
 
 Make documentation
 

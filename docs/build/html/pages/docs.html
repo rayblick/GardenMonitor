@@ -182,7 +182,7 @@
 </div>
 <div class="section" id="summary">
 <h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
-<p>This section was added as a reminder to myself how the documentation was built. Feel free to skip this step.</p>
+<p>Build documentation using Sphinx Documentation Generator. A little restructured text is shown as a reminder and the process of moving docs to gh-pages is detailed.</p>
 </div>
 <div class="section" id="install">
 <h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
@@ -233,14 +233,30 @@ mkdir pages
 touch  summary.rst setup.rst docs.rst database.rst api.rst xbee.rst webserver.rst
 </pre></div>
 </div>
-<p>Add titles to pages</p>
+<p>Add titles</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>Chapter <span class="m">1</span> <span class="nv">Title</span>
 <span class="o">================</span>
 </pre></div>
 </div>
-<p>Add images if needed (e.g. index.rst)</p>
+<p>Add seealso box</p>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">seealso</span><span class="p">::</span> seealso text
+</pre></div>
+</div>
+<p>Add note box</p>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">note</span><span class="p">::</span> note text
+</pre></div>
+</div>
+<p>Add a warning box</p>
+<div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">warning</span><span class="p">::</span> warning text
+</pre></div>
+</div>
+<p>Add images</p>
 <div class="highlight-rst"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">image</span><span class="p">::</span> img/rpi.jpg
         <span class="nc">:width:</span> <span class="nf">600</span>
+        <span class="nc">:align:</span> <span class="nf">center</span>
+        <span class="nc">:alt:</span> <span class="nf">alternate text</span>
+
+        This is a caption
 </pre></div>
 </div>
 <p>Make documentation</p>

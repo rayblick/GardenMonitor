@@ -181,7 +181,7 @@
 </div>
 <div class="section" id="summary">
 <h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
-<p>By the end of this page you should have a postgres database running on your local network.</p>
+<p>Setup a postgres database running on your local network. Add a user and allow the new user to have full privileges.</p>
 </div>
 <div class="section" id="install-and-open">
 <h2>Install and open<a class="headerlink" href="#install-and-open" title="Permalink to this headline">¶</a></h2>
@@ -197,6 +197,10 @@ sudo -u postgres psql postgres
 <p>Modify pg_hba.conf to allow local connections</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>nano /etc/postgresql/9.4/main/pg_hba.conf
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Todo - show the required changes here</p>
 </div>
 <p>Restart postgres</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>sudo service postgresql restart

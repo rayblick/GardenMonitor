@@ -22,9 +22,16 @@ Record temperature from multiple locations in my garden/home and display these d
 
 Background
 ------------
-I have been thinking about garden monitors for a while now. The original project was called "Tweepy Pond" which started in Brisbane 2015. This was a motion activated raspberry pi enabled camera mixed with a temperature monitor to observe creatures in a home-made pond. 
+I have been thinking about garden monitors for a while now. The original project was called "Tweepy Pond" which started in Brisbane 2013. This was a motion activated raspberry pi enabled camera mixed with a temperature monitor to observe creatures in a home-made pond. Tweepy Pond was my first Raspberry Pi project and one of my first Python projects.
 
 When I moved to Sydney this project turned into a balcony temperature monitor for the occasional pot plant. Now, still in Sydney and a new place to call home I have become interested in propagating vegetables. Subsequently I have reimagined tweepy pond to incorporate a variety of sensors that could communicate on the local area network.  
+
+
+Development timeline
+----------------------
+- 2017 = Garden Monitor
+- 2015 = Pot plant temperature gauge
+- 2013 = Tweepy pond (Raspberry Pi pond monitor) 
 
 
 Scope
@@ -51,6 +58,9 @@ Follow along
 --------------
 You can skip the pages titled setup and docs. This project was developed using a raspberry pi with Debian Jesse OS and python 3.4.
 
-.. image:: ../img/visitor.JPG
-   :width: 600
+.. warning:: You will need to make changes to the Flask API if you are using python 2.x. I haven't tried so the errors that might come up are not covered in this documentation. 
+
  
+.. image:: ../img/visitor.JPG
+   :width: 600  
+   :align: center  

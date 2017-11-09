@@ -8,7 +8,7 @@ Setup the project.
 
 Summary
 --------
-This is mostly a reminder to myself, if you are following along you can skip this page. Just make sure python 3 is installed. 
+Set up a Raspberry Pi which will be a central component of this project. The main requirement here is to update, upgrade and install python 3. I have included my setup for github.
 
 .. image:: ../img/rpi.jpg
    :width: 600
