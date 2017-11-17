@@ -18,6 +18,7 @@ This documentation covers the development process used to build my garden monito
    /pages/docs
    /pages/database
    /pages/api
+   /pages/testdata
    /pages/reactappBuildingBlocks
    /pages/reactappConnection
    /pages/reactappBootstrap 

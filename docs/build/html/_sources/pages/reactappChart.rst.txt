@@ -28,7 +28,7 @@ Code listing
 -------------
 
 
-.. code-block:: psql
+.. code-block:: javascript
 
 	import React, { Component } from 'react'
 	import './App.css'

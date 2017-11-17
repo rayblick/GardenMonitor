@@ -31,6 +31,16 @@ Set timezone
         sudo dpkg-reconfigure tzdata
 
 
+Create static IP address
+--------------------------
+TBA
+
+
+Create domain name for IP address
+----------------------------------
+TBA
+
+
 Install
 ---------
 
