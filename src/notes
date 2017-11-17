@@ -1,0 +1,685 @@
+###################################################
+####                 SETUP                     ####
+#### System setup and configuration. All       ####
+#### data transmission and storage occurs on   ####
+#### the localhost (127.0.0.1).                ####  
+###################################################
+
+# Parts
+Raspberry Pi(ARMv7 Processor rev 4 (v7l))
+Debian Jessie OS
+Postgresql 9.4
+Python 3.4
+Flask
+NVM & Node v8.0.0
+NPM v5.0
+React
+Git and Github
+
+# set timezone
+pi@home:~ $ sudo dpkg-reconfigure tzdata
+
+# update and upgrade 
+pi@home:~ $ sudo apt-get update
+pi@home:~ $ sudo apt-get upgrade
+
+# start
+pi@home:~ $ cd repos
+pi@home:~/repos $ mkdir GardenMonitor 
+pi@home:~/repos $ cd GardenMonitor
+
+# Setup git
+pi@home:~/repos/GardenMonitor $ git init
+# => at this point create github repository - www.github.com
+pi@home:~/repos/GardenMonitor $ git remote add origin https://
+github.com/rayblick/GardenMonitor.git
+
+###################################################
+####           Documentation - sphinx          ####
+###################################################
+
+# install doc generator
+pi@home:~ $ sudo pip3 install sphinx
+pi@home:~ $ sudo pip3 install sphinx_rtd_theme
+pi@home:~ $ sphinx-build -h
+
+pi@home:~/repos/GardenMonitor $ mkdir docs
+pi@home:~/repos/GardenMonitor $ cd docs
+
+# build documentation
+pi@home:~/repos/GardenMonitor/docs $ sphinx-quickstart
+
+# add pages
+pi@home:~/repos/GardenMonitor/docs $ cd source
+pi@home:~/repos/GardenMonitor/docs/source $ nano index.rst
+# add the following to toctree....
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   /pages/summary
+   /pages/setup
+   /pages/docs
+   /pages/database
+   /pages/api
+   /pages/xbee
+   /pages/webserver
+
+pi@home:~/repos/GardenMonitor/docs/source $ mkdir pages
+pi@home:~/repos/GardenMonitor/docs/source/pages $ touch summary.rst setup.rst docs.rst database.rst api.rst xbee.rst webserver.rst
+
+# add titles to each file - e.g.
+
+Chapter 1 Title
+================
+
+# style
+# edit conf.py to include 
+html_theme = "sphinx_rtd_theme"
+
+# adding images to RST files
+.. image:: img/rpi.jpg
+   :width: 600
+
+# make docs
+pi@home:~/repos/GardenMonitor/docs/source/pages $ cd ../.. 
+pi@home:~/repos/GardenMonitor/docs $ make html 
+
+# add changes to github
+pi@home:~/repos/GardenMonitor $ git add .
+pi@home:~/repos/GardenMonitor $ git commit -m "added docs"
+pi@home:~/repos/GardenMonitor $ git push origin master
+
+# If you have gh-pages already - delete it - otherwise skip this step
+pi@home:~/repos/GardenMonitor $ git push origin --delete gh-pages 
+pi@home:~/repos/GardenMonitor $ git branch -D gh-pages
+
+# host pages on github (you have to do this on every update)
+pi@home:~/repos/GardenMonitor $ git checkout -b gh-pages
+pi@home:~/repos/GardenMonitor $ rm -rf .
+pi@home:~/repos/GardenMonitor $ touch .nojekyll
+pi@home:~/repos/GardenMonitor $ git checkout master docs/build/html
+pi@home:~/repos/GardenMonitor $ mv ./docs/build/html/* ./
+pi@home:~/repos/GardenMonitor $ rm -rf ./docs
+pi@home:~/repos/GardenMonitor $ git add --all
+pi@home:~/repos/GardenMonitor $ git commit -m "publishing docs"
+pi@home:~/repos/GardenMonitor $ git push origin gh-pages
+
+
+
+###################################################
+####             POSTGRES DATABASE             ####
+#### Create a database to save data collected  ####
+#### from a zigbee mesh network of sensors.    ####
+###################################################
+# install postgres
+sudo apt-get install postgresql-9.4
+
+# open postgres
+sudo -u postgres psql postgres
+
+# change password for user postgres
+postgres=# \password postgres
+postgres=# ******
+
+# quit
+postgres=# \q
+
+# modify the following file to allow local connections
+/etc/postgresql/9.4/main/pg_hba.conf
+
+# restart postgres
+sudo service postgresql restart
+
+# list all dbs
+postgres=# \l+
+
+# create database
+postgres=# CREATE DATABASE homesensors;
+
+# switch to database
+postgres=# \c homesensors
+homesensors=# \c postgres
+
+# create user
+postgres=# CREATE USER ray WITH PASSWORD 'password' CREATEDB CREATEUSER;
+
+# list users
+postgres=# \dg+
+
+# Upgrade user to add roles
+postgres=# ALTER USER ray WITH CREATEROLE;
+
+# Add user 'ray' to database 'homesensors'
+postgres=# GRANT ALL PRIVILEGES ON homesensors To ray;
+
+# sign in with new user
+postgres=# \q
+pi@home~$ psql homesensors ray
+pi@home~$ Password for user ray: password
+
+
+# Data example
+# Map for PUT request and flask API
+{
+  "name": "Seed propagator",
+  "location": "Garden",
+  "category": "Climate",
+  "measurementType": "temp",
+  "value": 24,
+  "dsCollected": 20171018T1000,
+  "dsAdded": (auto)
+}
+
+
+# Sign in and show tables (if exist)
+pi@home~$ psql homesensors ray
+homesensors=# \dt
+
+# drop table (if required)
+DROP TABLE sensor_data;
+
+
+###################################################
+####             FLASK API                     ####
+#### Create an API accessible by HTTP so       ####
+#### that an arduino can post data collected   ####
+#### from a zigbee mesh network of sensors.    ####
+###################################################
+
+# install virtualenv
+pi@home~$ sudo apt-get install virtualenv
+
+# make directory
+pi@home~$ mkdir repos/homesensors
+pi@home~$ cd repos/homesensors
+
+# run virtualenv
+pi@home:~/repos/homesensors$ virtualenv -p python3 flask
+
+# activate
+pi@home:~/repos/homesensors$ cd flask/bin && source activate
+
+# check python3 is default
+(flask)pi@home:~/repos/homesensors/flask/bin$ python 
+#Python 3.4.2 (default, ...)
+
+# install flask
+(flask)pi@home:~/repos/homesensors/flask/bin$ pip install flask
+
+# create app file
+(flask)pi@home:~/repos/homesensors/flask/bin$ nano app.py
+
+# ...add content to app.py
+#!python
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return "Hello world"
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+# make app.py executable
+(flask)pi@home:~/repos/homesensors/flask/bin$ chmod a+x app.py
+
+# run app.py
+(flask)pi@home:~/repos/homesensors/flask/bin$ ./app.py
+Output
+* Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+* Restarting with stat
+* Debugger is active! 
+* Debugger PIN: 144-156-571
+
+
+# add method to post data (entire app.py shown below)
+# Also note the use of a temporary datastore. This will be changed 
+# to write to Postgresql homesensors database next.
+#!python
+from flask import Flask, jsonify, request, abort
+
+app = Flask(__name__)
+
+data = [
+    {
+        'id':1,
+        'location':'dummy',
+        'value': 100,
+    }
+]
+
+@app.route('/homesensors/api/v1.0/sensor_data', methods=['POST'])
+def add_sensor_data():
+    if not request.json or not 'value' in request.json:
+        abort(400)
+    datum = {
+        'id': data[-1]['id'] + 1,
+        'location': request.json['location'],
+        'value': 24
+    }
+    data.append(datum)
+    return jsonify({'data': data}), 201
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+# run app.py
+(flask)pi@home:~/repos/homesensors/flask/bin$ ./app.py
+
+# open new terminal
+(flask)pi@home:~/repos/homesensors/flask/bin$ ctl+shift+t
+
+# use curl to post request
+curl -i -H "Content-Type: application/json" -X post -d '{"location":"garden", "value": 50}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+# Output from post request
+HTTP/1.0 201 CREATED
+Content-Type: application/json
+Content-Length: 172
+Server: Werkzeug/0.12.2 Python/3.4.2
+Date: Wed, 18 Oct 2017 23:47:52 GMT
+
+{
+  "data": [
+    {
+      "id": 1, 
+      "location": "dummy", 
+      "value": 100
+    }, 
+    {
+      "id": 2, 
+      "location": "garden", 
+      "value": 24
+    }
+  ]
+}
+
+###################################################
+####     CONNECT FLASK API W/ POSTGRES         ####
+###################################################
+
+# install dependencies
+pi@home:~ sudo apt-get install python-psycopg2
+pi@home:~ sudo apt-get install libpq-dev
+pi@home:~/repos/homesensors/flask$ cd bin && source activate
+
+# install sqlalchemy (activate virtualenv)
+(flask)pi@home:~/repos/homesensors/flask/bin$ pip install flask_sqlalchemy
+(flask)pi@home:~/repos/homesensors/flask/bin$ pip install psycopg2
+
+
+# import and connect to Postgresql in app.py (entire app.py shown below)
+#!python
+from flask import Flask, jsonify, request, abort
+from flask_sqlalchemy import SQLAlchemy
+import json
+
+app = Flask(__name__)
+
+POSTGRES = {
+    'user': 'ray',
+    'pw': 'password',
+    'db': 'homesensors',
+    'host': 'localhost',
+    'port': '5432'
+}
+
+app.config['SQLALCHEMY_DATABASE_URI']='postgresql://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
+
+db = SQLAlchemy(app)
+
+class HomeSensorData(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    location = db.Column(db.String(50))
+    category = db.Column(db.String(50))
+    measurementType = db.Column(db.String(50))
+    value = db.Column(db.Integer)
+    dsCollected = db.Column(db.String(30))
+
+db.create_all()
+
+@app.route('/homesensors/api/v1.0/sensor_data', methods=['POST'])
+def add_sensor_data():
+    if not request.json or not 'value' in request.json:
+        abort(400)
+
+    #handle data obj
+    sendat = HomeSensorData(
+        name = request.json['name'],
+        location = request.json['location'],
+        category = request.json['category'],
+        measurementType = request.json['measurementType'],
+        value = request.json['value'],
+        dsCollected = request.json['dsCollected']
+    )
+    db.session.add(sendat)
+    db.session.commit()
+
+
+@app.route('/homesensors/api/v1.0/sensor_data', methods=['GET'])
+def get_sensor_data():
+    sendat = HomeSensorData.query.all()
+    mylist = []
+    for u in sendat:
+        mydict = {}
+        for key, value in u.__dict__.items():
+             if key != "_sa_instance_state":
+               mydict[key] = value
+        mylist.append(mydict)
+    data = json.dumps(mylist)
+    return data, 201
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+###################################################
+####        SENDING AND RECIEVING DATA         ####
+###################################################
+
+# Get data
+pi@home:~ curl -i  http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+
+# Post data
+pi@home:~ curl -i -H "Content-Type: application/json" -X post -d '{"name": "dummyA", "location":"garden", "category":"dummyA", "measurementType":"temp", "value": 1500, "dsCollected": "20171018T1000"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+
+###################################################
+####        CHECK DATABASE RECORDS             ####
+#### Determine if the post method is working   ####
+#### by using an app that is connected to the  ####
+#### localhost.                                ####
+###################################################
+
+Download and open RemoDB
+
+# Add connection
+Description:  homesensors
+Hostname: 192.1687.1.102 (mod to your ip)
+Port: 5432
+Database: homesensors
+User: ray
+Password: password
+
+
+###################################################
+####           WEBSERVER - DATA VIZ            ####
+###################################################
+
+
+# check node version (need v4+)
+pi@home:~$ node -v #0.10.something
+
+# Failed install attempt using...
+pi@home:~/Downloads/$ sudo wget -o - https://raw.githubusercontent.com/audstanley/NodeJs-Raspberry-Pi/master/Install-Node.sh | bash
+pi@home:~/Downloads/$ sudo bash ./Install-Node.sh
+
+# Uninstall everything 
+# Drop node and npm from the following locations
+* /usr/local/lib/
+* /usr/local/include/
+* /opt/nodejs/lib/
+* /usr/local/bin
+
+# Update and upgrade
+pi@home:~$ sudo apt-get update
+pi@home:~$ sudo apt-get upgrade
+pi@home:~$ sudo reboot
+
+# install node version manager (nvm)
+pi@home:~$ git clone https://github.com/creationix/nvm.git ~/.nvm && cd ~/.nvm && git checkout v0.33.5
+ 
+# update bashrc and profile
+pi@home:~$ sudo nano ~/.bashrc
+pi@home:~$ sudo nano ~/.profile
+# add this line at the bottom: source ~/.nvm/nvm.sh
+
+# nvm version
+pi@home:~$ nvm --version
+
+# check pi arm
+pi@home:~$ lscpu
+
+# install node - node distributions: nodejs.org/dist
+pi@home:~$ nvm install 8.0.0
+
+# delete prefix if required
+pi@home:~$ nvm use --delete-prefix v8.0.0
+
+# update npm
+pi@home:~$ npm update -g npm
+
+# install create-react-app
+pi@home:~$ npm install -g create-react-app
+
+# create app and run
+pi@home:~$ cd repos/homesensors
+pi@home:~/repos/homesensors/$ create-react-app reactapp
+pi@home:~/repos/homesensors/$ cd reactapp
+pi@home:~/repos/homesensors/reactapp/$ npm start
+
+
+
+###################################################
+####        CONNECTING FLASK AND REACT         ####
+###################################################
+
+# sign in and remove all records
+pi@home:~$ psql homesensors ray
+homesensors=# drop table home_sensor_data;
+
+# run flask api 
+(flask)pi@home:~/repos/homesensors/flask/bin$ app.py
+
+# add some records (note change of date format to ISO 8601)
+
+# record 1
+pi@home:~ curl -i -H "Content-Type: application/json" -X post -d '{"name": "dummyA", "location":"garden", "category":"dummyA", "measurementType":"temp", "value": 1500, "dsCollected": "2017-10-18T10:30:00+10:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+# record 2
+pi@home:~ curl -i -H "Content-Type: application/json" -X post -d '{"name": "dummyA", "location":"garden", "category":"dummyA", "measurementType":"temp", "value": 1500, "dsCollected": "2017-10-19T10:31:00+10:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+# record 3
+pi@home:~ curl -i -H "Content-Type: application/json" -X post -d '{"name": "dummyA", "location":"garden", "category":"dummyA", "measurementType":"temp", "value": 1500, "dsCollected": "2017-10-20T10:29:00+10:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+# record 4
+pi@home:~ curl -i -H "Content-Type: application/json" -X post -d '{"name": "dummyA", "location":"garden", "category":"dummyA", "measurementType":"temp", "value": 1500, "dsCollected": "2017-10-21T10:30:00+10:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+# record 5
+pi@home:~ curl -i -H "Content-Type: application/json" -X post -d '{"name": "dummyA", "location":"garden", "category":"dummyA", "measurementType":"temp", "value": 1500, "dsCollected": "2017-10-22T10:32:00+10:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+
+# install bootstrap
+pi@home:~/repos/homesensors/reactapp/ $ npm install --save react-bootstrap
+pi@home:~/repos/homesensors/reactapp/ $ npm install --save bootstrap
+
+# update react app App.py to this...
+import React, { Component } from 'react';
+import './App.css';
+
+class App extends Component {
+  // use constructor to set empty state vars
+  constructor(props){
+    super(props);
+    this.state={
+     data: "Fetching data",
+     latestTemps: ["test"]
+    }
+  }
+
+  //life cycle to collect data
+  componentWillMount() {
+    this.getDataFromApi() 
+  };
+
+  // our interaction with flask api
+  // use fetch method
+  // note the use of credentials for 
+  // cross reference origin request to work
+  getDataFromApi() { 
+    return fetch('/homesensors/api/v1.0/sensor_data', {credentials: 'same-origin'}) 
+      .then((response) => response.json()) 
+      .then((responseJson) => { 
+        this.setState({ 
+          data: responseJson.data
+        }, () =>  this.takeMeasurements(this.state.data))
+      }) 
+     .catch((error) => { 
+        console.error(error); 
+    }); 
+  }
+
+  takeMeasurements(arrObjects) {
+    /*
+     Helper function for taking measurements.
+     This will holder all the necessary methods 
+     used to collect and update the apps state. 
+     This values will be shown on the webpage.
+    */
+    this.latestTemps(arrObjects, "temp", "garden")
+  }
+
+
+  latestTemps(arrObjects, mt, l) {
+
+    // Call latest temperatures. 
+
+    var filterMeasurementType=mt;
+    var filterLocation=l;
+    var filteredArray = arrObjects.filter(el=> {
+      return el.measurementType === filterMeasurementType &&
+        el.location === filterLocation
+    });
+    console.log(filteredArray)
+    this.setState({ 
+      latestTemps: filteredArray
+    })  
+  }
+  
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <h1 className="App-title">Garden Monitor</h1>
+        </header>
+	<p> {String(this.state.latestTemps[0]["value"])} </p>
+
+      </div>
+    );
+  }
+}
+
+export default App;
+
+# modify repos/homesensors/reactapp/package.json
+{
+  "name": "reactapp",
+  "version": "0.1.0",
+  "private": true,
+
+  // add proxy setting here...
+  "proxy": "http://localhost:5000/",
+
+  "dependencies": {
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-http-request": "^1.0.3",
+    "react-scripts": "1.0.14"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
+
+# start web app to see one record
+pi@home:~/repos/homesensors/reactapp/$ npm start
+
+
+
+# Add a few recent records to test drop down lists
+# include same datetime stamp test
+# add two diff sensor names
+
+# record 6
+pi@home:~ curl -i -H "Content-Type: application/json" -X post -d '{"name": "Beans", "location":"garden", "category":"dummyA", "measurementType":"temp", "value": 10, "dsCollected": "2017-10-30T0:32:00+10:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+# record 7
+pi@home:~ curl -i -H "Content-Type: application/json" -X post -d '{"name": "Brew", "location":"brew", "category":"dummyA", "measurementType":"temp", "value": 25, "dsCollected": "2017-10-30T0:32:00+10:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+# record 8
+pi@home:~ curl -i -H "Content-Type: application/json" -X post -d '{"name": "Old garden", "location":"brew", "category":"dummyA", "measurementType":"temp", "value": 25, "dsCollected": "2016-12-30T17:32:00+10:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+# record 8
+pi@home:~ curl -i -H "Content-Type: application/json" -X post -d '{"name": "TEST", "location":"TEST", "category":"TEST", "measurementType":"temp", "value": 1, "dsCollected": "2017-10-31T12:00:00+11:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+
+## styles
+pi@home:~/repos/homesensors/reactapp/ $ npm install react-icons --save
+pi@home:~/repos/homesensors/reactapp/ $ npm install d3 --save
+pi@home:~/repos/homesensors/reactapp/ $ npm install react-timeseries-charts pondjs --save
+
+
+curl -i -H "Content-Type: application/json" -X post -d '{"name": "Beans", "location":"garden", "category":"dummyA", "measurementType":"temp", "value": 35, "dsCollected": "2017-10-31T0:35:00+10:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+curl -i -H "Content-Type: application/json" -X post -d '{"name": "Beans", "location":"garden", "category":"dummyA", "measurementType":"temp", "value": 25, "dsCollected": "2017-10-31T12:35:00+10:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+curl -i -H "Content-Type: application/json" -X post -d '{"name": "Beans", "location":"garden", "category":"dummyA", "measurementType":"temp", "value": 40, "dsCollected": "2017-11-01T0:35:00+10:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+curl -i -H "Content-Type: application/json" -X post -d '{"name": "Beans", "location":"garden", "category":"dummyA", "measurementType":"temp", "value": 15, "dsCollected": "2017-11-01T12:35:00+10:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+
+## more testing
+
+
+curl -i -H "Content-Type: application/json" -X post -d '{"name": "Brew", "location":"laundry", "category":"actual", "measurementType":"temp", "value": 10, "dsCollected": "2017-11-11T0:35:00+11:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+curl -i -H "Content-Type: application/json" -X post -d '{"name": "Brew", "location":"laundry", "category":"actual", "measurementType":"temp", "value": 21, "dsCollected": "2017-11-11T12:35:00+11:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+curl -i -H "Content-Type: application/json" -X post -d '{"name": "Brew", "location":"laundry", "category":"actual", "measurementType":"temp", "value": 12, "dsCollected": "2017-11-12T0:35:00+11:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+curl -i -H "Content-Type: application/json" -X post -d '{"name": "Brew", "location":"laundry", "category":"actual", "measurementType":"temp", "value": 22, "dsCollected": "2017-11-12T12:35:00+11:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+
+curl -i -H "Content-Type: application/json" -X post -d '{"name": "Brew", "location":"laundry", "category":"pred", "measurementType":"temp", "value": 14, "dsCollected": "2017-11-14T12:35:00+11:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+curl -i -H "Content-Type: application/json" -X post -d '{"name": "Brew", "location":"laundry", "category":"pred", "measurementType":"temp", "value": 24, "dsCollected": "2017-11-14T18:35:00+11:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+curl -i -H "Content-Type: application/json" -X post -d '{"name": "Brew", "location":"laundry", "category":"pred", "measurementType":"temp", "value": 16, "dsCollected": "2017-11-14T0:35:00+11:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+curl -i -H "Content-Type: application/json" -X post -d '{"name": "Brew", "location":"laundry", "category":"pred", "measurementType":"temp", "value": 16, "dsCollected": "2017-11-14T12:35:00+11:00"}' http://localhost:5000/homesensors/api/v1.0/sensor_data
+
+
+# installs for python (FLASK)
+
+cd repos/homesensors/flask/bin
+source activate
+pip install numpy
+pip install pandas
+
+# dependancies for scipy
+sudo apt-get install libblas-dev      
+sudo apt-get install liblapack-dev      
+sudo apt-get install libatlas-base-dev 
+sudo apt-get install gfortran           
+sudo apt-get install python-setuptools 
+sudo easy_install scipy
+#pip install --extra-index-url=https://gergely.imreh.net/wheels/ scipy
+
+sudo apt-get install python-matplotlib
+pip install -U scikit-learn
+
+
