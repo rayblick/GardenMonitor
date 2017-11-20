@@ -160,11 +160,16 @@ Git
 
 .. code-block:: bash
 
+        # set global config
+        git config --global user.email rblick.ecol@gmail.com
+        git config --global user.name "rayblick"
+
 	# repos/GardenMonitor
         git init
 
 	# setup github repo, then...
 	git remote add origin https://github.com/rayblick/GardenMonitor.git
+
 
 
 Testing
