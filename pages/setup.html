@@ -96,16 +96,25 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Setup</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#aim">Aim</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#update-and-upgrade">Update and upgrade</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gear">Gear</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#raspberry-pi-os">Raspberry Pi OS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#preferences">Preferences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#raspberry-pi-password">Raspberry Pi password</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#raspberry-pi-name">Raspberry Pi name</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#set-timezone">Set timezone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#expand-file-system-and-enable-ssh">Expand file system and enable ssh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#update-and-upgrade">Update and upgrade</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-static-ip-address">Create static IP address</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#install">Install</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#folder">Folder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#git">Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="docs.html">Docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testdata.html">Test data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reactappBuildingBlocks.html">React App: Building blocks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reactappConnection.html">React App: Connection with API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reactappBootstrap.html">React App: Bootstrap</a></li>
@@ -184,11 +193,73 @@
 <h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
 <p>Set up a Raspberry Pi which will be a central component of this project. The main requirement here is to update, upgrade and install python 3. I have included my setup for github.</p>
 <a class="reference internal image-reference" href="../_images/rpi.jpg"><img alt="../_images/rpi.jpg" src="../_images/rpi.jpg" style="width: 600px;" /></a>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">I am not using the wifi dongle shown in this image. I used a lan cable for development and the builtin wifi capability once the project was completed.</p>
 </div>
-<div class="section" id="update-and-upgrade">
-<h2>Update and upgrade<a class="headerlink" href="#update-and-upgrade" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo apt-get update
-sudo apt-get upgrade
+</div>
+<div class="section" id="gear">
+<h2>Gear<a class="headerlink" href="#gear" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Raspberry Pi v3</li>
+<li>16GB microsd card</li>
+<li>Keyboard and mouse</li>
+<li>Monitor and HDMI cable</li>
+<li>5v power supply</li>
+<li>Lan cable</li>
+</ul>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">I ran out of space using an 8GB card. I tried cloning the RPi image to the 16GB card but this failed because the OS was NOOBS and the built in card expansion method (via raspi-config) didnt work. I tried several methods to expand the root partition using gparted and by modifying cylinder boundary markers using parted. I found that it was easier to start from scratch. On the upside this meant I had an updated desktop for the RPi.</p>
+</div>
+</div>
+<div class="section" id="raspberry-pi-os">
+<h2>Raspberry Pi OS<a class="headerlink" href="#raspberry-pi-os" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Download and extract Raspbian <a class="reference external" href="https://www.raspberrypi.org/downloads/raspbian/">https://www.raspberrypi.org/downloads/raspbian/</a></li>
+<li>Download and install Win32 Disk Imager 1.0 (I used Windows for this, you could also use dd on Linux)</li>
+<li>Format 16GB microsd card to fat32</li>
+<li>Write image to microsd card</li>
+<li>Insert microsd card and boot</li>
+</ul>
+</div>
+<div class="section" id="preferences">
+<h2>Preferences<a class="headerlink" href="#preferences" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Set keyboard preferences (for me English (US))</li>
+</ul>
+</div>
+<div class="section" id="raspberry-pi-password">
+<h2>Raspberry Pi password<a class="headerlink" href="#raspberry-pi-password" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>passwd
+<span class="c1"># Enter default password =&gt; raspberry</span>
+password
+password
+</pre></div>
+</div>
+</div>
+<div class="section" id="raspberry-pi-name">
+<h2>Raspberry Pi name<a class="headerlink" href="#raspberry-pi-name" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># step 1</span>
+sudo nano /etc/hostname
+
+<span class="c1">#delete raspberrypi</span>
+gardenmonitor
+
+<span class="c1"># exit =&gt; ctrl-x &gt; y &gt; enter</span>
+
+<span class="c1"># step 2</span>
+sudo nano /etc/hosts
+
+<span class="m">127</span>.0.0.1 raspberrypi <span class="c1"># find this line and change it to...</span>
+<span class="m">127</span>.0.0.1 gardenmonitor
+<span class="m">192</span>.168.1.50 gardenmonitor <span class="c1"># static IP to be set up below</span>
+
+<span class="c1"># exit =&gt; ctrl-x &gt; y &gt; enter</span>
+
+<span class="c1"># check host name and IP</span>
+hostname
+hostname -I
 </pre></div>
 </div>
 </div>
@@ -198,9 +269,46 @@ sudo apt-get upgrade
 </pre></div>
 </div>
 </div>
+<div class="section" id="expand-file-system-and-enable-ssh">
+<h2>Expand file system and enable ssh<a class="headerlink" href="#expand-file-system-and-enable-ssh" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>df -h <span class="c1"># check space on root</span>
+
+sudo raspi-config
+<span class="c1"># SELECT =&gt; 7 Advance Options &gt; A1 Expand Filesystem &gt; Select</span>
+<span class="c1"># SELECT =&gt; 5 Interfacing Options &gt; P2 SSH &gt; Enable</span>
+
+sudo reboot now
+</pre></div>
+</div>
+</div>
+<div class="section" id="update-and-upgrade">
+<h2>Update and upgrade<a class="headerlink" href="#update-and-upgrade" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo apt-get update
+sudo apt-get upgrade
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-static-ip-address">
+<h2>Create static IP address<a class="headerlink" href="#create-static-ip-address" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo nano /etc/dhcpcd.conf
+
+<span class="c1"># add to bottom of file...</span>
+interface eth0
+static <span class="nv">ip_address</span><span class="o">=</span><span class="m">192</span>.168.1.50/24      <span class="c1"># I made this up</span>
+static <span class="nv">routers</span><span class="o">=</span><span class="m">192</span>.168.1.1             <span class="c1"># My router address</span>
+static <span class="nv">domain_name_servers</span><span class="o">=</span><span class="m">192</span>.168.1.1
+
+<span class="c1"># exit =&gt; ctrl-x &gt; y &gt; enter</span>
+
+sudo reboot now
+</pre></div>
+</div>
+</div>
 <div class="section" id="install">
 <h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>sudo apt-get install python3
+sudo apt-get install git
+sudo apt-get install iceweasel <span class="c1">#Dev using Firefox</span>
 </pre></div>
 </div>
 </div>
@@ -214,13 +322,25 @@ mkdir GardenMonitor
 </div>
 <div class="section" id="git">
 <h2>Git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># repos/GardenMonitor</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># set global config</span>
+git config --global user.email rblick.ecol@gmail.com
+git config --global user.name <span class="s2">&quot;rayblick&quot;</span>
+
+<span class="c1"># repos/GardenMonitor</span>
 git init
 
 <span class="c1"># setup github repo, then...</span>
 git remote add origin https://github.com/rayblick/GardenMonitor.git
 </pre></div>
 </div>
+</div>
+<div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Install an app on your mobile phone to ping the IP address (I used one called “Ping”)</li>
+<li>Ensure your phone is connected to the same network as the RPi</li>
+<li>Test that the static IP address is found by pinging “192.168.1.50”</li>
+</ul>
 </div>
 </div>
 

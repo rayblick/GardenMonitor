@@ -20,6 +20,13 @@ Base install
 	sudo apt-get install python-psycopg2
 	sudo apt-get install libpq-dev
 
+        # scipy dependancies
+        sudo apt-get install libblas-dev      
+        sudo apt-get install liblapack-dev      
+        sudo apt-get install libatlas-base-dev 
+        sudo apt-get install gfortran           
+        sudo apt-get install python-setuptools 
+
 
 Folder structure
 -----------------
@@ -50,6 +57,10 @@ Pip install
 	pip install flask
 	pip install flask_sqlalchemy
 	pip install psycopg2
+        pip install numpy
+        pip install pandas
+        pip install scipy
+        pip install scikit-learn
 	
 
 app.py

@@ -96,6 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="pages/docs.html">Docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pages/database.html">Database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pages/api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/testdata.html">Test data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pages/reactappBuildingBlocks.html">React App: Building blocks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pages/reactappConnection.html">React App: Connection with API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pages/reactappBootstrap.html">React App: Bootstrap</a></li>
@@ -167,6 +168,9 @@
   <div class="section" id="garden-monitor-documentation">
 <h1>Garden Monitor documentation<a class="headerlink" href="#garden-monitor-documentation" title="Permalink to this headline">¶</a></h1>
 <p>This documentation covers the development process used to build my garden monitor. There are probably numerous projects like this already in existance and I would bet that they are more polished than this one. Even so, I like documenting my projects for fun so here it is. Enjoy.</p>
+<div class="section" id="status">
+<h2>Status<a class="headerlink" href="#status" title="Permalink to this headline">¶</a></h2>
+<p>Incomplete</p>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -183,11 +187,19 @@
 <li class="toctree-l1"><a class="reference internal" href="pages/setup.html">Setup</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pages/setup.html#aim">Aim</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pages/setup.html#summary">Summary</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pages/setup.html#update-and-upgrade">Update and upgrade</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/setup.html#gear">Gear</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/setup.html#raspberry-pi-os">Raspberry Pi OS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/setup.html#preferences">Preferences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/setup.html#raspberry-pi-password">Raspberry Pi password</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/setup.html#raspberry-pi-name">Raspberry Pi name</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pages/setup.html#set-timezone">Set timezone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/setup.html#expand-file-system-and-enable-ssh">Expand file system and enable ssh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/setup.html#update-and-upgrade">Update and upgrade</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/setup.html#create-static-ip-address">Create static IP address</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pages/setup.html#install">Install</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pages/setup.html#folder">Folder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pages/setup.html#git">Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/setup.html#testing">Testing</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pages/docs.html">Docs</a><ul>
@@ -204,9 +216,13 @@
 <li class="toctree-l2"><a class="reference internal" href="pages/database.html#aim">Aim</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pages/database.html#summary">Summary</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pages/database.html#install-and-open">Install and open</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/database.html#change-password-for-user-called-postgres">Change password for user called “postgres”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/database.html#allow-local-connections">Allow local connections</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pages/database.html#create-database">Create database</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pages/database.html#create-user">Create user</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/database.html#restart-postgres">Restart postgres</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pages/database.html#signing-in">Signing in</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/database.html#testing">Testing</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pages/api.html">API</a><ul>
@@ -223,6 +239,7 @@
 <li class="toctree-l2"><a class="reference internal" href="pages/api.html#post-request">POST request</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="pages/testdata.html">Test data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pages/reactappBuildingBlocks.html">React App: Building blocks</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pages/reactappBuildingBlocks.html#aim">Aim</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pages/reactappBuildingBlocks.html#summary">Summary</a></li>
@@ -240,14 +257,16 @@
 <li class="toctree-l2"><a class="reference internal" href="pages/reactappConnection.html#drop-existing-data">Drop existing data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pages/reactappConnection.html#add-test-data">Add test data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pages/reactappConnection.html#add-a-proxy-to-webserver">Add a proxy to webserver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pages/reactappConnection.html#edit-app-py-react-webapp">Edit app.py (react webapp)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/reactappConnection.html#edit-app-js-react-webapp">Edit App.js (react webapp)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pages/reactappConnection.html#test">Test</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pages/reactappBootstrap.html">React App: Bootstrap</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pages/reactappBootstrap.html#aim">Aim</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pages/reactappBootstrap.html#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/reactappBootstrap.html#install">Install</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pages/reactappBootstrap.html#code-listing">Code listing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/reactappBootstrap.html#edit-app-css">Edit App.css</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pages/reactappChart.html">React App: Chart</a><ul>
@@ -259,6 +278,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pages/xbee.html">Sensors</a></li>
 </ul>
+</div>
 </div>
 </div>
 

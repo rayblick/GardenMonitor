@@ -56,7 +56,7 @@ Out of scope
 
 Follow along
 --------------
-You can skip the pages titled setup and docs. This project was developed using a raspberry pi with Debian Jesse OS and python 3.4.
+You can skip the pages titled setup and docs. This project was developed using a raspberry pi, Raspbian stretch and python 3.4.
 
 .. warning:: You will need to make changes to the Flask API if you are using python 2.x. I haven't tried so the errors that might come up are not covered in this documentation. 
 

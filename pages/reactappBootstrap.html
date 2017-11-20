@@ -97,12 +97,15 @@
 <li class="toctree-l1"><a class="reference internal" href="docs.html">Docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testdata.html">Test data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reactappBuildingBlocks.html">React App: Building blocks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reactappConnection.html">React App: Connection with API</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">React App: Bootstrap</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#aim">Aim</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install">Install</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#code-listing">Code listing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edit-app-css">Edit App.css</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="reactappChart.html">React App: Chart</a></li>
@@ -179,6 +182,15 @@
 <div class="section" id="summary">
 <h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
 <p>Add several buttons to filter data and show the most recent temperature. Note I have focussed on temperature only.</p>
+<a class="reference internal image-reference" href="../_images/reactapp_bootstrap_mobile.png"><img alt="../_images/reactapp_bootstrap_mobile.png" class="align-center" src="../_images/reactapp_bootstrap_mobile.png" style="width: 300px;" /></a>
+</div>
+<div class="section" id="install">
+<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> homesensors/reactapp
+npm install --save react-bootstrap
+npm install --save bootstrap
+</pre></div>
+</div>
 </div>
 <div class="section" id="code-listing">
 <h2>Code listing<a class="headerlink" href="#code-listing" title="Permalink to this headline">¶</a></h2>
@@ -212,216 +224,265 @@
 
 <span class="p">}</span>
 
-<span class="n">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
-        <span class="n">pageLoadDate</span><span class="p">:</span> <span class="n">new</span> <span class="nb">Date</span><span class="p">()</span>
-    <span class="p">})</span>
-<span class="p">}</span>
-
-<span class="n">componentWillMount</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">getDataFromApi</span><span class="p">()</span>
-<span class="p">}</span>
-
-
-<span class="n">getDataFromApi</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">return</span> <span class="k">fetch</span><span class="p">(</span><span class="s1">&#39;/homesensors/api/v1.0/sensor_data&#39;</span><span class="p">,</span> <span class="p">{</span><span class="n">credentials</span><span class="p">:</span> <span class="s1">&#39;same-origin&#39;</span><span class="p">})</span>
-        <span class="mf">.</span><span class="k">then</span><span class="p">((</span><span class="n">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">response</span><span class="mf">.</span><span class="nb">json</span><span class="p">())</span>
-        <span class="mf">.</span><span class="k">then</span><span class="p">((</span><span class="n">responseJson</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="n">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
             <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
-                <span class="k">data</span><span class="p">:</span> <span class="n">responseJson</span><span class="mf">.</span><span class="k">data</span>
-        <span class="p">},</span> <span class="p">()</span> <span class="o">=&gt;</span>  <span class="n">this</span><span class="mf">.</span><span class="n">measurementsFilter</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="k">data</span><span class="p">,</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">days</span><span class="p">))</span>
-        <span class="p">})</span>
-        <span class="mf">.</span><span class="n">catch</span><span class="p">((</span><span class="n">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-             <span class="n">console</span><span class="mf">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
-    <span class="p">})</span>
-<span class="p">}</span>
-
-
-<span class="n">measurementsFilter</span><span class="p">(</span><span class="n">arrObjects</span><span class="p">,</span> <span class="n">days</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">//</span> <span class="k">copy</span>
-    <span class="n">var</span> <span class="k">data</span> <span class="o">=</span> <span class="n">arrObjects</span><span class="mf">.</span><span class="n">slice</span><span class="p">()</span>
-
-    <span class="o">//</span> <span class="n">convert</span> <span class="nb">date</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">j</span><span class="o">=</span><span class="mf">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="k">data</span><span class="mf">.</span><span class="n">length</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
-        <span class="k">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="mf">.</span><span class="n">dsCollected</span> <span class="o">=</span> <span class="n">new</span> <span class="nb">Date</span><span class="p">(</span><span class="k">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="mf">.</span><span class="n">dsCollected</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="o">//</span> <span class="k">set</span> <span class="n">n</span> <span class="n">days</span> <span class="k">to</span> <span class="k">filter</span>
-    <span class="n">var</span> <span class="n">d</span> <span class="o">=</span> <span class="n">new</span> <span class="nb">Date</span><span class="p">(</span><span class="n">new</span> <span class="nb">Date</span><span class="p">()</span><span class="mf">.</span><span class="n">setDate</span><span class="p">(</span><span class="n">new</span> <span class="nb">Date</span><span class="p">()</span><span class="mf">.</span><span class="n">getDate</span><span class="p">()</span><span class="o">-</span><span class="n">days</span><span class="p">))</span>
-
-    <span class="o">//</span> <span class="k">filter</span> <span class="nb">time</span> <span class="nb">interval</span>
-    <span class="n">var</span> <span class="n">filteredArray</span> <span class="o">=</span> <span class="k">data</span><span class="mf">.</span><span class="k">filter</span><span class="p">(</span><span class="n">el</span><span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="n">return</span> <span class="n">el</span><span class="mf">.</span><span class="n">dsCollected</span> <span class="o">&gt;=</span> <span class="n">d</span>
-    <span class="p">})</span>
-
-    <span class="o">//</span> <span class="n">get</span> <span class="n">sensor</span> <span class="n">attributes</span>
-    <span class="n">var</span> <span class="k">names</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">sensorAttrList</span><span class="p">(</span><span class="n">filteredArray</span><span class="p">,</span> <span class="s s-Name">&quot;name&quot;</span><span class="p">)</span>
-    <span class="n">var</span> <span class="n">locs</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">sensorAttrList</span><span class="p">(</span><span class="n">filteredArray</span><span class="p">,</span> <span class="s s-Name">&quot;location&quot;</span><span class="p">)</span>
-    <span class="n">var</span> <span class="n">mtype</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">sensorAttrList</span><span class="p">(</span><span class="n">filteredArray</span><span class="p">,</span> <span class="s s-Name">&quot;measurementType&quot;</span><span class="p">)</span>
-
-    <span class="o">//</span> <span class="k">filter</span> <span class="k">temp</span> <span class="k">data</span>
-    <span class="n">var</span> <span class="n">tempArray</span> <span class="o">=</span> <span class="n">filteredArray</span><span class="mf">.</span><span class="k">filter</span><span class="p">(</span><span class="n">el</span><span class="o">=&gt;</span> <span class="p">{</span>
-        <span class="n">return</span> <span class="n">el</span><span class="mf">.</span><span class="n">measurementType</span> <span class="o">===</span> <span class="s s-Name">&quot;temp&quot;</span>
-    <span class="p">})</span>
-
-    <span class="n">var</span> <span class="n">fName</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">focusSensorName</span><span class="p">(</span><span class="n">tempArray</span><span class="p">,</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">focusName</span><span class="p">,</span> <span class="k">names</span><span class="p">)</span>
-    <span class="n">var</span> <span class="n">fValue</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">focusSensorValue</span><span class="p">(</span><span class="n">tempArray</span><span class="p">,</span> <span class="n">fName</span><span class="p">)</span>
-
-
-    <span class="o">//</span> <span class="n">save</span> <span class="n">state</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
-        <span class="n">sensorNames</span><span class="p">:</span> <span class="k">names</span><span class="p">,</span>
-        <span class="n">sensorLocations</span><span class="p">:</span> <span class="n">locs</span><span class="p">,</span>
-        <span class="n">sensorMeasurementType</span><span class="p">:</span> <span class="n">mtype</span><span class="p">,</span>
-        <span class="n">focusName</span><span class="p">:</span> <span class="n">fName</span><span class="p">,</span>
-        <span class="n">focusValue</span><span class="p">:</span> <span class="n">fValue</span><span class="p">,</span>
-        <span class="n">temperature</span><span class="p">:</span> <span class="n">tempArray</span><span class="p">,</span>
-        <span class="n">days</span><span class="p">:</span> <span class="n">days</span>
-   <span class="p">})</span>
-
-<span class="p">}</span>
-
-
-<span class="n">sensorAttrList</span><span class="p">(</span><span class="n">fArray</span><span class="p">,</span> <span class="k">key</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">var</span> <span class="n">sensorAttributes</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">i</span><span class="o">=</span><span class="mf">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">fArray</span><span class="mf">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">sensorAttributes</span><span class="mf">.</span><span class="n">includes</span><span class="p">(</span><span class="n">fArray</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">key</span><span class="p">])){</span>
-            <span class="k">continue</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="n">sensorAttributes</span><span class="mf">.</span><span class="n">push</span><span class="p">(</span><span class="n">fArray</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">key</span><span class="p">])</span>
+                <span class="n">pageLoadDate</span><span class="p">:</span> <span class="n">new</span> <span class="nb">Date</span><span class="p">()</span>
+            <span class="p">})</span>
         <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="n">return</span> <span class="n">sensorAttributes</span>
-<span class="p">}</span>
 
-
-<span class="n">focusSensorValue</span><span class="p">(</span><span class="n">fArray</span><span class="p">,</span> <span class="n">sensorName</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">//</span> <span class="k">filter</span> <span class="k">data</span> <span class="k">by</span> <span class="n">sensor</span> <span class="k">name</span>
-    <span class="o">//</span> <span class="k">then</span><span class="p">,</span> <span class="n">take</span> <span class="n">the</span> <span class="n">most</span> <span class="n">recent</span> <span class="nb">record</span> <span class="p">(</span><span class="k">last</span> <span class="nb">record</span><span class="p">)</span>
-    <span class="n">var</span> <span class="n">fValue</span> <span class="o">=</span> <span class="n">fArray</span><span class="mf">.</span><span class="k">filter</span><span class="p">(</span><span class="n">el</span><span class="o">=&gt;</span> <span class="p">{</span>
-         <span class="n">return</span> <span class="n">el</span><span class="mf">.</span><span class="k">name</span> <span class="o">===</span> <span class="n">sensorName</span>
-    <span class="p">})</span>
-
-    <span class="o">//</span> <span class="k">treat</span> <span class="n">undefined</span> <span class="n">variable</span> <span class="p">(</span><span class="n">occurs</span> <span class="k">when</span> <span class="k">filter</span> <span class="k">returns</span> <span class="k">no</span> <span class="k">data</span><span class="p">)</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">fValue</span><span class="mf">.</span><span class="n">slice</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">)[</span><span class="mf">0</span><span class="p">]</span> <span class="o">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">fValue</span> <span class="o">=</span> <span class="s s-Name">&quot;No data&quot;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">fValue</span> <span class="o">=</span> <span class="n">fValue</span><span class="mf">.</span><span class="n">slice</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">)[</span><span class="mf">0</span><span class="p">][</span><span class="s s-Name">&quot;value&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s s-Name">&quot;°C&quot;</span>
-    <span class="p">}</span>
-    <span class="n">return</span> <span class="n">fValue</span>
-<span class="p">}</span>
-
-
-<span class="n">focusSensorName</span><span class="p">(</span><span class="n">fArray</span><span class="p">,</span> <span class="n">sensorName</span><span class="p">,</span> <span class="n">namesList</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">//</span> <span class="k">name</span> <span class="k">of</span> <span class="n">sensor</span> <span class="k">with</span> <span class="n">most</span> <span class="n">recent</span> <span class="nb">record</span>
-    <span class="n">var</span> <span class="n">startName</span> <span class="o">=</span> <span class="n">fArray</span><span class="mf">.</span><span class="n">slice</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">)[</span><span class="mf">0</span><span class="p">][</span><span class="s s-Name">&quot;name&quot;</span><span class="p">]</span>
-
-   <span class="o">//</span> <span class="k">set</span> <span class="n">sensor</span> <span class="k">name</span> <span class="k">to</span> <span class="n">focus</span> <span class="k">on</span>
-   <span class="n">var</span> <span class="n">fName</span> <span class="o">=</span> <span class="p">(</span><span class="n">sensorName</span> <span class="o">===</span> <span class="s s-Name">&quot;&quot;</span> <span class="o">&amp;</span> <span class="n">namesList</span><span class="mf">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mf">1</span><span class="p">)</span>
-       <span class="o">?</span> <span class="n">startName</span>
-       <span class="p">:</span> <span class="n">sensorName</span>
-
-   <span class="o">//</span> <span class="k">treat</span> <span class="n">undefined</span> <span class="n">variable</span> <span class="p">(</span><span class="n">occurs</span> <span class="k">when</span> <span class="k">filter</span> <span class="k">returns</span> <span class="k">no</span> <span class="k">data</span><span class="p">)</span>
-   <span class="k">if</span> <span class="p">(</span><span class="n">fName</span> <span class="o">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
-       <span class="n">fName</span> <span class="o">=</span> <span class="s s-Name">&quot;Select&quot;</span>
-   <span class="p">}</span>
-
-   <span class="n">return</span> <span class="n">fName</span>
-<span class="p">}</span>
-
-
-<span class="n">sevenDayHandle</span><span class="p">(){</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">measurementsFilter</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="k">data</span><span class="p">,</span> <span class="mf">7</span><span class="p">)</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
-        <span class="n">button7</span><span class="p">:</span> <span class="s s-Name">&quot;success&quot;</span><span class="p">,</span> <span class="o">//</span><span class="n">change</span> <span class="n">color</span> <span class="k">of</span> <span class="n">button7</span> <span class="k">to</span> <span class="n">green</span>
-        <span class="n">button28</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
-        <span class="n">button365</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span>
-    <span class="p">})</span>
-<span class="p">}</span>
-
-<span class="n">twentyEightDayHandle</span><span class="p">(){</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">measurementsFilter</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="k">data</span><span class="p">,</span> <span class="mf">28</span><span class="p">)</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
-        <span class="n">button7</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
-        <span class="n">button28</span><span class="p">:</span> <span class="s s-Name">&quot;success&quot;</span><span class="p">,</span> <span class="o">//</span><span class="n">change</span> <span class="n">color</span> <span class="k">of</span> <span class="n">button28</span> <span class="k">to</span> <span class="n">green</span>
-        <span class="n">button365</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span>
-   <span class="p">})</span>
-<span class="p">}</span>
-
-<span class="n">oneYearHandle</span><span class="p">(){</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">measurementsFilter</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="k">data</span><span class="p">,</span> <span class="mf">365</span><span class="p">)</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
-         <span class="n">button7</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
-         <span class="n">button28</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
-         <span class="n">button365</span><span class="p">:</span> <span class="s s-Name">&quot;success&quot;</span> <span class="o">//</span><span class="n">change</span> <span class="n">color</span> <span class="k">of</span> <span class="n">button365</span> <span class="k">to</span> <span class="n">green</span>
-    <span class="p">})</span>
-<span class="p">}</span>
-
-<span class="n">dropdownSelectionHandle</span><span class="p">(</span><span class="n">sn</span><span class="p">,</span> <span class="n">n</span><span class="p">){</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
-        <span class="n">focusName</span><span class="p">:</span> <span class="n">sn</span><span class="p">[</span><span class="n">n</span><span class="p">],</span>
-        <span class="n">focusValue</span><span class="p">:</span> <span class="n">this</span><span class="mf">.</span><span class="n">focusSensorValue</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">temperature</span><span class="p">,</span> <span class="n">sn</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
-    <span class="p">})</span>
-<span class="p">}</span>
-
-<span class="n">render</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">let</span> <span class="n">button7col</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">button7</span>
-    <span class="n">let</span> <span class="n">button28col</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">button28</span>
-    <span class="n">let</span> <span class="n">button365col</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">button365</span>
-    <span class="n">let</span> <span class="n">sn</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">sensorNames</span>
-
-    <span class="n">let</span> <span class="n">menuItems</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">i</span><span class="o">=</span><span class="mf">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">sensorNames</span><span class="mf">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
-            <span class="n">var</span> <span class="k">key</span> <span class="o">=</span> <span class="n">i</span><span class="mf">.</span><span class="n">toString</span><span class="p">()</span>
-            <span class="n">menuItems</span><span class="mf">.</span><span class="n">push</span><span class="p">(</span><span class="o">&lt;</span><span class="n">MenuItem</span> <span class="k">key</span><span class="o">=</span><span class="p">{</span><span class="k">key</span><span class="p">}</span> <span class="n">eventKey</span><span class="o">=</span><span class="p">{</span><span class="k">key</span><span class="p">}</span><span class="o">&gt;</span>
-                <span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">sensorNames</span><span class="p">[</span><span class="n">i</span><span class="p">]}</span>
-            <span class="o">&lt;/</span><span class="n">MenuItem</span><span class="o">&gt;</span><span class="p">)</span>
+        <span class="n">componentWillMount</span><span class="p">()</span> <span class="p">{</span>
+            <span class="n">this</span><span class="mf">.</span><span class="n">getDataFromApi</span><span class="p">()</span>
         <span class="p">}</span>
 
 
-    <span class="n">const</span> <span class="n">buttonsInstance</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="o">&lt;</span><span class="n">div</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;wrapper&quot;</span><span class="o">&gt;</span>
-             <span class="o">&lt;</span><span class="n">ButtonToolbar</span><span class="o">&gt;</span>
-                 <span class="o">&lt;</span><span class="n">DropdownButton</span> <span class="n">bsStyle</span><span class="o">=</span><span class="s s-Name">&quot;info&quot;</span> <span class="n">id</span><span class="o">=</span><span class="s s-Name">&quot;1&quot;</span> <span class="n">title</span><span class="o">=</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">focusName</span><span class="p">}</span>
-                     <span class="n">onSelect</span> <span class="o">=</span> <span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">dropdownSelectionHandle</span><span class="mf">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">sn</span><span class="p">)}</span>
-                 <span class="o">&gt;</span>
-                      <span class="p">{</span><span class="n">menuItems</span><span class="p">}</span>
-                 <span class="o">&lt;/</span><span class="n">DropdownButton</span><span class="o">&gt;</span>
-                 <span class="o">&lt;</span><span class="n">Button</span> <span class="n">bsStyle</span><span class="o">=</span><span class="p">{</span><span class="n">button7col</span><span class="p">}</span>
-                     <span class="n">onClick</span><span class="o">=</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">sevenDayHandle</span><span class="mf">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">)}</span><span class="o">&gt;</span>
-                          <span class="mf">7</span> <span class="n">days</span>
-                 <span class="o">&lt;/</span><span class="n">Button</span><span class="o">&gt;</span>
-                 <span class="o">&lt;</span><span class="n">Button</span> <span class="n">bsStyle</span><span class="o">=</span><span class="p">{</span><span class="n">button28col</span><span class="p">}</span>
-                     <span class="n">onClick</span><span class="o">=</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">twentyEightDayHandle</span><span class="mf">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">)}</span><span class="o">&gt;</span>
-                          <span class="mf">28</span> <span class="n">days</span>
-                 <span class="o">&lt;/</span><span class="n">Button</span><span class="o">&gt;</span>
-                 <span class="o">&lt;</span><span class="n">Button</span> <span class="n">bsStyle</span><span class="o">=</span><span class="p">{</span><span class="n">button365col</span><span class="p">}</span>
-                     <span class="n">onClick</span><span class="o">=</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">oneYearHandle</span><span class="mf">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">)}</span><span class="o">&gt;</span>
-                          <span class="mf">1</span> <span class="k">year</span>
-                 <span class="o">&lt;/</span><span class="n">Button</span><span class="o">&gt;</span>
-             <span class="o">&lt;/</span><span class="n">ButtonToolbar</span><span class="o">&gt;</span>
-        <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
-    <span class="p">)</span>
+        <span class="n">getDataFromApi</span><span class="p">()</span> <span class="p">{</span>
+            <span class="n">return</span> <span class="k">fetch</span><span class="p">(</span><span class="s1">&#39;/homesensors/api/v1.0/sensor_data&#39;</span><span class="p">,</span> <span class="p">{</span><span class="n">credentials</span><span class="p">:</span> <span class="s1">&#39;same-origin&#39;</span><span class="p">})</span>
+                <span class="mf">.</span><span class="k">then</span><span class="p">((</span><span class="n">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">response</span><span class="mf">.</span><span class="nb">json</span><span class="p">())</span>
+                <span class="mf">.</span><span class="k">then</span><span class="p">((</span><span class="n">responseJson</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                    <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
+                        <span class="k">data</span><span class="p">:</span> <span class="n">responseJson</span><span class="mf">.</span><span class="k">data</span>
+                <span class="p">},</span> <span class="p">()</span> <span class="o">=&gt;</span>  <span class="n">this</span><span class="mf">.</span><span class="n">measurementsFilter</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="k">data</span><span class="p">,</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">days</span><span class="p">))</span>
+                <span class="p">})</span>
+                <span class="mf">.</span><span class="n">catch</span><span class="p">((</span><span class="n">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                     <span class="n">console</span><span class="mf">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+            <span class="p">})</span>
+        <span class="p">}</span>
 
-        <span class="n">return</span> <span class="p">(</span>
-            <span class="o">&lt;</span><span class="n">div</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;App&quot;</span><span class="o">&gt;</span>
 
-                <span class="o">&lt;</span><span class="k">header</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;App-header&quot;</span><span class="o">&gt;</span>
-                    <span class="o">&lt;</span><span class="n">h1</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;App-title&quot;</span><span class="o">&gt;</span><span class="n">Garden</span> <span class="n">Monitor</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
-                    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span> <span class="p">{</span><span class="n">String</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">pageLoadDate</span><span class="p">)}</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-                <span class="o">&lt;/</span><span class="k">header</span><span class="o">&gt;</span>
+        <span class="n">measurementsFilter</span><span class="p">(</span><span class="n">arrObjects</span><span class="p">,</span> <span class="n">days</span><span class="p">)</span> <span class="p">{</span>
+            <span class="o">//</span> <span class="k">copy</span>
+            <span class="n">var</span> <span class="k">data</span> <span class="o">=</span> <span class="n">arrObjects</span><span class="mf">.</span><span class="n">slice</span><span class="p">()</span>
 
-                <span class="p">{</span><span class="n">buttonsInstance</span><span class="p">}</span>
+            <span class="o">//</span> <span class="n">convert</span> <span class="nb">date</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">j</span><span class="o">=</span><span class="mf">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="k">data</span><span class="mf">.</span><span class="n">length</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
+                <span class="k">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="mf">.</span><span class="n">dsCollected</span> <span class="o">=</span> <span class="n">new</span> <span class="nb">Date</span><span class="p">(</span><span class="k">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="mf">.</span><span class="n">dsCollected</span><span class="p">)</span>
+            <span class="p">}</span>
 
-                <span class="o">&lt;</span><span class="n">div</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;TempContainer&quot;</span><span class="o">&gt;</span>
-                    <span class="o">&lt;</span><span class="n">h3</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;TempValue&quot;</span><span class="o">&gt;</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">focusValue</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">h3</span><span class="o">&gt;</span>
+            <span class="o">//</span> <span class="k">set</span> <span class="n">n</span> <span class="n">days</span> <span class="k">to</span> <span class="k">filter</span>
+            <span class="n">var</span> <span class="n">d</span> <span class="o">=</span> <span class="n">new</span> <span class="nb">Date</span><span class="p">(</span><span class="n">new</span> <span class="nb">Date</span><span class="p">()</span><span class="mf">.</span><span class="n">setDate</span><span class="p">(</span><span class="n">new</span> <span class="nb">Date</span><span class="p">()</span><span class="mf">.</span><span class="n">getDate</span><span class="p">()</span><span class="o">-</span><span class="n">days</span><span class="p">))</span>
+
+            <span class="o">//</span> <span class="k">filter</span> <span class="nb">time</span> <span class="nb">interval</span>
+            <span class="n">var</span> <span class="n">filteredArray</span> <span class="o">=</span> <span class="k">data</span><span class="mf">.</span><span class="k">filter</span><span class="p">(</span><span class="n">el</span><span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="n">return</span> <span class="n">el</span><span class="mf">.</span><span class="n">dsCollected</span> <span class="o">&gt;=</span> <span class="n">d</span>
+            <span class="p">})</span>
+
+            <span class="o">//</span> <span class="n">get</span> <span class="n">sensor</span> <span class="n">attributes</span>
+            <span class="n">var</span> <span class="k">names</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">sensorAttrList</span><span class="p">(</span><span class="n">filteredArray</span><span class="p">,</span> <span class="s s-Name">&quot;name&quot;</span><span class="p">)</span>
+            <span class="n">var</span> <span class="n">locs</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">sensorAttrList</span><span class="p">(</span><span class="n">filteredArray</span><span class="p">,</span> <span class="s s-Name">&quot;location&quot;</span><span class="p">)</span>
+            <span class="n">var</span> <span class="n">mtype</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">sensorAttrList</span><span class="p">(</span><span class="n">filteredArray</span><span class="p">,</span> <span class="s s-Name">&quot;measurementType&quot;</span><span class="p">)</span>
+
+            <span class="o">//</span> <span class="k">filter</span> <span class="k">temp</span> <span class="k">data</span>
+            <span class="n">var</span> <span class="n">tempArray</span> <span class="o">=</span> <span class="n">filteredArray</span><span class="mf">.</span><span class="k">filter</span><span class="p">(</span><span class="n">el</span><span class="o">=&gt;</span> <span class="p">{</span>
+                <span class="n">return</span> <span class="n">el</span><span class="mf">.</span><span class="n">measurementType</span> <span class="o">===</span> <span class="s s-Name">&quot;temp&quot;</span>
+            <span class="p">})</span>
+
+            <span class="n">var</span> <span class="n">fName</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">focusSensorName</span><span class="p">(</span><span class="n">tempArray</span><span class="p">,</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">focusName</span><span class="p">,</span> <span class="k">names</span><span class="p">)</span>
+            <span class="n">var</span> <span class="n">fValue</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">focusSensorValue</span><span class="p">(</span><span class="n">tempArray</span><span class="p">,</span> <span class="n">fName</span><span class="p">)</span>
+
+
+            <span class="o">//</span> <span class="n">save</span> <span class="n">state</span>
+            <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
+                <span class="n">sensorNames</span><span class="p">:</span> <span class="k">names</span><span class="p">,</span>
+                <span class="n">sensorLocations</span><span class="p">:</span> <span class="n">locs</span><span class="p">,</span>
+                <span class="n">sensorMeasurementType</span><span class="p">:</span> <span class="n">mtype</span><span class="p">,</span>
+                <span class="n">focusName</span><span class="p">:</span> <span class="n">fName</span><span class="p">,</span>
+                <span class="n">focusValue</span><span class="p">:</span> <span class="n">fValue</span><span class="p">,</span>
+                <span class="n">temperature</span><span class="p">:</span> <span class="n">tempArray</span><span class="p">,</span>
+                <span class="n">days</span><span class="p">:</span> <span class="n">days</span>
+           <span class="p">})</span>
+
+        <span class="p">}</span>
+
+
+        <span class="n">sensorAttrList</span><span class="p">(</span><span class="n">fArray</span><span class="p">,</span> <span class="k">key</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">var</span> <span class="n">sensorAttributes</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">i</span><span class="o">=</span><span class="mf">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">fArray</span><span class="mf">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">sensorAttributes</span><span class="mf">.</span><span class="n">includes</span><span class="p">(</span><span class="n">fArray</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">key</span><span class="p">])){</span>
+                    <span class="k">continue</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="n">sensorAttributes</span><span class="mf">.</span><span class="n">push</span><span class="p">(</span><span class="n">fArray</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">key</span><span class="p">])</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="n">return</span> <span class="n">sensorAttributes</span>
+        <span class="p">}</span>
+
+
+        <span class="n">focusSensorValue</span><span class="p">(</span><span class="n">fArray</span><span class="p">,</span> <span class="n">sensorName</span><span class="p">)</span> <span class="p">{</span>
+            <span class="o">//</span> <span class="k">filter</span> <span class="k">data</span> <span class="k">by</span> <span class="n">sensor</span> <span class="k">name</span>
+            <span class="o">//</span> <span class="k">then</span><span class="p">,</span> <span class="n">take</span> <span class="n">the</span> <span class="n">most</span> <span class="n">recent</span> <span class="nb">record</span> <span class="p">(</span><span class="k">last</span> <span class="nb">record</span><span class="p">)</span>
+            <span class="n">var</span> <span class="n">fValue</span> <span class="o">=</span> <span class="n">fArray</span><span class="mf">.</span><span class="k">filter</span><span class="p">(</span><span class="n">el</span><span class="o">=&gt;</span> <span class="p">{</span>
+                 <span class="n">return</span> <span class="n">el</span><span class="mf">.</span><span class="k">name</span> <span class="o">===</span> <span class="n">sensorName</span>
+            <span class="p">})</span>
+
+            <span class="o">//</span> <span class="k">treat</span> <span class="n">undefined</span> <span class="n">variable</span> <span class="p">(</span><span class="n">occurs</span> <span class="k">when</span> <span class="k">filter</span> <span class="k">returns</span> <span class="k">no</span> <span class="k">data</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">fValue</span><span class="mf">.</span><span class="n">slice</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">)[</span><span class="mf">0</span><span class="p">]</span> <span class="o">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">fValue</span> <span class="o">=</span> <span class="s s-Name">&quot;No data&quot;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">fValue</span> <span class="o">=</span> <span class="n">fValue</span><span class="mf">.</span><span class="n">slice</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">)[</span><span class="mf">0</span><span class="p">][</span><span class="s s-Name">&quot;value&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s s-Name">&quot;°C&quot;</span>
+            <span class="p">}</span>
+            <span class="n">return</span> <span class="n">fValue</span>
+        <span class="p">}</span>
+
+
+        <span class="n">focusSensorName</span><span class="p">(</span><span class="n">fArray</span><span class="p">,</span> <span class="n">sensorName</span><span class="p">,</span> <span class="n">namesList</span><span class="p">)</span> <span class="p">{</span>
+            <span class="o">//</span> <span class="k">name</span> <span class="k">of</span> <span class="n">sensor</span> <span class="k">with</span> <span class="n">most</span> <span class="n">recent</span> <span class="nb">record</span>
+            <span class="n">var</span> <span class="n">startName</span> <span class="o">=</span> <span class="n">fArray</span><span class="mf">.</span><span class="n">slice</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">)[</span><span class="mf">0</span><span class="p">][</span><span class="s s-Name">&quot;name&quot;</span><span class="p">]</span>
+
+           <span class="o">//</span> <span class="k">set</span> <span class="n">sensor</span> <span class="k">name</span> <span class="k">to</span> <span class="n">focus</span> <span class="k">on</span>
+           <span class="n">var</span> <span class="n">fName</span> <span class="o">=</span> <span class="p">(</span><span class="n">sensorName</span> <span class="o">===</span> <span class="s s-Name">&quot;&quot;</span> <span class="o">&amp;</span> <span class="n">namesList</span><span class="mf">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mf">1</span><span class="p">)</span>
+               <span class="o">?</span> <span class="n">startName</span>
+               <span class="p">:</span> <span class="n">sensorName</span>
+
+           <span class="o">//</span> <span class="k">treat</span> <span class="n">undefined</span> <span class="n">variable</span> <span class="p">(</span><span class="n">occurs</span> <span class="k">when</span> <span class="k">filter</span> <span class="k">returns</span> <span class="k">no</span> <span class="k">data</span><span class="p">)</span>
+           <span class="k">if</span> <span class="p">(</span><span class="n">fName</span> <span class="o">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+               <span class="n">fName</span> <span class="o">=</span> <span class="s s-Name">&quot;Select&quot;</span>
+           <span class="p">}</span>
+
+           <span class="n">return</span> <span class="n">fName</span>
+        <span class="p">}</span>
+
+
+        <span class="n">sevenDayHandle</span><span class="p">(){</span>
+            <span class="n">this</span><span class="mf">.</span><span class="n">measurementsFilter</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="k">data</span><span class="p">,</span> <span class="mf">7</span><span class="p">)</span>
+            <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
+                <span class="n">button7</span><span class="p">:</span> <span class="s s-Name">&quot;success&quot;</span><span class="p">,</span> <span class="o">//</span><span class="n">change</span> <span class="n">color</span> <span class="k">of</span> <span class="n">button7</span> <span class="k">to</span> <span class="n">green</span>
+                <span class="n">button28</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
+                <span class="n">button365</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span>
+            <span class="p">})</span>
+        <span class="p">}</span>
+
+        <span class="n">twentyEightDayHandle</span><span class="p">(){</span>
+            <span class="n">this</span><span class="mf">.</span><span class="n">measurementsFilter</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="k">data</span><span class="p">,</span> <span class="mf">28</span><span class="p">)</span>
+            <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
+                <span class="n">button7</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
+                <span class="n">button28</span><span class="p">:</span> <span class="s s-Name">&quot;success&quot;</span><span class="p">,</span> <span class="o">//</span><span class="n">change</span> <span class="n">color</span> <span class="k">of</span> <span class="n">button28</span> <span class="k">to</span> <span class="n">green</span>
+                <span class="n">button365</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span>
+           <span class="p">})</span>
+        <span class="p">}</span>
+
+        <span class="n">oneYearHandle</span><span class="p">(){</span>
+            <span class="n">this</span><span class="mf">.</span><span class="n">measurementsFilter</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="k">data</span><span class="p">,</span> <span class="mf">365</span><span class="p">)</span>
+            <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
+                 <span class="n">button7</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
+                 <span class="n">button28</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
+                 <span class="n">button365</span><span class="p">:</span> <span class="s s-Name">&quot;success&quot;</span> <span class="o">//</span><span class="n">change</span> <span class="n">color</span> <span class="k">of</span> <span class="n">button365</span> <span class="k">to</span> <span class="n">green</span>
+            <span class="p">})</span>
+        <span class="p">}</span>
+
+        <span class="n">dropdownSelectionHandle</span><span class="p">(</span><span class="n">sn</span><span class="p">,</span> <span class="n">n</span><span class="p">){</span>
+            <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
+                <span class="n">focusName</span><span class="p">:</span> <span class="n">sn</span><span class="p">[</span><span class="n">n</span><span class="p">],</span>
+                <span class="n">focusValue</span><span class="p">:</span> <span class="n">this</span><span class="mf">.</span><span class="n">focusSensorValue</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">temperature</span><span class="p">,</span> <span class="n">sn</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+            <span class="p">})</span>
+        <span class="p">}</span>
+
+        <span class="n">render</span><span class="p">()</span> <span class="p">{</span>
+            <span class="n">let</span> <span class="n">button7col</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">button7</span>
+            <span class="n">let</span> <span class="n">button28col</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">button28</span>
+            <span class="n">let</span> <span class="n">button365col</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">button365</span>
+            <span class="n">let</span> <span class="n">sn</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">sensorNames</span>
+
+            <span class="n">let</span> <span class="n">menuItems</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">i</span><span class="o">=</span><span class="mf">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">sensorNames</span><span class="mf">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+                    <span class="n">var</span> <span class="k">key</span> <span class="o">=</span> <span class="n">i</span><span class="mf">.</span><span class="n">toString</span><span class="p">()</span>
+                    <span class="n">menuItems</span><span class="mf">.</span><span class="n">push</span><span class="p">(</span><span class="o">&lt;</span><span class="n">MenuItem</span> <span class="k">key</span><span class="o">=</span><span class="p">{</span><span class="k">key</span><span class="p">}</span> <span class="n">eventKey</span><span class="o">=</span><span class="p">{</span><span class="k">key</span><span class="p">}</span><span class="o">&gt;</span>
+                        <span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">sensorNames</span><span class="p">[</span><span class="n">i</span><span class="p">]}</span>
+                    <span class="o">&lt;/</span><span class="n">MenuItem</span><span class="o">&gt;</span><span class="p">)</span>
+                <span class="p">}</span>
+
+
+            <span class="n">const</span> <span class="n">buttonsInstance</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="o">&lt;</span><span class="n">div</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;wrapper&quot;</span><span class="o">&gt;</span>
+                     <span class="o">&lt;</span><span class="n">ButtonToolbar</span><span class="o">&gt;</span>
+                         <span class="o">&lt;</span><span class="n">DropdownButton</span> <span class="n">bsStyle</span><span class="o">=</span><span class="s s-Name">&quot;info&quot;</span> <span class="n">id</span><span class="o">=</span><span class="s s-Name">&quot;1&quot;</span> <span class="n">title</span><span class="o">=</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">focusName</span><span class="p">}</span>
+                             <span class="n">onSelect</span> <span class="o">=</span> <span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">dropdownSelectionHandle</span><span class="mf">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">sn</span><span class="p">)}</span>
+                         <span class="o">&gt;</span>
+                              <span class="p">{</span><span class="n">menuItems</span><span class="p">}</span>
+                         <span class="o">&lt;/</span><span class="n">DropdownButton</span><span class="o">&gt;</span>
+                         <span class="o">&lt;</span><span class="n">Button</span> <span class="n">bsStyle</span><span class="o">=</span><span class="p">{</span><span class="n">button7col</span><span class="p">}</span>
+                             <span class="n">onClick</span><span class="o">=</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">sevenDayHandle</span><span class="mf">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">)}</span><span class="o">&gt;</span>
+                                  <span class="mf">7</span> <span class="n">days</span>
+                         <span class="o">&lt;/</span><span class="n">Button</span><span class="o">&gt;</span>
+                         <span class="o">&lt;</span><span class="n">Button</span> <span class="n">bsStyle</span><span class="o">=</span><span class="p">{</span><span class="n">button28col</span><span class="p">}</span>
+                             <span class="n">onClick</span><span class="o">=</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">twentyEightDayHandle</span><span class="mf">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">)}</span><span class="o">&gt;</span>
+                                  <span class="mf">28</span> <span class="n">days</span>
+                         <span class="o">&lt;/</span><span class="n">Button</span><span class="o">&gt;</span>
+                         <span class="o">&lt;</span><span class="n">Button</span> <span class="n">bsStyle</span><span class="o">=</span><span class="p">{</span><span class="n">button365col</span><span class="p">}</span>
+                             <span class="n">onClick</span><span class="o">=</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">oneYearHandle</span><span class="mf">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">)}</span><span class="o">&gt;</span>
+                                  <span class="mf">1</span> <span class="k">year</span>
+                         <span class="o">&lt;/</span><span class="n">Button</span><span class="o">&gt;</span>
+                     <span class="o">&lt;/</span><span class="n">ButtonToolbar</span><span class="o">&gt;</span>
                 <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
-            <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
-        <span class="p">)</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+            <span class="p">)</span>
 
-<span class="n">export</span> <span class="k">default</span> <span class="n">App</span>
+                <span class="n">return</span> <span class="p">(</span>
+                    <span class="o">&lt;</span><span class="n">div</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;App&quot;</span><span class="o">&gt;</span>
+
+                        <span class="o">&lt;</span><span class="k">header</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;App-header&quot;</span><span class="o">&gt;</span>
+                            <span class="o">&lt;</span><span class="n">h1</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;App-title&quot;</span><span class="o">&gt;</span><span class="n">Garden</span> <span class="n">Monitor</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+                            <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span> <span class="p">{</span><span class="n">String</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">pageLoadDate</span><span class="p">)}</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+                        <span class="o">&lt;/</span><span class="k">header</span><span class="o">&gt;</span>
+
+                        <span class="p">{</span><span class="n">buttonsInstance</span><span class="p">}</span>
+
+                        <span class="o">&lt;</span><span class="n">div</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;TempContainer&quot;</span><span class="o">&gt;</span>
+                            <span class="o">&lt;</span><span class="n">h3</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;TempValue&quot;</span><span class="o">&gt;</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">focusValue</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">h3</span><span class="o">&gt;</span>
+                        <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+                    <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+                <span class="p">)</span>
+            <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">export</span> <span class="k">default</span> <span class="n">App</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="edit-app-css">
+<h2>Edit App.css<a class="headerlink" href="#edit-app-css" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-css"><div class="highlight"><pre><span></span>.App {
+  text-align: center;
+}
+
+
+.App-header {
+  background-color: #222;
+  height: 90px;
+  padding-top: 5px;
+  padding-bottom: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 2em;
+}
+
+.form-actions {
+  margin:0;
+  background-color: transparent;
+  text-align: center;
+}
+
+.wrapper {
+  width: 100%;
+  padding-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.TempValue {
+  margin: 0;
+}
+
+.TempContainer {
+  width: 200px;
+  //height: 50px;
+  //border-radius: 15px;
+  //border-width: 3px;
+  //border-style: solid;
+  //border-color: black;
+  margin: 0 auto;
+  margin-top: 10px;
+}
 </pre></div>
 </div>
 </div>

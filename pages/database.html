@@ -99,12 +99,17 @@
 <li class="toctree-l2"><a class="reference internal" href="#aim">Aim</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#install-and-open">Install and open</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#change-password-for-user-called-postgres">Change password for user called “postgres”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#allow-local-connections">Allow local connections</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#create-database">Create database</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#create-user">Create user</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#restart-postgres">Restart postgres</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#signing-in">Signing in</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testdata.html">Test data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reactappBuildingBlocks.html">React App: Building blocks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reactappConnection.html">React App: Connection with API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reactappBootstrap.html">React App: Bootstrap</a></li>
@@ -185,25 +190,62 @@
 </div>
 <div class="section" id="install-and-open">
 <h2>Install and open<a class="headerlink" href="#install-and-open" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo apt-get install postgresql-9.4
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># search for postgres</span>
+sudo apt-cache search postgres
+
+<span class="c1"># install</span>
+sudo apt-get install postgresql-9.6
+
+<span class="c1"># open</span>
 sudo -u postgres psql postgres
 </pre></div>
 </div>
-<p>Change password for user called “postgres”</p>
+</div>
+<div class="section" id="change-password-for-user-called-postgres">
+<h2>Change password for user called “postgres”<a class="headerlink" href="#change-password-for-user-called-postgres" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-psql"><div class="highlight"><pre><span></span><span class="kp">\password</span> <span class="ss">postgres</span>
 <span class="go">\q</span>
 </pre></div>
 </div>
-<p>Modify pg_hba.conf to allow local connections</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>nano /etc/postgresql/9.4/main/pg_hba.conf
-</pre></div>
 </div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Todo - show the required changes here</p>
-</div>
-<p>Restart postgres</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo service postgresql restart
+<div class="section" id="allow-local-connections">
+<h2>Allow local connections<a class="headerlink" href="#allow-local-connections" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># step 1</span>
+nano /etc/postgresql/9.4/main/pg_hba.conf
+
+<span class="c1"># update the following section...</span>
+
+<span class="c1"># Database administrative login by Unix domain socket</span>
+<span class="nb">local</span>   all             postgres                                peer
+<span class="c1"># TYPE  DATABASE        USER            ADDRESS                 METHOD</span>
+<span class="c1"># &quot;local&quot; is for Unix domain socket connections only</span>
+<span class="nb">local</span>   all             all                                     md5
+
+<span class="c1"># IPv4 local connections:</span>
+host    all             all             <span class="m">127</span>.0.0.1/32            md5
+<span class="c1"># IPv6 local connections:</span>
+host    all             all             ::1/128                 md5
+<span class="c1"># Allow replication connections from localhost, by a user with the</span>
+<span class="c1"># replication privilege.</span>
+<span class="c1">#local   replication     postgres                                peer</span>
+<span class="c1">#host    replication     postgres        127.0.0.1/32            md5</span>
+<span class="c1">#host    replication     postgres        ::1/128                 md5</span>
+
+host    all             all             <span class="m">0</span>.0.0.0/0               md5
+host    all             all             ::/0                    md5
+
+<span class="c1"># exit =&gt; ctrl-x &gt; y &gt; enter</span>
+
+<span class="c1"># step 2</span>
+nano /etc/postgresql/9.4/main/postgresql.conf
+
+<span class="c1"># locate the following line...</span>
+<span class="c1"># listen_addresses = &quot;127.0.0.1&quot;</span>
+
+<span class="c1"># Change to this...</span>
+<span class="nv">listen_addresses</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span> <span class="c1">#WARNING: Make sure you uncomment this line by removing the # symbol</span>
+
+<span class="c1"># exit =&gt; ctrl-x &gt; y &gt; enter</span>
 </pre></div>
 </div>
 </div>
@@ -221,20 +263,36 @@ sudo -u postgres psql postgres
 <span class="kp">\c</span> <span class="ss">homesensors</span>
 </pre></div>
 </div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">A database called homesensors is required in the next step. The model we create in the Flask API will be called HomeSensorsData and it will live in the homesensors database.</p>
+</div>
 </div>
 <div class="section" id="create-user">
 <h2>Create user<a class="headerlink" href="#create-user" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-psql"><div class="highlight"><pre><span></span><span class="c1">-- create</span>
-<span class="k">CREATE</span> <span class="k">USER</span> <span class="n">ray</span> <span class="k">WITH</span> <span class="k">PASSWORD</span> <span class="s1">&#39;password&#39;</span> <span class="n">CREATEDB</span> <span class="n">CREATEUSER</span>
+<span class="k">CREATE</span> <span class="k">USER</span> <span class="n">ray</span> <span class="k">WITH</span> <span class="k">PASSWORD</span> <span class="s1">&#39;password&#39;</span>
 
 <span class="c1">-- list users</span>
 <span class="kp">\dg+</span>
 
 <span class="c1">-- add roles</span>
 <span class="k">ALTER</span> <span class="k">USER</span> <span class="n">ray</span> <span class="k">WITH</span> <span class="n">CREATEROLE</span>
+<span class="k">ALTER</span> <span class="k">USER</span> <span class="n">ray</span> <span class="k">WITH</span> <span class="n">createdb</span><span class="p">;</span>
+<span class="go">ALTER USER ray WITH Superuser;</span>
 
-<span class="c1">-- add privileges</span>
-<span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="n">homesensors</span> <span class="k">To</span> <span class="n">ray</span>
+<span class="go">-- add privileges</span>
+<span class="go">GRANT ALL PRIVILEGES ON homesensors To ray</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The Flask API requires that the user name “ray” is available to access the database in following steps. If you change this name, and you most likely will, make the appropriate changes to the Flask API. The location for making changes will be highlighted in the next step.</p>
+</div>
+</div>
+<div class="section" id="restart-postgres">
+<h2>Restart postgres<a class="headerlink" href="#restart-postgres" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo service postgresql restart
 </pre></div>
 </div>
 </div>
@@ -247,6 +305,13 @@ psql homesensors ray
 password
 </pre></div>
 </div>
+</div>
+<div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<p>Install SQL client and connect.</p>
+<a class="reference internal image-reference" href="../_images/remodb_mobile1.png"><img alt="../_images/remodb_mobile1.png" class="align-center" src="../_images/remodb_mobile1.png" style="width: 300px;" /></a>
+<a class="reference internal image-reference" href="../_images/remodb_mobile2.png"><img alt="../_images/remodb_mobile2.png" class="align-center" src="../_images/remodb_mobile2.png" style="width: 300px;" /></a>
+<a class="reference internal image-reference" href="../_images/remodb_mobile3.png"><img alt="../_images/remodb_mobile3.png" class="align-center" src="../_images/remodb_mobile3.png" style="width: 300px;" /></a>
 </div>
 </div>
 

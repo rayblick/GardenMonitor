@@ -97,6 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="docs.html">Docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testdata.html">Test data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reactappBuildingBlocks.html">React App: Building blocks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reactappConnection.html">React App: Connection with API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reactappBootstrap.html">React App: Bootstrap</a></li>
@@ -190,355 +191,355 @@ npm install react-timeseries-charts pondjs --save
 </div>
 <div class="section" id="code-listing">
 <h2>Code listing<a class="headerlink" href="#code-listing" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-psql"><div class="highlight"><pre><span></span><span class="n">import</span> <span class="n">React</span><span class="p">,</span> <span class="p">{</span> <span class="n">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">&#39;react&#39;</span>
-<span class="n">import</span> <span class="s1">&#39;./App.css&#39;</span>
-<span class="n">import</span> <span class="p">{</span><span class="n">Button</span><span class="p">,</span> <span class="n">ButtonToolbar</span><span class="p">,</span> <span class="n">DropdownButton</span><span class="p">,</span> <span class="n">MenuItem</span><span class="p">}</span> <span class="k">from</span> <span class="s1">&#39;react-bootstrap/lib&#39;</span>
-<span class="n">import</span> <span class="s1">&#39;bootstrap/dist/css/bootstrap.css&#39;</span>
-<span class="n">import</span> <span class="s1">&#39;bootstrap/dist/css/bootstrap-theme.css&#39;</span>
-<span class="n">import</span> <span class="p">{</span>
-  <span class="n">Charts</span><span class="p">,</span>
-  <span class="n">ChartContainer</span><span class="p">,</span>
-  <span class="n">ChartRow</span><span class="p">,</span>
-  <span class="n">YAxis</span><span class="p">,</span>
-  <span class="n">LineChart</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">&#39;react-timeseries-charts&#39;</span>
-<span class="n">import</span> <span class="p">{</span> <span class="n">TimeSeries</span><span class="p">,</span> <span class="n">TimeRange</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">&#39;pondjs&#39;</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span>import React, { Component } from &#39;react&#39;
+import &#39;./App.css&#39;
+import {Button, ButtonToolbar, DropdownButton, MenuItem} from &#39;react-bootstrap/lib&#39;
+import &#39;bootstrap/dist/css/bootstrap.css&#39;
+import &#39;bootstrap/dist/css/bootstrap-theme.css&#39;
+import {
+  Charts,
+  ChartContainer,
+  ChartRow,
+  YAxis,
+  LineChart } from &#39;react-timeseries-charts&#39;
+import { TimeSeries, TimeRange } from &#39;pondjs&#39;
 
 
-<span class="k">class</span> <span class="n">App</span> <span class="n">extends</span> <span class="n">Component</span> <span class="p">{</span>
-  <span class="n">constructor</span><span class="p">(</span><span class="n">props</span><span class="p">){</span>
-    <span class="n">super</span><span class="p">(</span><span class="n">props</span><span class="p">)</span>
+class App extends Component {
+  constructor(props){
+    super(props)
 
-    <span class="n">this</span><span class="mf">.</span><span class="n">measurementsFilter</span><span class="mf">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">dropdownSelectionHandle</span><span class="mf">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
+    this.measurementsFilter.bind(this)
+    this.dropdownSelectionHandle.bind(this)
 
-    <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="o">=</span><span class="p">{</span>
-      <span class="k">data</span><span class="p">:</span> <span class="p">[],</span>
-      <span class="n">pageLoadDate</span><span class="p">:</span> <span class="s s-Name">&quot;&quot;</span><span class="p">,</span>
-      <span class="n">sensorNames</span><span class="p">:</span> <span class="p">[],</span>
-      <span class="n">sensorLocations</span><span class="p">:</span> <span class="p">[],</span>
-      <span class="n">sensorMeasurementType</span><span class="p">:</span> <span class="p">[],</span>
-      <span class="n">temperature</span><span class="p">:</span> <span class="s s-Name">&quot;loading&quot;</span><span class="p">,</span>
-      <span class="n">days</span><span class="p">:</span> <span class="mf">7</span><span class="p">,</span>
-      <span class="n">button7</span><span class="p">:</span> <span class="s s-Name">&quot;success&quot;</span><span class="p">,</span>
-      <span class="n">button28</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
-      <span class="n">button365</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
-      <span class="n">focusName</span><span class="p">:</span> <span class="s s-Name">&quot;&quot;</span><span class="p">,</span>
-      <span class="n">timeRange</span><span class="p">:</span> <span class="n">this</span><span class="mf">.</span><span class="n">createTimeRange</span><span class="p">(</span><span class="mf">7</span><span class="p">),</span>
-      <span class="n">chartXAxisFormat</span><span class="p">:</span> <span class="s s-Name">&quot;day&quot;</span><span class="p">,</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-
-
-  <span class="n">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
-      <span class="n">pageLoadDate</span><span class="p">:</span> <span class="n">new</span> <span class="nb">Date</span><span class="p">()</span>
-    <span class="p">})</span>
-  <span class="p">}</span>
+    this.state={
+      data: [],
+      pageLoadDate: &quot;&quot;,
+      sensorNames: [],
+      sensorLocations: [],
+      sensorMeasurementType: [],
+      temperature: &quot;loading&quot;,
+      days: 7,
+      button7: &quot;success&quot;,
+      button28: &quot;primary&quot;,
+      button365: &quot;primary&quot;,
+      focusName: &quot;&quot;,
+      timeRange: this.createTimeRange(7),
+      chartXAxisFormat: &quot;day&quot;,
+    }
+  }
 
 
-  <span class="n">componentWillMount</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">getDataFromApi</span><span class="p">()</span>
-  <span class="p">}</span>
+  componentDidMount() {
+    this.setState({
+      pageLoadDate: new Date()
+    })
+  }
 
 
-  <span class="n">getDataFromApi</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">return</span> <span class="k">fetch</span><span class="p">(</span><span class="s1">&#39;/homesensors/api/v1.0/sensor_data&#39;</span><span class="p">,</span> <span class="p">{</span><span class="n">credentials</span><span class="p">:</span> <span class="s1">&#39;same-origin&#39;</span><span class="p">})</span>
-      <span class="mf">.</span><span class="k">then</span><span class="p">((</span><span class="n">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">response</span><span class="mf">.</span><span class="nb">json</span><span class="p">())</span>
-      <span class="mf">.</span><span class="k">then</span><span class="p">((</span><span class="n">responseJson</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-        <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
-          <span class="k">data</span><span class="p">:</span> <span class="n">responseJson</span><span class="mf">.</span><span class="k">data</span>
-        <span class="p">},</span> <span class="p">()</span> <span class="o">=&gt;</span>  <span class="n">this</span><span class="mf">.</span><span class="n">measurementsFilter</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="k">data</span><span class="p">,</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">days</span><span class="p">))</span>
-      <span class="p">})</span>
-     <span class="mf">.</span><span class="n">catch</span><span class="p">((</span><span class="n">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-        <span class="n">console</span><span class="mf">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
-    <span class="p">})</span>
-  <span class="p">}</span>
+  componentWillMount() {
+    this.getDataFromApi()
+  }
 
 
-  <span class="n">measurementsFilter</span><span class="p">(</span><span class="n">arrObjects</span><span class="p">,</span> <span class="n">days</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">//</span> <span class="k">copy</span>
-    <span class="n">var</span> <span class="k">data</span> <span class="o">=</span> <span class="n">arrObjects</span><span class="mf">.</span><span class="n">slice</span><span class="p">()</span>
-
-    <span class="o">//</span> <span class="n">convert</span> <span class="nb">date</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">j</span><span class="o">=</span><span class="mf">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="k">data</span><span class="mf">.</span><span class="n">length</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
-      <span class="k">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="mf">.</span><span class="n">dsCollected</span> <span class="o">=</span> <span class="n">new</span> <span class="nb">Date</span><span class="p">(</span><span class="k">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="mf">.</span><span class="n">dsCollected</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="o">//</span> <span class="k">set</span> <span class="n">n</span> <span class="n">days</span> <span class="k">to</span> <span class="k">filter</span>
-    <span class="n">var</span> <span class="n">d</span> <span class="o">=</span> <span class="n">new</span> <span class="nb">Date</span><span class="p">(</span><span class="n">new</span> <span class="nb">Date</span><span class="p">()</span><span class="mf">.</span><span class="n">setDate</span><span class="p">(</span><span class="n">new</span> <span class="nb">Date</span><span class="p">()</span><span class="mf">.</span><span class="n">getDate</span><span class="p">()</span><span class="o">-</span><span class="n">days</span><span class="p">))</span>
-
-    <span class="o">//</span> <span class="k">filter</span> <span class="nb">time</span> <span class="nb">interval</span>
-    <span class="n">var</span> <span class="n">filteredArray</span> <span class="o">=</span> <span class="k">data</span><span class="mf">.</span><span class="k">filter</span><span class="p">(</span><span class="n">el</span><span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="n">return</span> <span class="n">el</span><span class="mf">.</span><span class="n">dsCollected</span> <span class="o">&gt;=</span> <span class="n">d</span>
-    <span class="p">})</span>
-
-    <span class="o">//</span> <span class="n">get</span> <span class="n">sensor</span> <span class="n">attributes</span> <span class="p">(</span><span class="n">this</span> <span class="n">provides</span> <span class="k">user</span> <span class="n">selections</span><span class="p">)</span>
-    <span class="n">var</span> <span class="k">names</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">sensorAttrList</span><span class="p">(</span><span class="n">filteredArray</span><span class="p">,</span> <span class="s s-Name">&quot;name&quot;</span><span class="p">)</span>
-    <span class="n">var</span> <span class="n">locs</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">sensorAttrList</span><span class="p">(</span><span class="n">filteredArray</span><span class="p">,</span> <span class="s s-Name">&quot;location&quot;</span><span class="p">)</span>
-    <span class="n">var</span> <span class="n">mtype</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">sensorAttrList</span><span class="p">(</span><span class="n">filteredArray</span><span class="p">,</span> <span class="s s-Name">&quot;measurementType&quot;</span><span class="p">)</span>
-
-    <span class="o">//</span> <span class="k">filter</span> <span class="k">temp</span> <span class="k">data</span> <span class="p">(</span><span class="n">hardcode</span> <span class="k">for</span> <span class="n">now</span><span class="p">)</span>
-    <span class="n">var</span> <span class="n">tempArray</span> <span class="o">=</span> <span class="n">filteredArray</span><span class="mf">.</span><span class="k">filter</span><span class="p">(</span><span class="n">el</span><span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="n">return</span> <span class="n">el</span><span class="mf">.</span><span class="n">measurementType</span> <span class="o">===</span> <span class="s s-Name">&quot;temp&quot;</span>
-    <span class="p">})</span>
-
-    <span class="o">//</span> <span class="n">focus</span> <span class="k">data</span> <span class="k">on</span> <span class="k">user</span> <span class="n">selections</span>
-    <span class="n">var</span> <span class="n">fName</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">focusSensorName</span><span class="p">(</span><span class="n">tempArray</span><span class="p">,</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">focusName</span><span class="p">,</span> <span class="k">names</span><span class="p">)</span>
-    <span class="n">var</span> <span class="n">fAttr</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">focusSensorValue</span><span class="p">(</span><span class="n">tempArray</span><span class="p">,</span> <span class="n">fName</span><span class="p">)</span>
-    <span class="n">var</span> <span class="n">fValue</span> <span class="o">=</span> <span class="n">fAttr</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span>
-    <span class="n">var</span> <span class="n">fDate</span> <span class="o">=</span> <span class="n">fAttr</span><span class="p">[</span><span class="mf">1</span><span class="p">]</span>
-
-    <span class="o">//</span> <span class="k">create</span> <span class="n">timeseries</span>
-    <span class="n">var</span> <span class="n">timeSeries</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">convertFocusDataToTimeseries</span><span class="p">(</span><span class="n">tempArray</span><span class="p">,</span> <span class="n">fName</span><span class="p">)</span>
-
-    <span class="o">//</span> <span class="n">save</span> <span class="n">state</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
-      <span class="n">sensorNames</span><span class="p">:</span> <span class="k">names</span><span class="p">,</span>
-      <span class="n">sensorLocations</span><span class="p">:</span> <span class="n">locs</span><span class="p">,</span>
-      <span class="n">sensorMeasurementType</span><span class="p">:</span> <span class="n">mtype</span><span class="p">,</span>
-      <span class="n">focusName</span><span class="p">:</span> <span class="n">fName</span><span class="p">,</span>
-      <span class="n">focusValue</span><span class="p">:</span> <span class="n">fValue</span><span class="p">,</span>
-      <span class="n">focusDate</span><span class="p">:</span> <span class="n">fDate</span><span class="p">,</span>
-      <span class="n">temperature</span><span class="p">:</span> <span class="n">tempArray</span><span class="p">,</span>
-      <span class="n">timeSeries</span><span class="p">:</span> <span class="n">timeSeries</span><span class="p">,</span>
-      <span class="n">days</span><span class="p">:</span> <span class="n">days</span>
-    <span class="p">})</span>
-  <span class="p">}</span>
-
-  <span class="n">createTimeRange</span><span class="p">(</span><span class="n">days</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">var</span> <span class="n">dateNow</span> <span class="o">=</span> <span class="n">new</span> <span class="nb">Date</span><span class="p">()</span><span class="mf">.</span><span class="n">getTime</span><span class="p">()</span>
-    <span class="n">var</span> <span class="n">datePrev</span> <span class="o">=</span> <span class="n">new</span> <span class="nb">Date</span><span class="p">(</span><span class="n">new</span> <span class="nb">Date</span><span class="p">()</span><span class="mf">.</span><span class="n">setDate</span><span class="p">(</span><span class="n">new</span> <span class="nb">Date</span><span class="p">()</span><span class="mf">.</span><span class="n">getDate</span><span class="p">()</span><span class="o">-</span><span class="n">days</span><span class="p">))</span><span class="mf">.</span><span class="n">getTime</span><span class="p">()</span>
-    <span class="n">return</span> <span class="n">new</span> <span class="n">TimeRange</span><span class="p">([</span><span class="n">datePrev</span><span class="p">,</span> <span class="n">dateNow</span><span class="p">])</span>
-  <span class="p">}</span>
-
-  <span class="n">convertFocusDataToTimeseries</span><span class="p">(</span><span class="n">focusData</span><span class="p">,</span> <span class="n">sensorName</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">//</span> <span class="k">create</span> <span class="k">dictionary</span>
-    <span class="n">var</span> <span class="k">data</span> <span class="o">=</span> <span class="p">{</span>
-      <span class="k">name</span><span class="p">:</span> <span class="n">sensorName</span><span class="p">,</span>
-      <span class="n">columns</span><span class="p">:</span> <span class="p">[</span><span class="s s-Name">&quot;time&quot;</span><span class="p">,</span> <span class="s s-Name">&quot;val&quot;</span><span class="p">],</span>
-      <span class="n">points</span><span class="p">:</span> <span class="p">[]</span>
-    <span class="p">}</span>
-
-    <span class="o">//</span> <span class="k">filter</span> <span class="n">tempArray</span> <span class="k">by</span> <span class="n">fName</span>
-    <span class="n">var</span> <span class="n">focusArray</span> <span class="o">=</span> <span class="n">focusData</span><span class="mf">.</span><span class="k">filter</span><span class="p">(</span><span class="n">el</span><span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="n">return</span> <span class="n">el</span><span class="mf">.</span><span class="k">name</span> <span class="o">===</span> <span class="n">sensorName</span>
-    <span class="p">})</span>
-
-    <span class="o">//</span> <span class="n">loop</span> <span class="n">through</span> <span class="k">data</span> <span class="k">and</span> <span class="k">add</span> <span class="k">to</span> <span class="n">points</span> <span class="k">in</span> <span class="n">the</span> <span class="k">dictionary</span> <span class="n">above</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">i</span><span class="o">=</span><span class="mf">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">focusArray</span><span class="mf">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
-      <span class="n">var</span> <span class="nb">date</span> <span class="o">=</span> <span class="n">focusArray</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="mf">.</span><span class="n">dsCollected</span>
-      <span class="n">var</span> <span class="n">dataPoint</span> <span class="o">=</span> <span class="p">[</span><span class="nb">date</span><span class="mf">.</span><span class="n">getTime</span><span class="p">(),</span> <span class="n">focusArray</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="mf">.</span><span class="k">value</span><span class="p">]</span>
-      <span class="k">data</span><span class="p">[</span><span class="s s-Name">&quot;points&quot;</span><span class="p">]</span><span class="mf">.</span><span class="n">push</span><span class="p">(</span><span class="n">dataPoint</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="o">//</span> <span class="n">return</span>
-    <span class="n">return</span> <span class="n">new</span> <span class="n">TimeSeries</span><span class="p">(</span><span class="k">data</span><span class="p">)</span>
-  <span class="p">}</span>
+  getDataFromApi() {
+    return fetch(&#39;/homesensors/api/v1.0/sensor_data&#39;, {credentials: &#39;same-origin&#39;})
+      .then((response) =&gt; response.json())
+      .then((responseJson) =&gt; {
+        this.setState({
+          data: responseJson.data
+        }, () =&gt;  this.measurementsFilter(this.state.data, this.state.days))
+      })
+     .catch((error) =&gt; {
+        console.error(error)
+    })
+  }
 
 
-  <span class="n">sensorAttrList</span><span class="p">(</span><span class="n">fArray</span><span class="p">,</span> <span class="k">key</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">var</span> <span class="n">sensorAttributes</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">i</span><span class="o">=</span><span class="mf">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">fArray</span><span class="mf">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">sensorAttributes</span><span class="mf">.</span><span class="n">includes</span><span class="p">(</span><span class="n">fArray</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">key</span><span class="p">])){</span>
-        <span class="k">continue</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">sensorAttributes</span><span class="mf">.</span><span class="n">push</span><span class="p">(</span><span class="n">fArray</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="k">key</span><span class="p">])</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="n">return</span> <span class="n">sensorAttributes</span>
-  <span class="p">}</span>
+  measurementsFilter(arrObjects, days) {
+    // copy
+    var data = arrObjects.slice()
+
+    // convert date
+    for (var j=0; j&lt;data.length; j++){
+      data[j].dsCollected = new Date(data[j].dsCollected)
+    }
+
+    // set n days to filter
+    var d = new Date(new Date().setDate(new Date().getDate()-days))
+
+    // filter time interval
+    var filteredArray = data.filter(el=&gt; {
+      return el.dsCollected &gt;= d
+    })
+
+    // get sensor attributes (this provides user selections)
+    var names = this.sensorAttrList(filteredArray, &quot;name&quot;)
+    var locs = this.sensorAttrList(filteredArray, &quot;location&quot;)
+    var mtype = this.sensorAttrList(filteredArray, &quot;measurementType&quot;)
+
+    // filter temp data (hardcode for now)
+    var tempArray = filteredArray.filter(el=&gt; {
+      return el.measurementType === &quot;temp&quot;
+    })
+
+    // focus data on user selections
+    var fName = this.focusSensorName(tempArray, this.state.focusName, names)
+    var fAttr = this.focusSensorValue(tempArray, fName)
+    var fValue = fAttr[0]
+    var fDate = fAttr[1]
+
+    // create timeseries
+    var timeSeries = this.convertFocusDataToTimeseries(tempArray, fName)
+
+    // save state
+    this.setState({
+      sensorNames: names,
+      sensorLocations: locs,
+      sensorMeasurementType: mtype,
+      focusName: fName,
+      focusValue: fValue,
+      focusDate: fDate,
+      temperature: tempArray,
+      timeSeries: timeSeries,
+      days: days
+    })
+  }
+
+  createTimeRange(days) {
+    var dateNow = new Date().getTime()
+    var datePrev = new Date(new Date().setDate(new Date().getDate()-days)).getTime()
+    return new TimeRange([datePrev, dateNow])
+  }
+
+  convertFocusDataToTimeseries(focusData, sensorName) {
+    // create dictionary
+    var data = {
+      name: sensorName,
+      columns: [&quot;time&quot;, &quot;val&quot;],
+      points: []
+    }
+
+    // filter tempArray by fName
+    var focusArray = focusData.filter(el=&gt; {
+      return el.name === sensorName
+    })
+
+    // loop through data and add to points in the dictionary above
+    for (var i=0; i&lt;focusArray.length; i++){
+      var date = focusArray[i].dsCollected
+      var dataPoint = [date.getTime(), focusArray[i].value]
+      data[&quot;points&quot;].push(dataPoint)
+    }
+
+    // return
+    return new TimeSeries(data)
+  }
 
 
-  <span class="n">focusSensorValue</span><span class="p">(</span><span class="n">fArray</span><span class="p">,</span> <span class="n">sensorName</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">//</span> <span class="k">filter</span> <span class="k">data</span> <span class="k">by</span> <span class="n">sensor</span> <span class="k">name</span>
-    <span class="o">//</span> <span class="k">then</span><span class="p">,</span> <span class="n">take</span> <span class="n">the</span> <span class="n">most</span> <span class="n">recent</span> <span class="nb">record</span> <span class="p">(</span><span class="k">last</span> <span class="nb">record</span><span class="p">)</span>
-    <span class="n">var</span> <span class="n">fValue</span> <span class="o">=</span> <span class="n">fArray</span><span class="mf">.</span><span class="k">filter</span><span class="p">(</span><span class="n">el</span><span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="n">return</span> <span class="n">el</span><span class="mf">.</span><span class="k">name</span> <span class="o">===</span> <span class="n">sensorName</span>
-    <span class="p">})</span>
-    <span class="n">var</span> <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">var</span> <span class="n">dateNow</span> <span class="o">=</span> <span class="n">new</span> <span class="nb">Date</span><span class="p">()</span>
-
-    <span class="o">//</span><span class="n">console</span><span class="mf">.</span><span class="n">log</span><span class="p">(</span><span class="n">dateNow</span><span class="mf">.</span><span class="n">toString</span><span class="p">())</span>
-
-    <span class="o">//</span> <span class="k">treat</span> <span class="n">undefined</span> <span class="n">variable</span> <span class="p">(</span><span class="n">occurs</span> <span class="k">when</span> <span class="k">filter</span> <span class="k">returns</span> <span class="k">no</span> <span class="k">data</span><span class="p">)</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">fValue</span><span class="mf">.</span><span class="n">slice</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">)[</span><span class="mf">0</span><span class="p">]</span> <span class="o">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">res</span><span class="mf">.</span><span class="n">push</span><span class="p">(</span><span class="s s-Name">&quot;No data&quot;</span><span class="p">)</span>
-      <span class="n">res</span><span class="mf">.</span><span class="n">push</span><span class="p">(</span><span class="s s-Name">&quot;&quot;</span><span class="p">)</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-
-      <span class="o">//</span><span class="n">console</span><span class="mf">.</span><span class="n">log</span><span class="p">(</span><span class="n">fValue</span><span class="mf">.</span><span class="n">slice</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">)[</span><span class="mf">0</span><span class="p">][</span><span class="s s-Name">&quot;dsCollected&quot;</span><span class="p">]</span><span class="mf">.</span><span class="n">toString</span><span class="p">())</span>
-
-      <span class="n">res</span><span class="mf">.</span><span class="n">push</span><span class="p">(</span><span class="n">fValue</span><span class="mf">.</span><span class="n">slice</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">)[</span><span class="mf">0</span><span class="p">][</span><span class="s s-Name">&quot;value&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s s-Name">&quot;°C&quot;</span><span class="p">)</span>
-      <span class="o">//</span> <span class="mf">36e5</span> <span class="o">=</span> <span class="mf">60</span><span class="o">*</span><span class="mf">60</span><span class="o">*</span><span class="mf">1000</span>
-      <span class="n">var</span> <span class="n">hours</span> <span class="o">=</span> <span class="n">Math</span><span class="mf">.</span><span class="n">floor</span><span class="p">(</span><span class="n">Math</span><span class="mf">.</span><span class="n">abs</span><span class="p">(</span><span class="n">dateNow</span> <span class="o">-</span> <span class="n">fValue</span><span class="mf">.</span><span class="n">slice</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">)[</span><span class="mf">0</span><span class="p">][</span><span class="s s-Name">&quot;dsCollected&quot;</span><span class="p">])</span><span class="o">/</span><span class="mf">36e5</span><span class="p">)</span>
-      <span class="n">var</span> <span class="n">mins</span> <span class="o">=</span> <span class="n">Math</span><span class="mf">.</span><span class="n">floor</span><span class="p">((</span><span class="n">Math</span><span class="mf">.</span><span class="n">abs</span><span class="p">(</span><span class="n">dateNow</span> <span class="o">-</span> <span class="n">fValue</span><span class="mf">.</span><span class="n">slice</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">)[</span><span class="mf">0</span><span class="p">][</span><span class="s s-Name">&quot;dsCollected&quot;</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="mf">60</span><span class="o">*</span><span class="mf">1000</span><span class="p">))</span><span class="o">%</span><span class="mf">60</span><span class="p">)</span>
-      <span class="n">res</span><span class="mf">.</span><span class="n">push</span><span class="p">(</span><span class="n">hours</span> <span class="o">+</span> <span class="s s-Name">&quot; hours &quot;</span> <span class="o">+</span> <span class="n">mins</span> <span class="o">+</span> <span class="s s-Name">&quot; mins&quot;</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="o">//</span><span class="n">console</span><span class="mf">.</span><span class="n">log</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-    <span class="n">return</span> <span class="n">res</span>
-  <span class="p">}</span>
+  sensorAttrList(fArray, key) {
+    var sensorAttributes = []
+    for (var i=0; i&lt;fArray.length; i++){
+      if (sensorAttributes.includes(fArray[i][key])){
+        continue
+      } else {
+        sensorAttributes.push(fArray[i][key])
+      }
+    }
+    return sensorAttributes
+  }
 
 
-  <span class="n">focusSensorName</span><span class="p">(</span><span class="n">fArray</span><span class="p">,</span> <span class="n">sensorName</span><span class="p">,</span> <span class="n">namesList</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">//</span> <span class="k">name</span> <span class="k">of</span> <span class="n">sensor</span> <span class="k">with</span> <span class="n">most</span> <span class="n">recent</span> <span class="nb">record</span>
-    <span class="n">var</span> <span class="n">startName</span> <span class="o">=</span> <span class="n">fArray</span><span class="mf">.</span><span class="n">slice</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">)[</span><span class="mf">0</span><span class="p">][</span><span class="s s-Name">&quot;name&quot;</span><span class="p">]</span>
-    <span class="o">//</span> <span class="k">set</span> <span class="n">sensor</span> <span class="k">name</span> <span class="k">to</span> <span class="n">focus</span> <span class="k">on</span>
-    <span class="n">var</span> <span class="n">fName</span> <span class="o">=</span> <span class="p">(</span><span class="n">sensorName</span> <span class="o">===</span> <span class="s s-Name">&quot;&quot;</span> <span class="o">&amp;</span> <span class="n">namesList</span><span class="mf">.</span><span class="n">length</span> <span class="o">&gt;=</span> <span class="mf">1</span><span class="p">)</span>
-       <span class="o">?</span> <span class="n">startName</span>
-       <span class="p">:</span> <span class="n">sensorName</span>
-    <span class="o">//</span> <span class="k">treat</span> <span class="n">undefined</span> <span class="n">variable</span> <span class="p">(</span><span class="n">occurs</span> <span class="k">when</span> <span class="k">filter</span> <span class="k">returns</span> <span class="k">no</span> <span class="k">data</span><span class="p">)</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">fName</span> <span class="o">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">fName</span> <span class="o">=</span> <span class="s s-Name">&quot;Select&quot;</span>
-    <span class="p">}</span>
-    <span class="n">return</span> <span class="n">fName</span>
-  <span class="p">}</span>
+  focusSensorValue(fArray, sensorName) {
+    // filter data by sensor name
+    // then, take the most recent record (last record)
+    var fValue = fArray.filter(el=&gt; {
+      return el.name === sensorName
+    })
+    var res = []
+    var dateNow = new Date()
+
+    //console.log(dateNow.toString())
+
+    // treat undefined variable (occurs when filter returns no data)
+    if (fValue.slice(-1)[0] == null) {
+      res.push(&quot;No data&quot;)
+      res.push(&quot;&quot;)
+    } else {
+
+      //console.log(fValue.slice(-1)[0][&quot;dsCollected&quot;].toString())
+
+      res.push(fValue.slice(-1)[0][&quot;value&quot;] + &quot;°C&quot;)
+      // 36e5 = 60*60*1000
+      var hours = Math.floor(Math.abs(dateNow - fValue.slice(-1)[0][&quot;dsCollected&quot;])/36e5)
+      var mins = Math.floor((Math.abs(dateNow - fValue.slice(-1)[0][&quot;dsCollected&quot;])/(60*1000))%60)
+      res.push(hours + &quot; hours &quot; + mins + &quot; mins&quot;)
+    }
+
+    //console.log(res)
+    return res
+  }
 
 
-  <span class="n">sevenDayHandle</span><span class="p">(){</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">measurementsFilter</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="k">data</span><span class="p">,</span> <span class="mf">7</span><span class="p">)</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
-      <span class="n">button7</span><span class="p">:</span> <span class="s s-Name">&quot;success&quot;</span><span class="p">,</span> <span class="o">//</span><span class="n">change</span> <span class="n">color</span> <span class="k">of</span> <span class="n">button7</span> <span class="k">to</span> <span class="n">green</span>
-      <span class="n">button28</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
-      <span class="n">button365</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
-      <span class="n">timeRange</span><span class="p">:</span> <span class="n">this</span><span class="mf">.</span><span class="n">createTimeRange</span><span class="p">(</span><span class="mf">7</span><span class="p">),</span>
-      <span class="n">chartXAxisFormat</span><span class="p">:</span> <span class="s s-Name">&quot;day&quot;</span><span class="p">,</span>
-    <span class="p">})</span>
-  <span class="p">}</span>
+  focusSensorName(fArray, sensorName, namesList) {
+    // name of sensor with most recent record
+    var startName = fArray.slice(-1)[0][&quot;name&quot;]
+    // set sensor name to focus on
+    var fName = (sensorName === &quot;&quot; &amp; namesList.length &gt;= 1)
+       ? startName
+       : sensorName
+    // treat undefined variable (occurs when filter returns no data)
+    if (fName == null) {
+      fName = &quot;Select&quot;
+    }
+    return fName
+  }
 
 
-  <span class="n">twentyEightDayHandle</span><span class="p">(){</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">measurementsFilter</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="k">data</span><span class="p">,</span> <span class="mf">28</span><span class="p">)</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
-      <span class="n">button7</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
-      <span class="n">button28</span><span class="p">:</span> <span class="s s-Name">&quot;success&quot;</span><span class="p">,</span> <span class="o">//</span><span class="n">change</span> <span class="n">color</span> <span class="k">of</span> <span class="n">button28</span> <span class="k">to</span> <span class="n">green</span>
-      <span class="n">button365</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
-      <span class="n">timeRange</span><span class="p">:</span> <span class="n">this</span><span class="mf">.</span><span class="n">createTimeRange</span><span class="p">(</span><span class="mf">28</span><span class="p">),</span>
-      <span class="n">chartXAxisFormat</span><span class="p">:</span> <span class="s s-Name">&quot;month&quot;</span>
-    <span class="p">})</span>
-  <span class="p">}</span>
+  sevenDayHandle(){
+    this.measurementsFilter(this.state.data, 7)
+    this.setState({
+      button7: &quot;success&quot;, //change color of button7 to green
+      button28: &quot;primary&quot;,
+      button365: &quot;primary&quot;,
+      timeRange: this.createTimeRange(7),
+      chartXAxisFormat: &quot;day&quot;,
+    })
+  }
 
 
-  <span class="n">oneYearHandle</span><span class="p">(){</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">measurementsFilter</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="k">data</span><span class="p">,</span> <span class="mf">365</span><span class="p">)</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
-      <span class="n">button7</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
-      <span class="n">button28</span><span class="p">:</span> <span class="s s-Name">&quot;primary&quot;</span><span class="p">,</span>
-      <span class="n">button365</span><span class="p">:</span> <span class="s s-Name">&quot;success&quot;</span><span class="p">,</span> <span class="o">//</span><span class="n">change</span> <span class="n">color</span> <span class="k">of</span> <span class="n">button365</span> <span class="k">to</span> <span class="n">green</span>
-      <span class="n">timeRange</span><span class="p">:</span> <span class="n">this</span><span class="mf">.</span><span class="n">createTimeRange</span><span class="p">(</span><span class="mf">365</span><span class="p">),</span>
-      <span class="n">chartXAxisFormat</span><span class="p">:</span> <span class="s s-Name">&quot;year&quot;</span><span class="p">,</span>
-    <span class="p">})</span>
-  <span class="p">}</span>
+  twentyEightDayHandle(){
+    this.measurementsFilter(this.state.data, 28)
+    this.setState({
+      button7: &quot;primary&quot;,
+      button28: &quot;success&quot;, //change color of button28 to green
+      button365: &quot;primary&quot;,
+      timeRange: this.createTimeRange(28),
+      chartXAxisFormat: &quot;month&quot;
+    })
+  }
 
 
-  <span class="n">dropdownSelectionHandle</span><span class="p">(</span><span class="n">sn</span><span class="p">,</span> <span class="n">n</span><span class="p">){</span>
-    <span class="n">var</span> <span class="n">fAttr</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">focusSensorValue</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">temperature</span><span class="p">,</span> <span class="n">sn</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
-    <span class="n">var</span> <span class="n">timeSeries</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">convertFocusDataToTimeseries</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">temperature</span><span class="p">,</span> <span class="n">sn</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
-    <span class="n">this</span><span class="mf">.</span><span class="n">setState</span><span class="p">({</span>
-      <span class="n">focusName</span><span class="p">:</span> <span class="n">sn</span><span class="p">[</span><span class="n">n</span><span class="p">],</span>
-      <span class="n">focusValue</span><span class="p">:</span> <span class="n">fAttr</span><span class="p">[</span><span class="mf">0</span><span class="p">],</span>
-      <span class="n">focusDate</span><span class="p">:</span> <span class="n">fAttr</span><span class="p">[</span><span class="mf">1</span><span class="p">],</span>
-      <span class="n">timeSeries</span><span class="p">:</span> <span class="n">timeSeries</span>
-    <span class="p">})</span>
-  <span class="p">}</span>
-
-  <span class="n">render</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">let</span> <span class="n">button7col</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">button7</span>
-    <span class="n">let</span> <span class="n">button28col</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">button28</span>
-    <span class="n">let</span> <span class="n">button365col</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">button365</span>
-    <span class="n">let</span> <span class="n">sn</span> <span class="o">=</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">sensorNames</span>
-
-    <span class="n">let</span> <span class="n">menuItems</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">i</span><span class="o">=</span><span class="mf">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">sensorNames</span><span class="mf">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
-      <span class="n">var</span> <span class="k">key</span> <span class="o">=</span> <span class="n">i</span><span class="mf">.</span><span class="n">toString</span><span class="p">()</span>
-      <span class="n">menuItems</span><span class="mf">.</span><span class="n">push</span><span class="p">(</span><span class="o">&lt;</span><span class="n">MenuItem</span> <span class="k">key</span><span class="o">=</span><span class="p">{</span><span class="k">key</span><span class="p">}</span> <span class="n">eventKey</span><span class="o">=</span><span class="p">{</span><span class="k">key</span><span class="p">}</span><span class="o">&gt;</span>
-                       <span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">sensorNames</span><span class="p">[</span><span class="n">i</span><span class="p">]}</span>
-                     <span class="o">&lt;/</span><span class="n">MenuItem</span><span class="o">&gt;</span><span class="p">)</span>
-    <span class="p">}</span>
+  oneYearHandle(){
+    this.measurementsFilter(this.state.data, 365)
+    this.setState({
+      button7: &quot;primary&quot;,
+      button28: &quot;primary&quot;,
+      button365: &quot;success&quot;, //change color of button365 to green
+      timeRange: this.createTimeRange(365),
+      chartXAxisFormat: &quot;year&quot;,
+    })
+  }
 
 
-    <span class="n">const</span> <span class="n">buttonsInstance</span> <span class="o">=</span> <span class="p">(</span>
-     <span class="o">&lt;</span><span class="n">div</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;wrapper&quot;</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="n">ButtonToolbar</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">DropdownButton</span> <span class="n">bsStyle</span><span class="o">=</span><span class="s s-Name">&quot;info&quot;</span>
+  dropdownSelectionHandle(sn, n){
+    var fAttr = this.focusSensorValue(this.state.temperature, sn[n])
+    var timeSeries = this.convertFocusDataToTimeseries(this.state.temperature, sn[n])
+    this.setState({
+      focusName: sn[n],
+      focusValue: fAttr[0],
+      focusDate: fAttr[1],
+      timeSeries: timeSeries
+    })
+  }
 
-          <span class="n">id</span><span class="o">=</span><span class="s s-Name">&quot;1&quot;</span>
-          <span class="n">title</span><span class="o">=</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">focusName</span><span class="p">}</span>
-          <span class="n">onSelect</span> <span class="o">=</span> <span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">dropdownSelectionHandle</span><span class="mf">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">sn</span><span class="p">)}</span>
-          <span class="o">&gt;</span>
-            <span class="p">{</span><span class="n">menuItems</span><span class="p">}</span>
-        <span class="o">&lt;/</span><span class="n">DropdownButton</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">Button</span>
-           <span class="n">bsStyle</span><span class="o">=</span><span class="p">{</span><span class="n">button7col</span><span class="p">}</span>
-           <span class="n">onClick</span><span class="o">=</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">sevenDayHandle</span><span class="mf">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">)}</span><span class="o">&gt;</span>
-           <span class="mf">7</span> <span class="n">days</span>
-        <span class="o">&lt;/</span><span class="n">Button</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">Button</span>
-           <span class="n">bsStyle</span><span class="o">=</span><span class="p">{</span><span class="n">button28col</span><span class="p">}</span>
-           <span class="n">onClick</span><span class="o">=</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">twentyEightDayHandle</span><span class="mf">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">)}</span><span class="o">&gt;</span>
-           <span class="mf">28</span> <span class="n">days</span>
-        <span class="o">&lt;/</span><span class="n">Button</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">Button</span>
-           <span class="n">bsStyle</span><span class="o">=</span><span class="p">{</span><span class="n">button365col</span><span class="p">}</span>
-           <span class="n">onClick</span><span class="o">=</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">oneYearHandle</span><span class="mf">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">)}</span><span class="o">&gt;</span>
-           <span class="mf">1</span> <span class="k">year</span>
-        <span class="o">&lt;/</span><span class="n">Button</span><span class="o">&gt;</span>
+  render() {
+    let button7col = this.state.button7
+    let button28col = this.state.button28
+    let button365col = this.state.button365
+    let sn = this.state.sensorNames
 
-      <span class="o">&lt;/</span><span class="n">ButtonToolbar</span><span class="o">&gt;</span>
-     <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
-    <span class="p">)</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">timeSeries</span><span class="p">){</span>
-     <span class="n">console</span><span class="mf">.</span><span class="n">log</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">timeRange</span><span class="mf">.</span><span class="n">toString</span><span class="p">())</span>
-     <span class="n">console</span><span class="mf">.</span><span class="n">log</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">timeSeries</span><span class="mf">.</span><span class="n">toString</span><span class="p">())</span>
-     <span class="n">console</span><span class="mf">.</span><span class="n">log</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">timeSeries</span><span class="mf">.</span><span class="n">size</span><span class="p">())</span>
-
-     <span class="n">var</span> <span class="n">chart</span> <span class="o">=</span> <span class="p">(</span>
-       <span class="o">&lt;</span><span class="n">div</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;wrapper&quot;</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">ChartContainer</span>
-              <span class="n">format</span><span class="o">=</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">chartXAxisFormat</span><span class="p">}</span>
-              <span class="n">timeRange</span><span class="o">=</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">timeRange</span><span class="p">}</span>
-              <span class="n">width</span><span class="o">=</span><span class="p">{</span><span class="mf">300</span><span class="p">}</span>
-              <span class="n">showGrid</span><span class="o">=</span><span class="p">{</span><span class="k">false</span><span class="p">}</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="n">ChartRow</span> <span class="n">height</span><span class="o">=</span><span class="s s-Name">&quot;220&quot;</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">YAxis</span> <span class="n">id</span><span class="o">=</span><span class="s s-Name">&quot;axis1&quot;</span> <span class="k">label</span><span class="o">=</span><span class="s s-Name">&quot;MType&quot;</span> <span class="n">min</span><span class="o">=</span><span class="p">{</span><span class="mf">0</span><span class="p">}</span> <span class="n">max</span><span class="o">=</span><span class="p">{</span><span class="mf">50</span><span class="p">}</span> <span class="n">width</span><span class="o">=</span><span class="s s-Name">&quot;20&quot;</span> <span class="k">type</span><span class="o">=</span><span class="s s-Name">&quot;linear&quot;</span> <span class="n">format</span><span class="o">=</span><span class="s s-Name">&quot;.0f&quot;</span><span class="o">/&gt;</span>
-              <span class="o">&lt;</span><span class="n">Charts</span><span class="o">&gt;</span>
-                <span class="o">&lt;</span><span class="n">LineChart</span>
-                     <span class="n">axis</span><span class="o">=</span><span class="s s-Name">&quot;axis1&quot;</span>
-                     <span class="n">series</span><span class="o">=</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">timeSeries</span><span class="p">}</span>
-                     <span class="n">columns</span><span class="o">=</span><span class="p">{[</span><span class="s s-Name">&quot;val&quot;</span><span class="p">]}</span><span class="o">/&gt;</span>
-              <span class="o">&lt;/</span><span class="n">Charts</span><span class="o">&gt;</span>
-          <span class="o">&lt;/</span><span class="n">ChartRow</span><span class="o">&gt;</span>
-        <span class="o">&lt;/</span><span class="n">ChartContainer</span><span class="o">&gt;</span>
-       <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
-     <span class="p">)</span>
-    <span class="p">}</span>
+    let menuItems = []
+    for (var i=0; i &lt; this.state.sensorNames.length; i++){
+      var key = i.toString()
+      menuItems.push(&lt;MenuItem key={key} eventKey={key}&gt;
+                       {this.state.sensorNames[i]}
+                     &lt;/MenuItem&gt;)
+    }
 
 
+    const buttonsInstance = (
+     &lt;div className=&quot;wrapper&quot;&gt;
+      &lt;ButtonToolbar&gt;
+        &lt;DropdownButton bsStyle=&quot;info&quot;
+
+          id=&quot;1&quot;
+          title={this.state.focusName}
+          onSelect = {this.dropdownSelectionHandle.bind(this, sn)}
+          &gt;
+            {menuItems}
+        &lt;/DropdownButton&gt;
+        &lt;Button
+           bsStyle={button7col}
+           onClick={this.sevenDayHandle.bind(this)}&gt;
+           7 days
+        &lt;/Button&gt;
+        &lt;Button
+           bsStyle={button28col}
+           onClick={this.twentyEightDayHandle.bind(this)}&gt;
+           28 days
+        &lt;/Button&gt;
+        &lt;Button
+           bsStyle={button365col}
+           onClick={this.oneYearHandle.bind(this)}&gt;
+           1 year
+        &lt;/Button&gt;
+
+      &lt;/ButtonToolbar&gt;
+     &lt;/div&gt;
+    )
+
+    if (this.state.timeSeries){
+     console.log(this.state.timeRange.toString())
+     console.log(this.state.timeSeries.toString())
+     console.log(this.state.timeSeries.size())
+
+     var chart = (
+       &lt;div className=&quot;wrapper&quot;&gt;
+        &lt;ChartContainer
+              format={this.state.chartXAxisFormat}
+              timeRange={this.state.timeRange}
+              width={300}
+              showGrid={false}&gt;
+          &lt;ChartRow height=&quot;220&quot;&gt;
+            &lt;YAxis id=&quot;axis1&quot; label=&quot;MType&quot; min={0} max={50} width=&quot;20&quot; type=&quot;linear&quot; format=&quot;.0f&quot;/&gt;
+              &lt;Charts&gt;
+                &lt;LineChart
+                     axis=&quot;axis1&quot;
+                     series={this.state.timeSeries}
+                     columns={[&quot;val&quot;]}/&gt;
+              &lt;/Charts&gt;
+          &lt;/ChartRow&gt;
+        &lt;/ChartContainer&gt;
+       &lt;/div&gt;
+     )
+    }
 
 
-    <span class="n">return</span> <span class="p">(</span>
-      <span class="o">&lt;</span><span class="n">div</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;App&quot;</span><span class="o">&gt;</span>
 
-        <span class="o">&lt;</span><span class="k">header</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;App-header&quot;</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="n">h1</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;App-title&quot;</span><span class="o">&gt;</span><span class="n">Garden</span> <span class="n">Monitor</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span> <span class="p">{</span><span class="n">String</span><span class="p">(</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">pageLoadDate</span><span class="p">)}</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-        <span class="o">&lt;/</span><span class="k">header</span><span class="o">&gt;</span>
 
-        <span class="p">{</span><span class="n">buttonsInstance</span><span class="p">}</span>
+    return (
+      &lt;div className=&quot;App&quot;&gt;
 
-        <span class="o">&lt;</span><span class="n">div</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;TempContainer&quot;</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="n">h1</span> <span class="n">className</span><span class="o">=</span><span class="s s-Name">&quot;TempValue&quot;</span><span class="o">&gt;</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">focusValue</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">{</span><span class="n">this</span><span class="mf">.</span><span class="n">state</span><span class="mf">.</span><span class="n">focusDate</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-        <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
-        <span class="p">{</span><span class="n">chart</span><span class="p">}</span>
+        &lt;header className=&quot;App-header&quot;&gt;
+          &lt;h1 className=&quot;App-title&quot;&gt;Garden Monitor&lt;/h1&gt;
+          &lt;p&gt; {String(this.state.pageLoadDate)} &lt;/p&gt;
+        &lt;/header&gt;
 
-      <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
-    <span class="p">)</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+        {buttonsInstance}
 
-<span class="n">export</span> <span class="k">default</span> <span class="n">App</span><span class="p">;</span>
+        &lt;div className=&quot;TempContainer&quot;&gt;
+          &lt;h1 className=&quot;TempValue&quot;&gt;{this.state.focusValue}&lt;/h1&gt;
+          &lt;p&gt;{this.state.focusDate}&lt;/p&gt;
+        &lt;/div&gt;
+        {chart}
+
+      &lt;/div&gt;
+    )
+  }
+}
+
+export default App;
 </pre></div>
 </div>
 </div>
