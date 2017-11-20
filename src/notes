@@ -406,7 +406,7 @@ Download and open RemoDB
 
 # Add connection
 Description:  homesensors
-Hostname: 192.1687.1.102 (mod to your ip)
+Hostname: 192.168.1.102 (mod to your ip)
 Port: 5432
 Database: homesensors
 User: ray

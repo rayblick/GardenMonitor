@@ -10,6 +10,10 @@ Summary
 --------
 By the end of this page you should have a react web page running on your local network that fetches data. We wont be doing anything with the data once we have it, more on that next.
 
+.. image:: ../img/reactapp_connection_mobile.png
+   :width: 300
+   :align: center
+
 
 Requirements
 --------------
@@ -35,6 +39,8 @@ Drop existing data
     drop table home_sensor_data;
 
 
+.. warning: If you drop the table called home_sensor_data then you will also need to restart the Flask API. You need to do this because the home_sensor_data table is created by Flask if it doesn't already exist.
+
 Add test data
 --------------
 
@@ -53,60 +59,60 @@ Add test data
     # 1
     curl -i -H "Content-Type: application/json" 
          -X post 
-         -d '{"name": "dummyA",
+         -d '{"name": "tomatoes",
               "location":"garden",
-              "category":"dummyA",
+              "category":"actual",
               "measurementType":"temp", 
-              "value": 1500, 
-              "dsCollected": "2017-10-18T10:30:00+10:00
+              "value": 16, 
+              "dsCollected": "2017-11-18T10:30:00+11:00
              "}' 
          http://localhost:5000/homesensors/api/v1.0/sensor_data
 
     # 2
     curl -i -H "Content-Type: application/json" 
          -X post 
-         -d '{"name": "dummyA",
+         -d '{"name": "tomatoes",
               "location":"garden",
-              "category":"dummyA",
+              "category":"actual",
               "measurementType":"temp", 
-              "value": 1500, 
-              "dsCollected": "2017-10-19T10:30:00+10:00
+              "value": 17, 
+              "dsCollected": "2017-11-18T11:30:00+11:00
              "}' 
          http://localhost:5000/homesensors/api/v1.0/sensor_data
 
     # 3
     curl -i -H "Content-Type: application/json" 
          -X post 
-         -d '{"name": "dummyA",
+         -d '{"name": "tomatoes",
               "location":"garden",
-              "category":"dummyA",
+              "category":"actual",
               "measurementType":"temp", 
-              "value": 1500, 
-              "dsCollected": "2017-10-20T10:30:00+10:00
+              "value": 18, 
+              "dsCollected": "2017-11-18T12:30:00+11:00
              "}' 
          http://localhost:5000/homesensors/api/v1.0/sensor_data
 
     # 4
     curl -i -H "Content-Type: application/json" 
          -X post 
-         -d '{"name": "dummyA",
+         -d '{"name": "tomatoes",
               "location":"garden",
-              "category":"dummyA",
+              "category":"actual",
               "measurementType":"temp", 
-              "value": 1500, 
-              "dsCollected": "2017-10-21T10:30:00+10:00
+              "value": 19, 
+              "dsCollected": "2017-11-18T13:30:00+11:00
              "}' 
          http://localhost:5000/homesensors/api/v1.0/sensor_data
 
     # 5
     curl -i -H "Content-Type: application/json" 
          -X post 
-         -d '{"name": "dummyA",
+         -d '{"name": "tomatoes",
               "location":"garden",
-              "category":"dummyA",
+              "category":"actual",
               "measurementType":"temp", 
-              "value": 1500, 
-              "dsCollected": "2017-10-22T10:30:00+10:00
+              "value": 17, 
+              "dsCollected": "2017-11-18T14:30:00+11:00
              "}' 
          http://localhost:5000/homesensors/api/v1.0/sensor_data
 
@@ -147,7 +153,7 @@ Security restrictions block the transfer of data on localhost. To connect the re
     }
 
 
-Edit app.py (react webapp)
+Edit App.js (react webapp)
 -------------------------------
 
 .. code-block:: bash
@@ -158,50 +164,49 @@ Edit app.py (react webapp)
 
 .. code-block:: python
 
-    import React, { Component } from 'react';
-    import './App.css';
+	import React, { Component } from 'react';
+	import './App.css';
 
 
-    class App extends Component {
-        constructor(props){
-             super(props);
-
-        this.state={
-             data: "Fetching data"
-        }
-    }
-
-    componentWillMount() {
-         this.getDataFromApi() 
-    };
-
-    getDataFromApi() { 
-        return fetch('/homesensors/api/v1.0/sensor_data', {credentials: 'same-origin'}) 
-          .then((response) => response.json()) 
-          .then((responseJson) => { 
-              this.setState({ 
-                   data: responseJson.data
-              }, () => console.log("Success")
-          }) 
-          .catch((error) => { 
-              console.error(error); 
-          }); 
-    }
-
-    render() {
-        return (
-            <div className="App">
-            <header className="App-header">
-                <h1 className="App-title">Garden Monitor</h1>
-            </header>
-	    <p> {String(this.state.data)} </p>
-
-            </div>
-           );
-       }
-    }
-
-    export default App;
+	class App extends Component {
+	    constructor(props){
+	      super(props);
+	
+	      this.state={
+	         data: "Fetching data"
+	      }
+	    }
+	
+	    componentWillMount() {
+	       this.getDataFromApi()
+	    };
+	
+	    getDataFromApi() {
+	      return fetch('/homesensors/api/v1.0/sensor_data', {credentials: 'same-origin'})
+	        .then((response) => response.json())
+	        .then((responseJson) => {
+	          this.setState({
+	               data: responseJson.data
+	          }, () => console.log("Success"))})
+	        .catch((error) => {
+	          console.error(error);
+	          });
+	    }
+	
+	    render() {
+	      return (
+	        <div className="App">
+	        <header className="App-header">
+	            <h1 className="App-title">Garden Monitor</h1>
+	        </header>
+	        <p> {String(this.state.data)} </p>
+	
+	        </div>
+	       );
+	   }
+	}
+	
+export default App;
 
 
 Test

@@ -13,7 +13,8 @@ By the end of this page you should have a bare bones react app ready for modific
 
 Uninstall node
 ---------------
-This step is included here for my reference because I botched an install of node and npm that required sudo permissions. 
+
+.. note:: This step was required with an old OS I was using. I have included it here for my reference because I botched an install of node and npm that required sudo permissions. The fresh install did not come with node. Also note that update and upgrade is only required if you haven't started from the beginning of these docs.
 
 .. code-block:: bash
 
@@ -53,7 +54,7 @@ Install node and npm
 	# find appropriate version of node from nodejs.org/dist
 	nvm install 8.0.0
 
-	# Another step from botched install of node
+	# Another step from botched install of node 
 	nvm use --delete-prefix v8.0.0
 
 	# update

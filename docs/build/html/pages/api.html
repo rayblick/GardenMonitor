@@ -36,7 +36,7 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="Garden Monitor 0.1 documentation" href="../index.html"/>
-        <link rel="next" title="React App: Building blocks" href="reactappBuildingBlocks.html"/>
+        <link rel="next" title="Test data" href="testdata.html"/>
         <link rel="prev" title="Database" href="database.html"/> 
 
   
@@ -110,6 +110,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#post-request">POST request</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="testdata.html">Test data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reactappBuildingBlocks.html">React App: Building blocks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reactappConnection.html">React App: Connection with API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reactappBootstrap.html">React App: Bootstrap</a></li>
@@ -193,6 +194,13 @@
 <div class="highlight-bash"><div class="highlight"><pre><span></span>sudo apt-get install virtualenv
 sudo apt-get install python-psycopg2
 sudo apt-get install libpq-dev
+
+<span class="c1"># scipy dependancies</span>
+sudo apt-get install libblas-dev
+sudo apt-get install liblapack-dev
+sudo apt-get install libatlas-base-dev
+sudo apt-get install gfortran
+sudo apt-get install python-setuptools
 </pre></div>
 </div>
 </div>
@@ -219,6 +227,10 @@ python
 pip install flask
 pip install flask_sqlalchemy
 pip install psycopg2
+pip install numpy
+pip install pandas
+pip install scipy
+pip install scikit-learn
 </pre></div>
 </div>
 </div>
@@ -365,7 +377,7 @@ chmod a+x app.py
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="reactappBuildingBlocks.html" class="btn btn-neutral float-right" title="React App: Building blocks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="testdata.html" class="btn btn-neutral float-right" title="Test data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="database.html" class="btn btn-neutral" title="Database" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

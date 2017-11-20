@@ -8,6 +8,9 @@ Garden Monitor documentation
 
 This documentation covers the development process used to build my garden monitor. There are probably numerous projects like this already in existance and I would bet that they are more polished than this one. Even so, I like documenting my projects for fun so here it is. Enjoy. 
  
+Status
+-------
+Incomplete
 
 .. toctree::
    :maxdepth: 2
