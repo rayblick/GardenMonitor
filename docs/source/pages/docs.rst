@@ -1,5 +1,5 @@
-Docs
-====
+Sphinx documentation
+=====================
 
 Aim
 ----

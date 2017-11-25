@@ -1,5 +1,5 @@
-Database
-========
+Postgres Database
+==================
 
 Aim
 ----

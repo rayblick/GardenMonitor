@@ -26,6 +26,7 @@ Incomplete
    /pages/reactappConnection
    /pages/reactappBootstrap 
    /pages/reactappChart
+   /pages/predictions
    /pages/xbee
 
 

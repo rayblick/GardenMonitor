@@ -5,7 +5,7 @@ Garden Monitor
 :Authors:
     Ray Blick
 :Version: 0.1
-:Last update: 2017/11/08
+:Last update: 2017/11/25
 
 
 Overview
