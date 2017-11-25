@@ -177,3 +177,7 @@ Testing
 - Install an app on your mobile phone to ping the IP address (I used one called "Ping")  
 - Ensure your phone is connected to the same network as the RPi  
 - Test that the static IP address is found by pinging "192.168.1.50"  
+
+.. image:: ../img/network_ping_mobile.png
+   :width: 300
+   :align: center

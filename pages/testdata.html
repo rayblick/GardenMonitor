@@ -37,7 +37,7 @@
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="Garden Monitor 0.1 documentation" href="../index.html"/>
         <link rel="next" title="React App: Building blocks" href="reactappBuildingBlocks.html"/>
-        <link rel="prev" title="API" href="api.html"/> 
+        <link rel="prev" title="Flask API" href="api.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -94,14 +94,22 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="summary.html">Garden Monitor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Setup</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs.html">Docs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Test data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs.html">Sphinx documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Postgres Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Flask API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Test data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#aim">Aim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-data">Creating data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#flask-implementation">Flask implementation</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="reactappBuildingBlocks.html">React App: Building blocks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reactappConnection.html">React App: Connection with API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reactappBootstrap.html">React App: Bootstrap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reactappChart.html">React App: Chart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="predictions.html">24 hour prediction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="xbee.html">Sensors</a></li>
 </ul>
 
@@ -168,7 +176,133 @@
             
   <div class="section" id="test-data">
 <h1>Test data<a class="headerlink" href="#test-data" title="Permalink to this headline">¶</a></h1>
-<p>TBA</p>
+<div class="section" id="aim">
+<h2>Aim<a class="headerlink" href="#aim" title="Permalink to this headline">¶</a></h2>
+<p>Provide a test dataset that has a diurnal cycle plus a little noise. These data are used for testing the visualisation and 24 hour predictions.</p>
+</div>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>The Flask API handles the creation of these data when running app.py. Make sure to drop and recreate, or truncate all rows from the home_sensor_data table. If the table is empty then 300 records are added to the database with historical datestamps at 1 hour intervals starting from the current date and time.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The following code blocks are in separate files. The method for creating data is in predictions.py which lives next to app.py.</p>
+</div>
+</div>
+<div class="section" id="creating-data">
+<h2>Creating data<a class="headerlink" href="#creating-data" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">createData</span><span class="p">(</span><span class="n">startDate</span><span class="p">,</span> <span class="n">nHourInterval</span><span class="p">,</span> <span class="n">nRecords</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a list of dictionaries containing timeseries data points.</span>
+<span class="sd">        This function walks backwards from the startDate providing values</span>
+<span class="sd">        at each interval (nHourInterval) for as many records (nRecords)</span>
+<span class="sd">        as required.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nRecords</span><span class="p">):</span>
+            <span class="c1"># vars</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">startDate</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">nHourInterval</span><span class="p">))</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+            <span class="n">hr</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">hour</span>
+            <span class="n">rn</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">hr</span> <span class="o">&lt;</span> <span class="mi">12</span><span class="p">):</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="mi">10</span> <span class="o">+</span> <span class="p">(</span><span class="n">hr</span> <span class="o">%</span> <span class="mi">12</span><span class="p">))</span> <span class="o">+</span> <span class="n">rn</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="mi">10</span> <span class="o">-</span> <span class="p">(</span><span class="n">hr</span> <span class="o">%</span> <span class="mi">12</span><span class="p">))</span> <span class="o">+</span> <span class="mi">12</span> <span class="o">+</span> <span class="n">rn</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+            <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;TestData&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;Home&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;actual&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;measurementType&quot;</span><span class="p">:</span> <span class="s2">&quot;temp&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">val</span><span class="p">,</span> <span class="s2">&quot;dsCollected&quot;</span><span class="p">:</span> <span class="n">ds</span><span class="p">}</span>
+
+            <span class="c1"># use insert instead of append to put the</span>
+            <span class="c1"># record at the start of the list</span>
+            <span class="n">output</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+
+<span class="k">return</span> <span class="n">output</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytz</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">predictions</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">dateutil.parser</span> <span class="kn">as</span> <span class="nn">parser</span>
+
+<span class="c1"># variables</span>
+<span class="n">STARTDATE</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+        <span class="n">tzinfo</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="s1">&#39;Australia/Sydney&#39;</span><span class="p">))</span>
+<span class="n">NHOURINTERVAL</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">NRECORDS</span> <span class="o">=</span> <span class="mi">300</span>
+
+<span class="c1"># create data</span>
+<span class="n">pcd</span> <span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">createData</span><span class="p">(</span><span class="n">STARTDATE</span><span class="p">,</span> <span class="n">NHOURINTERVAL</span><span class="p">,</span> <span class="n">NRECORDS</span><span class="p">)</span>
+
+<span class="c1"># Format example</span>
+<span class="c1"># [{</span>
+<span class="c1">#       &#39;name&#39;: &#39;TestData&#39;,</span>
+<span class="c1">#       &#39;location&#39;: &#39;Home&#39;,</span>
+<span class="c1">#       &#39;dsCollected&#39;: &#39;2017-11-25T08:18:20.167450+10:05&#39;,</span>
+<span class="c1">#       &#39;category&#39;: &#39;actual&#39;,</span>
+<span class="c1">#       &#39;value&#39;: 18.947,</span>
+<span class="c1">#       &#39;measurementType&#39;: &#39;temp&#39;</span>
+<span class="c1"># }]</span>
+
+<span class="c1"># reorganise data for plotting</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;ds&quot;</span><span class="p">:[],</span> <span class="s2">&quot;val&quot;</span><span class="p">:[]}</span>
+
+<span class="c1"># loop array of dictionaries</span>
+<span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">pcd</span><span class="p">:</span>
+
+        <span class="c1"># inspect dictionary</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+                <span class="c1"># handle keys of interest</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;dsCollected&#39;</span><span class="p">:</span>
+                        <span class="c1"># Parse dates from string to datetime format</span>
+                        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;ds&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span>
+                        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;val&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                        <span class="k">continue</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;ds&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;val&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/postgres_testdata.png"><img alt="../_images/postgres_testdata.png" class="align-center" src="../_images/postgres_testdata.png" style="width: 600px;" /></a>
+</div>
+<div class="section" id="flask-implementation">
+<h2>Flask implementation<a class="headerlink" href="#flask-implementation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span></span>    <span class="c1"># REMINDER - deleting records</span>
+    <span class="c1"># DROP TABLE home_sensor_data;</span>
+    <span class="c1"># CREATE TABLE home_sensor_data;</span>
+
+    <span class="n">sendat</span> <span class="o">=</span> <span class="n">HomeSensorData</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">createFakeData</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">if</span> <span class="n">createFakeData</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">sendat</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">STARTDATE</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="s1">&#39;Australia/Sydney&#39;</span><span class="p">))</span>
+        <span class="n">NRECORDS</span> <span class="o">=</span> <span class="mi">300</span>
+        <span class="n">NHOURINTERVAL</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="n">td</span> <span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">createData</span><span class="p">(</span><span class="n">STARTDATE</span><span class="p">,</span> <span class="n">NHOURINTERVAL</span><span class="p">,</span> <span class="n">NRECORDS</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">td</span><span class="p">:</span>
+            <span class="n">sendat</span> <span class="o">=</span> <span class="n">HomeSensorData</span><span class="p">(</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
+                <span class="n">location</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">],</span>
+                <span class="n">category</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">],</span>
+                <span class="n">measurementType</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;measurementType&#39;</span><span class="p">],</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span>
+                <span class="n">dsCollected</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;dsCollected&#39;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sendat</span><span class="p">)</span>
+<span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -184,7 +318,7 @@
         <a href="reactappBuildingBlocks.html" class="btn btn-neutral float-right" title="React App: Building blocks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="api.html" class="btn btn-neutral" title="API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="api.html" class="btn btn-neutral" title="Flask API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
